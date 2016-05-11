@@ -19,6 +19,16 @@ dplyr
 
 
 
+Contents of code/
+*****************
+
+readMeCode.txt - this file
+
+PLBfunctions.r - collection of documented functions called by the other 
+ R code.
+
+
+
 
 
 
@@ -31,8 +41,6 @@ Below here is from readMEErevised.txt in size-spectra-methods. When I move somet
 Contents of MEEsubmit.zip
 *************************
 
-PLBfunctions.r - collection of documented functions called by the other 
- R code.
 
 fitting2.r - simulates a data set and then fits spectra using eight methods,
  producing Figures 1 and 2.
