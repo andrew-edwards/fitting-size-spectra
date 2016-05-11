@@ -10,7 +10,7 @@ that we submitted and are currently revising for *Methods in Ecology and Evoluti
 
 I will update this information if the manuscript gets accepted. Meanwhile I am migrating my code for the manuscript from a private GitHub repository to this public one, so that I can improve the code and then just zip it up to submit to the journal. I am also improving the documentation so so that others can use the code to analyse their own data and repeat and extend our analyses.
 
-To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right), which will zip up all the files. If you use GitHub then feel free to fork and even adapt the code. Until I've finalised the revisions the code may keep improving, but it should all work.  
+To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right), which will zip up all the files. If you use GitHub then feel free to fork and even adapt the code. This repository will change quite a bit while I'm finalising the revisions, though really just in the file structure and documentation. The code all currently works. Let me know if you want to use the code before I finish the revisions (end of May 2016).
 
 # Repository Contents
 
