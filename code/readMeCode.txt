@@ -41,6 +41,11 @@ fitting3rep.r - results from 10,000 simulated data sets, to give the blue
  histograms in Figure 3 and the main results in Table 2. Also does the
  MLEfix method and plots Figure A.2 (or A.3?? - **Check).
 
+fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
+
+fitting3repAdd.r - constructing Figure 3, combining simulation results from
+ two sets of 10,000 simulated data sets.
+
 
 
 
@@ -61,10 +66,8 @@ Contents of MEEsubmit.zip
 
 
 
-fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
 
-fitting3repAdda.r - constructing Figure 3, combining simulation results from
- two sets of 10,000 simulated data sets.
+
 
 
 recommend.r - Figure 6, recommended presentation of data and fitted 
