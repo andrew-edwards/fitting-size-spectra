@@ -22,7 +22,7 @@ To download the code from the GitHub site just click the 'Download ZIP' button (
 
 **code/readMeCode.txt** - readme file for the code directory. Contains instructions and details of the files and further subdirectories.
 
-The subdirectories of **code/** are summarised below, but see **readMECode.txt** for full details.
+The subdirectories of **code/** are summarised below, but see **readMeCode.txt** for full details.
 
 **code/single/** - 
 

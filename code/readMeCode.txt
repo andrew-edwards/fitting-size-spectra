@@ -18,14 +18,20 @@ dplyr
 
 
 
-
-Contents of code/
-*****************
+code/
+*****
 
 readMeCode.txt - this file
 
 PLBfunctions.r - collection of documented functions called by the other 
  R code.
+
+code/single - simulate a single data set and fit spectra using the eight methods
+***********
+
+fitting2.r - simulates a data set and then fits spectra using eight methods,
+ producing Figures 1 and 2 and ??.
+
 
 
 
@@ -42,9 +48,6 @@ Contents of MEEsubmit.zip
 *************************
 
 
-fitting2.r - simulates a data set and then fits spectra using eight methods,
- producing Figures 1 and 2.
-
 fitting3rep.r - results from 10,000 simulated data sets, to give the blue
  histograms in Figure 3 and the results in Table 2. Also does the MLEfix method,
  and plots Figure A.2.
@@ -57,7 +60,7 @@ fitting3repAdda.r - constructing Figure 3, combining simulation results from
 fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.3 for
  MLEfix method.
 
-recommend.r - Figure 5, recommended presentation of data and fitted 
+recommend.r - Figure 6, recommended presentation of data and fitted 
  size spectrum.
 
 fitting3bmaxx.r - Figure A.1, showing relationship between MLE of b and MLE 
