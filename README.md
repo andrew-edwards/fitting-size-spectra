@@ -32,5 +32,5 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 **code/MLEbin/** - MLEbin method for likelihood when the data only available in binned form.
 
-**code/recommend/** - recommended way of plotting results (Figure 6).
+**code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
  
