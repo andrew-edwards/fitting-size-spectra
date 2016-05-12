@@ -24,7 +24,7 @@ To download the code from the GitHub site just click the 'Download ZIP' button (
 
 The subdirectories of **code/** are summarised below, but see **readMeCode.txt** for full details.
 
-**code/single/** - 
+**code/single/** - code for testing the eight methods on a single data set, to 
 
 **code/multiple/** - ... (with sensitivities as subdirectories)
 

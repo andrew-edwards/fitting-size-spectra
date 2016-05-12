@@ -53,40 +53,15 @@ fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE
  of x_max for the 10,000 simulated data sets from Figure 3. And Figure A.5 for
  MLEfix method.
 
+The following are the sensitivity analyses. Some are just modifications 
+ of the above code, with new a value of a parameter (e.g. xmax)
+ and renaming of anything that is saved (.RData and .eps files), and 
+ changing of axes sizes where necessary (and maybe some other necessary tweaks).
+ The above code may have been updated (written more clearly) after some of
+ the following were done.
 
-code/recommend/
-***************
-
-recommend.r - Figure 6, recommended presentation of data and fitted 
- size spectrum.
-
-
-
-
-
-
-
-
-Below here is from readMEErevised.txt in size-spectra-methods. When I move something to fitting-size-spectra I will then move it to above here and document it in the directory structure.
-
-Contents of MEEsubmit.zip
-*************************
-
-
-
-
-
-
-
-
-
-xmax10000\  directory: xmax = 10,000
-************************************
-
-Some of these are just modifications of the above code, with new value of xmax
- and renaming of anything that is saved (.RData and .eps files), and changing of
- axes sizes where necessary (and maybe some other necessary tweaks).
-
+code/multiple/xmax10000/  - simulate 10,000 datasets with xmax = 10,000
+************************
 
 fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce 
  Figures A.5 and A.6.
@@ -102,6 +77,41 @@ fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
 
 fitting3bmaxx10000.r - Figure A.8 for the MLE and MLEfix methods, with 
  xmax = 10,000.
+
+
+
+
+
+
+
+code/recommend/
+***************
+
+recommend.r - Figure 6, recommended presentation of data and fitted 
+ size spectrum.
+
+
+
+
+
+
+
+*****
+
+
+Below here is from readMEErevised.txt in size-spectra-methods. When I move something to fitting-size-spectra I will then move it to above here and document it in the directory structure.
+
+Contents of MEEsubmit.zip
+*************************
+
+
+
+
+
+
+
+
+
 
 
 bMinus25\  directory: b = -2.5
