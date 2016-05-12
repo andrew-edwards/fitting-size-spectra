@@ -113,6 +113,19 @@ fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
 
 fitting3conf-bMinus05.r - Figure A.18
 
+code/n10000/     n = 10000
+************
+
+Redoing main results with sample size (number of individual measurements) 
+ increased to 10000.
+
+fitting2n10000.r - Figure A.19
+
+fitting3rep-n10000.r - Figure A.20 and Table A.5
+
+fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
+
+fitting3conf-n10000.r - Figure A.21
 
 
 
@@ -149,19 +162,6 @@ Contents of MEEsubmit.zip
 
 
 
-n10000\  directory: n = 10000
-*****************************
-
-Redoing main results with sample size (number of individual measurements) 
- increased to 10000.
-
-fitting2n10000.r - Figure A.**
-
-fitting3rep-n10000.r - Figure A.** and Table A.**
-
-fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
-
-fitting3conf-n10000.r - Figure A.**
 
 
 fitting3repMLEbin.r - for Figure **
