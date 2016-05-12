@@ -2,7 +2,8 @@
 #  for xmax=1,000 and xmax=10,000 with same seed, to demonstrate
 #  that have to be careful because the resulting samples are quite
 #  similar (due to inverse method, and hardly any chance of being
-#  >1,000 with xmax=10,000).
+#  >1,000 with xmax=10,000). As documented in Section A.2.8 in
+#  the Appendix.
 #  24th November 2015.
 
 rm(list=ls())

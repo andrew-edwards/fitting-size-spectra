@@ -74,6 +74,10 @@ fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
 fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
  xmax = 10,000.
 
+compareXmax.r - comparing sample of 1,000 random PLB numbers
+ for xmax=1,000 and xmax=10,000 with same seed, as documented in
+ Section A.2.8 in the Appendix.
+
 
 code/bMinus25/    b = -2.5
 **************
