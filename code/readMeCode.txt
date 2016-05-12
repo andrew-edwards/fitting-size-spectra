@@ -4,19 +4,17 @@ readMeCode.txt - readMe file for R code for manuscript
  and Julia L. Blanchard, submitted to Method in Ecology and Evolution. 
 
 
-**The code that fits all the methods (e.g. fitting3rep.r) can take a short
- while to run, and so I have included the .RData files for those.
-
 I have tried to keep required packages to a minimum, but you will need:
-plotrix
+plotrix  (only for histograms with gaps, as for Figure 1)
 dplyr
 (and their dependencies).
 
 The resulting figures (as .eps postscript files) are also included so that
- code can be re-run and the results compared with my original figures. I
- have included the RData file for the results for the main simulation
- of 10,000 data sets (multiple/fitting3rep.r) because the code can take
- a while to run.
+ code can be independnetly re-run and the results easily compared with my 
+ original figures. I have included the .RData file for the results for 
+ the main simulation of 10,000 data sets (multiple/fitting3rep.r) 
+ because the code can take a while to run. The .RData files are generally 
+ large and so I haven't included them.
 
 code/
 *****
@@ -31,7 +29,6 @@ code/single/ - simulate a single data set and fit spectra using the eight method
 
 fitting2.r - simulates a data set and then fits spectra using eight methods,
  producing Figures 1, 2 and A.1.
-
 
 
 code/multiple/ - simulate 10,000 data sets and fit using the eight methods
@@ -94,6 +91,7 @@ fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
 
 fitting3conf-bMinus25.r - Figure A.12
 
+
 code/bMinus15/   b = -1.5
 **************
 
@@ -116,6 +114,7 @@ fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
 fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
 
 fitting3conf-bMinus05.r - Figure A.18
+
 
 code/n10000/     n = 10000
 ************
@@ -165,7 +164,16 @@ To re-run code with a different seed, say 43, just change set.seed(42)
  to set.seed(43) and make sure redo.simulation=TRUE (if it's there) so
  that it doesn't just load in an already saved .RData file. It's best to first
  move the code to a new directory.
- 
+
+
+Most files have a  
+ redo.simulation = TRUE   
+or
+ redo.simulation = FALSE
+option at the start, and they will be mostly set to FALSE to just load in
+the simulation results, because I would have been tweaking the figures for
+publication. So obviously set to TRUE for the first run, until you have an
+.RData file that can then be loaded in. 
 
 
 
