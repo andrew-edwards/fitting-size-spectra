@@ -3,11 +3,10 @@ readMeCode.txt - readMe file for R code for manuscript
  by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum
  and Julia L. Blanchard, submitted to Method in Ecology and Evolution. 
 
-
 I have tried to keep required packages to a minimum, but you will need:
-plotrix  (only for histograms with gaps, as for Figure 1)
-dplyr
-(and their dependencies).
+  plotrix  (only for histograms with gaps, as for Figure 1)
+  dplyr
+  (and their dependencies).
 
 The resulting figures (as .eps postscript files) are also included so that
  code can be independnetly re-run and the results easily compared with my 
@@ -15,6 +14,20 @@ The resulting figures (as .eps postscript files) are also included so that
  the main simulation of 10,000 data sets (multiple/fitting3rep.r) 
  because the code can take a while to run. The .RData files are generally 
  large and so I haven't included them.
+
+The main figures in the manuscript can be found in the following directories:
+
+Figures 1 and 2 - code/single/
+Figures 3 and 4 - code/multiple/
+Figure 5 - code/MLEbin/
+Figure 6 - code/recommend/
+
+Code was mainly developed under R version 3.1.0, although I then upgraded to
+ version 3.2.3. Some code then broke (due to indexing) and is now fixed, but
+ I may not have re-run all code from scratch under 3.2.3. If you encounter 
+ problems then please contact me.
+
+The full list of directories and code is now given.
 
 code/
 *****
@@ -36,7 +49,7 @@ code/multiple/ - simulate 10,000 data sets and fit using the eight methods
 
 fitting3rep.r - results from 10,000 simulated data sets, to give the blue
  histograms in Figure 3 and the main results in Table 2. Also does the
- MLEfix method and plots Figure A.2 (or A.3?? - **Check).
+ MLEfix method and plots Figure A.3.
 
 fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
 
