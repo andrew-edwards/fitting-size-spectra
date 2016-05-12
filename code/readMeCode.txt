@@ -4,11 +4,7 @@ readMeCode.txt - readMe file for R code for manuscript
  and Julia L. Blanchard, submitted to Method in Ecology and Evolution. 
 
 
-At some point, edit:
-
-Note to users:
-
-The code that fits all the methods (e.g. fitting3rep.r) can take a short
+**The code that fits all the methods (e.g. fitting3rep.r) can take a short
  while to run, and so I have included the .RData files for those.
 
 I have tried to keep required packages to a minimum, but you will need:
@@ -142,9 +138,10 @@ fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5
 code/recommend/
 ***************
 
-recommend.r - Figure 6, recommended presentation of data and fitted 
- size spectrum.
+recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
+ data and fitted size spectrum.
 
+--
 
 To test sensitivity of results to xmax, b etc. (as I've done above), create a
  new folder, and then copy in, rename and edit the files fitting2.r, 
