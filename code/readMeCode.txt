@@ -128,6 +128,17 @@ fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
 fitting3conf-n10000.r - Figure A.21
 
 
+code/MLEbin/    MLEbin method for likelihood when the data are already binned
+************
+
+fitting3repMLEbin.r - same simulated data sets as in fitting3rep.r, but
+ binning the data and then applying likelihood.
+
+fitting3repMLEbin.Rdata - results from fitting3repMLEbin.f
+
+fitting3confMLEbin.r  - confidence intervals for MLEbin method.
+
+
 
 code/recommend/
 ***************
@@ -164,9 +175,6 @@ Contents of MEEsubmit.zip
 
 
 
-fitting3repMLEbin.r - for Figure **
-fitting3repMLEbin.Rdata 
-fitting3confMLEbin.r 
 
 
 To re-run code with a different seed, say 43, just change set.seed(42)
