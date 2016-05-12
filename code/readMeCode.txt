@@ -52,6 +52,9 @@ fitting3repAdd.r - constructing Figure 3, combining simulation results from
 fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
  MLEfix method.
 
+recommend.r - Figure 6, recommended presentation of data and fitted 
+ size spectrum.
+
 
 
 
@@ -70,8 +73,6 @@ Contents of MEEsubmit.zip
 
 
 
-recommend.r - Figure 6, recommended presentation of data and fitted 
- size spectrum.
 
 fitting3bmaxx.r - Figure A.1, showing relationship between MLE of b and MLE 
  of x_max for the 10,000 simulated data sets from Figure 3. And Figure A.4 for
