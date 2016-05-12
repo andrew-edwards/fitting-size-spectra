@@ -64,7 +64,7 @@ code/multiple/xmax10000/  - simulate 10,000 datasets with xmax = 10,000
 ************************
 
 fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce 
- Figures A.5 and A.6.
+ Figures A.6 and A.7.
 
 fitting3rep10000.r - as for fitting3rep.r but for xmax=10,000, to give
  gold histograms in Figure 3 and results in Table A.1.
@@ -73,13 +73,45 @@ fitting3rep10000.RData - results from fitting3rep10000.r to save having
  to re-run it.
 
 fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
- Figure A.7.
+ Figure A.8.
 
-fitting3bmaxx10000.r - Figure A.8 for the MLE and MLEfix methods, with 
+fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
  xmax = 10,000.
 
 
+code/bMinus25/    b = -2.5
+**************
 
+fitting2bMinus25.r - Figure A.10.
+
+fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
+
+fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
+
+fitting3conf-bMinus25.r - Figure A.12
+
+code/bMinus15/   b = -1.5
+**************
+
+fitting2bMinus15.r - Figure A.13.
+
+fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
+
+fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
+
+fitting3conf-bMinus15.r - Figure A.15
+
+
+code/bMinus05/   b = -0.5
+**************
+
+fitting2bMinus05.r - Figure A.16.
+
+fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
+
+fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
+
+fitting3conf-bMinus05.r - Figure A.18
 
 
 
@@ -114,42 +146,6 @@ Contents of MEEsubmit.zip
 
 
 
-bMinus25\  directory: b = -2.5
-******************************
-
-fitting2bMinus25.r - Figure A.9.
-
-fitting3rep-bMinus25.r - Figure A.10 and Table A.2.
-
-fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
-
-fitting3conf-bMinus25.r - Figure A.11
-
-
-bMinus15\  directory: b = -1.5
-******************************
-
-fitting2bMinus15.r - Figure A.12.
-
-fitting3rep-bMinus15.r - Figure A.13 and Table A.3.
-
-fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
-
-fitting3conf-bMinus15.r - Figure A.14
-
-
-**TO ADD TO .7z, below here*****:
-
-bMinus05\  directory: b = -0.5
-******************************
-
-fitting2bMinus05.r - Figure A.**.
-
-fitting3rep-bMinus05.r - Figure A.** and Table A.**.
-
-fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
-
-fitting3conf-bMinus05.r - Figure A.**
 
 
 
