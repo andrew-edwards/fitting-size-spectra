@@ -22,7 +22,7 @@ rm(list=ls())
 require(dplyr)
 
 load("fitting3rep-n10000.RData")
-source("../PLBfunctions.r")  # to load in required functions (probability
+source("../../PLBfunctions.r")  # to load in required functions (probability
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy)
 

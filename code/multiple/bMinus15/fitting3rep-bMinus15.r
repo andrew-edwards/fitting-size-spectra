@@ -22,10 +22,10 @@ print(date())
 redo.simulation = FALSE       # Whether or not to redo the simulations, 0 or 1
 if(!redo.simulation)
   {load("fitting3rep-Bminus15.RData")
-  source("../PLBfunctions.r")
+  source("../../PLBfunctions.r")
   } else
   {                                                   
-source("../PLBfunctions.r")
+source("../../PLBfunctions.r")
 n = 1000                  # sample size
 b.known = -1.5              # known fixed value of b
 xmin.known = 1            # known fixed value of xmin

@@ -26,10 +26,10 @@ print(date())
 redo.simulation = FALSE   # Whether or not to redo the simulations, 0 or 1
 if(!redo.simulation)
   {load("fitting3rep-bMinus05.RData")
-  source("../PLBfunctions.r")
+  source("../../PLBfunctions.r")
   } else
   {                                                   
-source("../PLBfunctions.r")
+source("../../PLBfunctions.r")
 n = 1000                  # sample size
 b.known = -0.5              # known fixed value of b
 xmin.known = 1            # known fixed value of xmin
@@ -467,6 +467,5 @@ print(paste("% MLEfix & $b$ & ", qqtab(MLEfix.rep, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LBbiom &  ", qqtab(LBbiom.rep, true=b.known+2, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LBNbiom & ", qqtab(LBNbiom.rep, true=b.known+1, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LCD & ", qqtab(LCD.rep, true=b.known+1, quants=c(0.05, 0.95)), "\\"))
-
 
 save.image(file = "fitting3rep-bMinus05.RData")

@@ -7,7 +7,7 @@
 
 rm(list=ls())
 
-source("../PLBfunctions.r")
+source("../../PLBfunctions.r")
 
 n = 1000                  # sample size
 b.known = -2              # known fixed value of b
