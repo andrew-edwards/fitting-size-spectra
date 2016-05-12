@@ -138,7 +138,8 @@ code/MLEbin/    MLEbin method for likelihood when the data are already binned
 fitting3repMLEbin.r - same simulated data sets as in fitting3rep.r, but
  binning the data and then applying likelihood.
 
-fitting3repMLEbin.Rdata - results from fitting3repMLEbin.f
+fitting3repMLEbin.Rdata - results from fitting3repMLEbin.r, since this file is 
+ small.
 
 fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
 
