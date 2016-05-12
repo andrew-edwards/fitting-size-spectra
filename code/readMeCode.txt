@@ -136,8 +136,7 @@ fitting3repMLEbin.r - same simulated data sets as in fitting3rep.r, but
 
 fitting3repMLEbin.Rdata - results from fitting3repMLEbin.f
 
-fitting3confMLEbin.r  - confidence intervals for MLEbin method.
-
+fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
 
 
 code/recommend/
@@ -148,38 +147,22 @@ recommend.r - Figure 6, recommended presentation of data and fitted
 
 
 
-
-
-
-
-*****
-
-
-Below here is from readMEErevised.txt in size-spectra-methods. When I move something to fitting-size-spectra I will then move it to above here and document it in the directory structure.
-
-Contents of MEEsubmit.zip
-*************************
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 To re-run code with a different seed, say 43, just change set.seed(42)
  to set.seed(43) and make sure redo.simulation=TRUE (if it's there) so
- that it doesn't just load in an already saved .RData file.
+ that it doesn't just load in an already saved .RData file. It's best to first
+ move the code to a new directory.
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
