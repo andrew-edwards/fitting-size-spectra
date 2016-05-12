@@ -8,11 +8,11 @@ by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and 
 
 that we submitted and are currently revising for *Methods in Ecology and Evolution*. 
 
-I will update this information if the manuscript gets accepted. Meanwhile I am migrating my code for the manuscript from a private GitHub repository to this public one, so that I can improve the code and then just zip up a version to submit to the journal. I am also improving the documentation so so that others can use the code to analyse their own data and repeat and extend our analyses.
+The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 
 To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code. 
 
-This repository is **under development** and will change quite a bit while I'm finalising the revisions, though really just in the file structure and documentation. The code all currently works (though it may not yet run properly because I've just changed the file structure). Let me know if you want to use the code before I finish the revisions (end of May 2016).
+This repository is **under development** and will change slightly while I'm finalising the revisions, though it should work from now one. Any errors are likely just because I re-organised the file structure and documentation. 
 
 # Repository Contents
 
@@ -34,3 +34,4 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
  
+
