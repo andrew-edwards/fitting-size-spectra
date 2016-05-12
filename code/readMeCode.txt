@@ -12,7 +12,11 @@ plotrix
 dplyr
 (and their dependencies).
 
-
+The resulting figures (as .eps postscript files) are also included so that
+ code can be re-run and the results compared with my original figures. I
+ have included the RData file for the results for the main simulation
+ of 10,000 data sets (multiple/fitting3rep.r) because the code can take
+ a while to run.
 
 code/
 *****
