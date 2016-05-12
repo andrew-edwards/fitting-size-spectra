@@ -27,6 +27,10 @@ Code was mainly developed under R version 3.1.0, although I then upgraded to
  I may not have re-run all code from scratch under 3.2.3. If you encounter 
  problems then please contact me.
 
+I have functionalised code where practical, though I did not go back everywhere
+ and replace original non-function code with functions; further improvements 
+ are no doubt possible. 
+
 The full list of directories and code is now given.
 
 code/

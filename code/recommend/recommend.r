@@ -4,9 +4,6 @@
 
 rm(list=ls())
 print(date())
-source("PLBfunctions.r")  # to load in required functions (probability
-                          #  functions for PL and PLB and more, including
-                          #  gap.barplot.andy)
 
 n = 1000                  # sample size
 b.known = -2              # known fixed value of b
@@ -16,7 +13,7 @@ xmax.known = 1000         # known fixed value of xmax
 # Sample from PLB distribution:
 set.seed(42)      # To get the same observations for each run of code.
                   # 8 bins, only up to 400 with 2 empty.
-newdata = TRUE    # TRUE - generate new data, FALSE - load in previous data
+newdata = FALSE   # TRUE - generate new data, FALSE - load in previous data
                   #  (especially if the calculations take a while but you only
                   #  want to tweak the figures).
                   #  Do NOT change seed and set to TRUE without editing
@@ -26,8 +23,14 @@ if(newdata)
   x = rPLB(n, b = b.known, xmin = xmin.known, xmax = xmax.known)
   } else
   {
-  load(file="recommend.RData")    # or load in data for x
+  load(file="recommend.RData")    # or load in data for x. Replace this with
+                                  #  your own data set.
   }
+
+source("../PLBfunctions.r")
+                          # to load in required functions (probability
+                          #  functions for PL and PLB and more, including
+                          #  gap.barplot.andy)
 
 # x is a vector of individual fish sizes (here it is body masses because
 #  we then calculate the biomass size spectrum)
@@ -77,7 +80,8 @@ if(PLB.MLE.bConf[1] == min(bvec) | PLB.MLE.bConf[2] == max(bvec))
   }
 
 figheight = 4.2 # 7 for 4x2 figure
-figwidth = 2.85  
+figwidth = 2.85
+
 postscript("recommend.eps", height = figheight, width = figwidth,
            horizontal=FALSE, paper="special")
 par(mfrow=c(2,1))
