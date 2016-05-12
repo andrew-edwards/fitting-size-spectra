@@ -17,13 +17,13 @@ print(date())
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy). Must come after load(..RData)
                           #  else functions can get overwritten.
-redo.simulation = 0       # Whether or not to redo the simulations, 0 or 1
+redo.simulation = FALSE   # Whether or not to redo the simulations
 if(!redo.simulation)
   {load("fitting3rep.RData")
-  source("PLBfunctions.r")
+  source("../PLBfunctions.r")
   } else
   {                                                   
-source("PLBfunctions.r")
+source("../PLBfunctions.r")
 n = 1000                  # sample size
 b.known = -2              # known fixed value of b
 xmin.known = 1            # known fixed value of xmin
@@ -460,9 +460,5 @@ print(paste("% MLEfix & $b$ & ", qqtab(MLEfix.rep, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LBbiom &  ", qqtab(LBbiom.rep, true=b.known+2, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LBNbiom & ", qqtab(LBNbiom.rep, true=b.known+1, quants=c(0.05, 0.95)), "\\"))
 #print(paste("LCD & ", qqtab(LCD.rep, true=b.known+1, quants=c(0.05, 0.95)), "\\"))
-
-
-
-
 
 save.image(file = "fitting3rep.RData")

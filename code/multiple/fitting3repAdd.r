@@ -44,7 +44,7 @@ rm(list = toRemove)    # Remove everything loaded in, since
 # xmax1 and seed1:
 load("fitting3rep.RData")     # a, b, c
 # load("xmax10000/fitting3rep10000.RData")    # d
-source("PLBfunctions.r")
+source("../PLBfunctions.r")
 
 xrange = c(-3.5, 0.5)         # range of x-axis for histograms - actually to define bins
 # xbigticks = -c(0.75, 1, 1.25, 1.5, 1.75, 2, 2.25)    # Change to depend on brange

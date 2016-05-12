@@ -24,7 +24,7 @@ if(newdata)
   load(file="fitting2.RData")    # or load in data for x
   }
 
-source("PLBfunctions.r")  # to load in required functions (probability
+source("../PLBfunctions.r")  # to load in required functions (probability
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy). Need after .RData in case
                           #  have updated PLBfunctions.r.
@@ -397,9 +397,7 @@ lines(x.PLB, y.PLB, col="red") #, lty=5)
 # legJust(c("MLE", paste("b=", signif(PLB.bMLE, 3), sep="")), inset=inset,
 #        logxy=TRUE)
 
-
 dev.off()
-
 
 save.image(file = "fitting2.RData")
 
