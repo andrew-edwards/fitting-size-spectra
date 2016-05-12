@@ -35,7 +35,7 @@ rm(list=ls())
 require(dplyr)
 
 load("fitting3repMLEbin.RData")
-source("PLBfunctions.r")  # to load in required functions (probability
+source("../PLBfunctions.r")  # to load in required functions (probability
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy)
 
