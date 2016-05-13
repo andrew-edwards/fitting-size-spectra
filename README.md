@@ -14,6 +14,8 @@ To download the code from the GitHub site just click the 'Download ZIP' button (
 
 This repository is **under development** and will change slightly while I'm finalising the revisions, though it should work from now one. Any errors are likely just because I re-organised the file structure and documentation. 
 
+Andrew Edwards. www.chebucto.ns.ca/~english 
+
 # Repository Contents
 
 **README.md** - this file
