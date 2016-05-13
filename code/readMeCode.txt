@@ -22,6 +22,10 @@ Figures 3 and 4 - code/multiple/
 Figure 5 - code/MLEbin/
 Figure 6 - code/recommend/
 
+So to use the MLE method to analyse your own data and plot results as per
+ our Figure 6, see code/recommend/ . If your data are binned then you will
+ need some of code/MLEbin/ .
+
 Code was mainly developed under R version 3.1.0, although I then upgraded to
  version 3.2.3. Some code then broke (due to indexing) and is now fixed, but
  I may not have re-run all code from scratch under 3.2.3. If you encounter 

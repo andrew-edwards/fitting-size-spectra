@@ -118,6 +118,7 @@ sum.log.xBinned2 = sum(log(binMids) * binCounts)
 
 PL.bMLE.binned = 1/( log(min(binBreaks)) - sum.log.xBinned2/sum(binCounts)) - 1
 
+# Calculate the MLE for the PLB model using the binned data.
 PLB.bin.minLL = nlm(negLL.PLB.binned, p = PL.bMLE.binned, 
     w = binBreaks, d = binCounts, J = length(binCounts))
 
