@@ -17,7 +17,7 @@
 # LBNbiom.method - fitting data using the LBbiom and LBNbiom methods
 # LBmizbinsFuns - calculate the bin breaks for the LBmiz method from mizer
 # log2bins - construct bins that double in size and encompass the data
-# eightMethods - computes exponentes for a dataset using all eight methods, for
+# eightMethods - computes exponents for a dataset using all eight methods, for
 #  a second manuscript
 # negLL.PLB.binned - negative log-likelihood function for PLB when data are
 #  only available in binned form

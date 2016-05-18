@@ -189,9 +189,9 @@ To re-run code with a different seed, say 43, just change set.seed(42)
 
 
 Most files have a  
- redo.simulation = TRUE   
+   redo.simulation = TRUE   
 or
- redo.simulation = FALSE
+   redo.simulation = FALSE
 option at the start, and they will be mostly set to FALSE to just load in
 the simulation results, because I would have been tweaking the figures for
 publication. So obviously set to TRUE for the first run, until you have an

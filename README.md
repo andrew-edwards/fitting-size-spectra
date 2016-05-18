@@ -18,11 +18,11 @@ Andrew Edwards. www.chebucto.ns.ca/~english
 
 # Repository Contents
 
-**README.md** - this file
+**README.md** - this file.
 
-**.gitignore** - ignore this if if you don't know what it is
+**.gitignore** - ignore this if you don't know what it is.
 
-**code/** - directory containing all the R code
+**code/** - directory containing all the R code.
 
 **code/readMeCode.txt** - readme file for the code directory. Contains instructions and details of the files and further subdirectories.
 
