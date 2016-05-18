@@ -176,7 +176,8 @@ To test sensitivity of results to xmax, b etc. (as I've done above), create a
  new folder, and then copy in, rename and edit the files fitting2.r, 
  fitting3rep.r and fitting3conf.r (or ones above that are closer to what
  you are testing - e.g. use b=-2.5 if testing b=-2.6). 
-Edits include: change required parameter value, change .eps and .RData
+
+Such edits include: change required parameter value, change .eps and .RData
  filenames, and then may need to manually edit axes since it's hard to
  fully automate them, particularly the barplot with a gap, as in the 
  function  gap.barplot.cust.
