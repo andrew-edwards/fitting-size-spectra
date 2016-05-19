@@ -36,6 +36,10 @@ Code was mainly developed under R version 3.1.0, although I then upgraded to
  estimating b below the true value, and the 60% is 5951/10000, so the 
  difference is minor).
 
+GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
+ using command line (not replacing figures or saving .RData) to check get
+ same, or close enough, answer. 
+
 **PROB DELETE: Some code then broke (due to indexing) and is now fixed, but
  I may not have re-run all code from scratch under 3.2.3. If you encounter 
  problems then please contact me.
