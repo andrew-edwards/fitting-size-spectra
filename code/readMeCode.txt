@@ -27,14 +27,17 @@ So to use the MLE method to analyse your own data and plot results as per
  need some of code/MLEbin/ .
 
 Code was mainly developed under R version 3.1.0, although I then upgraded to
- version 3.2.3. I have re-run the code in the latest version of R - it seems
- that minor changes may occur. For example, re-running  multiple/fitting3rep.r 
+ version 3.2.3 in January 2016. I have re-run the code in the latest version
+ of R and get the same results, though it seems that minor (insignficant)
+ changes may occur. For example, re-running  multiple/fitting3rep.r 
  under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
  but the original simulations (version 3.1.0, and also a test with version
  3.2.2 on another computer) gives 60% - likely due to the random
- number generation. Though the 59% represents 5947/10000 simulations 
- estimating b below the true value, and the 60% is 5951/10000, so the 
- difference is minor).
+ number generation. Though the difference is only due to 4 out of the 10,000
+ simulations changing the estimate of b in the fifth signficant figure, and
+ so not important in practice.
+Aha - it's to do with the issue I had last year  - see seedTest/ and decide
+ what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. 
 
 GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
  using command line (not replacing figures or saving .RData) to check get
@@ -75,7 +78,8 @@ fitting3rep.r - results from 10,000 simulated data sets, to give the blue
 fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
 
 fitting3repAdd.r - constructing Figure 3, combining simulation results from
- two sets of 10,000 simulated data sets.
+ two sets of 10,000 simulated data sets (fitting3rep.r and 
+ xmax10000/fitting3rep10000.r).
 
 fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
  MLEfix method.

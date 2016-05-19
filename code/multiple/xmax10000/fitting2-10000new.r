@@ -24,6 +24,7 @@ if(newdata)
   } else
   {
   load(file="fitting2-10000new.RData")    # or load in data for x
+  source("../../PLBfunctions.r")          # in case functions get updated
   }
 
 # x is a vector of individual fish sizes (lengths or weights)
