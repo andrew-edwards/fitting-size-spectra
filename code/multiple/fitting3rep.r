@@ -65,7 +65,8 @@ hLBmiz.num.bins = num.bins    # for mizer method
 # Main loop for doing the fitting num.reps times
 for(iii in 1:num.reps)
 {
-if(iii %in% seq(1000, num.reps, 1000)) paste("iii = ", iii)    # show progress
+if(iii %in% seq(1000, num.reps, 1000)) print(paste("iii = ", iii))
+                                        # show progress
 
 x = rPLB(n, b = b.known, xmin = xmin.known, xmax = xmax.known)
 

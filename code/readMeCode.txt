@@ -27,7 +27,16 @@ So to use the MLE method to analyse your own data and plot results as per
  need some of code/MLEbin/ .
 
 Code was mainly developed under R version 3.1.0, although I then upgraded to
- version 3.2.3. Some code then broke (due to indexing) and is now fixed, but
+ version 3.2.3. I have re-run the code in the latest version of R - it seems
+ that minor changes may occur. For example, re-running  multiple/fitting3rep.r 
+ under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
+ but the original simulations (version 3.1.0, and also a test with version
+ 3.2.2 on another computer) gives 60% - likely due to the random
+ number generation. Though the 59% represents 5947/10000 simulations 
+ estimating b below the true value, and the 60% is 5951/10000, so the 
+ difference is minor).
+
+**PROB DELETE: Some code then broke (due to indexing) and is now fixed, but
  I may not have re-run all code from scratch under 3.2.3. If you encounter 
  problems then please contact me.
 
