@@ -5,6 +5,10 @@
 rm(list=ls())
 print(date())
 
+source("../PLBfunctions.r")  # to load in required functions (probability
+                          #  functions for PL and PLB and more, including
+                          #  gap.barplot.andy). 
+
 n = 1000                  # sample size
 b.known = -2              # known fixed value of b
 xmin.known = 1            # known fixed value of xmin
@@ -22,12 +26,8 @@ if(newdata)
   } else
   {
   load(file="fitting2.RData")    # or load in data for x
+  source("../PLBfunctions.r")    # Need again in case it's been updated.
   }
-
-source("../PLBfunctions.r")  # to load in required functions (probability
-                          #  functions for PL and PLB and more, including
-                          #  gap.barplot.andy). Need after .RData in case
-                          #  have updated PLBfunctions.r.
 
 # x is a vector of individual fish sizes (lengths or weights)
 
