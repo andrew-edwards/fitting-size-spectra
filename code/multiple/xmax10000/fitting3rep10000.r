@@ -28,7 +28,7 @@ print(date())
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy). Must come after load(..RData)
                           #  else functions can get overwritten.
-redo.simulation = FALSE   # Whether or not to redo the simulations
+redo.simulation = TRUE    # Whether or not to redo the simulations
 if(!redo.simulation)
   {load("fitting3rep10000.RData")
   source("../../PLBfunctions.r")
