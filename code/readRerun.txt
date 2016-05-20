@@ -3,18 +3,17 @@ readRerun.txt - readMe file for Andy reruning all code to check .Rdata files
  20/5/16.
 
 Some double checking is finding that the current .RData files are not
- exactly the same as those obtained when re-running the code line-by-line.
+ exactly the same as those obtained when re-running the code line-by-line,
+ I think just for fittingrep3.RData and MLEbin.
  To re-run all code again and redo all figures and check all numbers in 
  manuscript, am creating a new branch 're-run' and doing that there.
-
+ Results should be identical if the random numbers are the same. 
 
 Last year in seedTest/ I
 
 
-Code was mainly developed under R version 3.1.0, although I then upgraded to
- version 3.2.3 in January 2016. I have re-run the code in the latest version
- of R and get the same results, though it seems that minor (insignficant)
- changes may occur. For example, re-running  multiple/fitting3rep.r 
+This may be only real change:
+For example, re-running  multiple/fitting3rep.r 
  under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
  but the original simulations (version 3.1.0, and also a test with version
  3.2.2 on another computer) gives 60% - likely due to the random
