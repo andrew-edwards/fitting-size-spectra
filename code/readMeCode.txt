@@ -26,7 +26,9 @@ So to use the MLE method to analyse your own data and plot results as per
  our Figure 6, see code/recommend/ . If your data are binned then you will
  need some of code/MLEbin/ .
 
-Code was mainly developed under R version 3.1.0, although I then upgraded to
+Tidy these up once have done the re-run bracnch - see readRerun.txt.
+
+** Code was mainly developed under R version 3.1.0, although I then upgraded to
  version 3.2.3 in January 2016. I have re-run the code in the latest version
  of R and get the same results, though it seems that minor (insignficant)
  changes may occur. For example, re-running  multiple/fitting3rep.r 
@@ -36,16 +38,18 @@ Code was mainly developed under R version 3.1.0, although I then upgraded to
  number generation. Though the difference is only due to 4 out of the 10,000
  simulations changing the estimate of b in the fifth signficant figure, and
  so not important in practice.
-Aha - it's to do with the issue I had last year  - see seedTest/ and decide
- what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. 
+** Aha - it's to do with the issue I had last year  - see seedTest/ and decide
+ what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. Seems to be opposite to what I'd
+ said in seedTest/.
 
-GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
+** GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
  using command line (not replacing figures or saving .RData) to check get
- same, or close enough, answer. 
+ same, or close enough, answer. **Now creating separate git branch re-run,
+ re-running and checking results with original: ssmRevBeforeRerun.pdf. 
 
 **PROB DELETE: Some code then broke (due to indexing) and is now fixed, but
  I may not have re-run all code from scratch under 3.2.3. If you encounter 
- problems then please contact me.
+ problems then please contact me. **Am re-running all code under 3.2.3.
 
 I have functionalised code where practical, though I did not go back everywhere
  and replace original non-function code with functions; further improvements 
