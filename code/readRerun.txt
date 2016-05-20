@@ -50,7 +50,8 @@ GOING THROUGH EACH piece of code listed below in git branch 're-run', and
 1.Open the existing .Rdata file.
 1a. Open the .r code and check redo.simulation = TRUE.
 2. Run the code and compare x[1:8] and other output with the existing results.
- It will save the new .RData and new figures. 
+ It will save the new .RData and new figures. Some code just plots figures
+ and so will only change if an .RData file has changed.
 3. git s  will tell if the .Rdata and .eps files file have changed 
   (time will change, but if results are the same then the files won't change).
    So no need to do manually.
@@ -102,7 +103,7 @@ fitting3repAdd.r - constructing Figure 3, combining simulation results from
 Changed. fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
  MLEfix method.
 
-fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE 
+Changed. fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE 
  of x_max for the 10,000 simulated data sets from Figure 3. And Figure A.5 for
  MLEfix method.
 
