@@ -9,10 +9,30 @@ Some double checking is finding that the current .RData files are not
  manuscript, am creating a new branch 're-run' and doing that there.
  Results should be identical if the random numbers are the same. 
 
-Last year in seedTest/ I
+Last year in seedTest/ I thought I figured it out, but now want to re-run
+ everything. Think it's opposite to what I thought there.
+
+What's currently saved in master/ branch and so is in the submitted manuscript
+ and ssmRevBeforeRerun.pdf for x[1:8], the final set of 1,000 random numbers:
+
+fitting3rep.RData  	   2.420 1.097 1.527
+MLEbin.Rdata	    	   2.420 1.097 1.522
+fitting3rep10000.Rdata	   1.097 1.522 2.997    so shifted by one
+
+But re-running, I get:
+fitting3rep.r		   1.097 1.522 2.99
+fitting3repMLEbin.r        1.097 1.522 2.99
+
+So not actually doing a fair comparison, because the same random numbers
+ have not been used for all simulations (not so important when b etc. change).
+ Thinking those may be the only real differences. Won't be relevant in practice
+ (estimated b values may change very slightly), but worth fixing. 
+ Expect those ones may be the only real differences. And it's not an R version
+ issue.
 
 
-This may be only real change:
+[
+ This may be only real change:
 For example, re-running  multiple/fitting3rep.r 
  under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
  but the original simulations (version 3.1.0, and also a test with version
@@ -23,13 +43,16 @@ For example, re-running  multiple/fitting3rep.r
 Aha - it's to do with the issue I had last year  - see seedTest/ and decide
  what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. Seems to be opposite to what I'd
  said in seedTest/.
+]
 
-GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
- using command line (not replacing figures or saving .RData) to check get
- same, or close enough, answer. **Now creating separate git branch re-run,
- re-running and checking results with original: ssmRevBeforeRerun.pdf. 
+GOING THROUGH EACH piece of code listed below in git branch 're-run'. First
+ open the existing .Rdata, then run the code and compare x[1:8] and any output
+ results. It will save the new
+ .RData and new figures, check numbers I've flagged in the manuscript, 
+ and then re-latex the whole manuscript. Save as .pdf
+ and compare with original: ssmRevBeforeRerun.pdf that I saved before making
+ re-run branch. 
 
-The full list of directories and code is now given.
 
 code/
 *****
