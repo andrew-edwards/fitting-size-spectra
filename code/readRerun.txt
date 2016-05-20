@@ -1,0 +1,214 @@
+readRerun.txt - readMe file for Andy reruning all code to check .Rdata files 
+ are from the final published versions. Other users can ignore this file.
+ 20/5/16.
+
+Some double checking is finding that the current .RData files are not
+ exactly the same as those obtained when re-running the code line-by-line.
+ To re-run all code again and redo all figures and check all numbers in 
+ manuscript, am creating a new branch 're-run' and doing that there.
+
+
+Last year in seedTest/ I
+
+
+Code was mainly developed under R version 3.1.0, although I then upgraded to
+ version 3.2.3 in January 2016. I have re-run the code in the latest version
+ of R and get the same results, though it seems that minor (insignficant)
+ changes may occur. For example, re-running  multiple/fitting3rep.r 
+ under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
+ but the original simulations (version 3.1.0, and also a test with version
+ 3.2.2 on another computer) gives 60% - likely due to the random
+ number generation. Though the difference is only due to 4 out of the 10,000
+ simulations changing the estimate of b in the fifth signficant figure, and
+ so not important in practice.
+Aha - it's to do with the issue I had last year  - see seedTest/ and decide
+ what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. Seems to be opposite to what I'd
+ said in seedTest/.
+
+GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
+ using command line (not replacing figures or saving .RData) to check get
+ same, or close enough, answer. **Now creating separate git branch re-run,
+ re-running and checking results with original: ssmRevBeforeRerun.pdf. 
+
+The full list of directories and code is now given.
+
+code/
+*****
+
+readMeCode.txt - this file
+
+PLBfunctions.r - collection of documented functions called by the other 
+ R code.
+
+code/single/ - simulate a single data set and fit spectra using the eight methods
+************
+
+fitting2.r - simulates a data set and then fits spectra using eight methods,
+ producing Figures 1, 2 and A.1.
+
+
+code/multiple/ - simulate 10,000 data sets and fit using the eight methods
+**************
+
+fitting3rep.r - results from 10,000 simulated data sets, to give the blue
+ histograms in Figure 3 and the main results in Table 2. Also does the
+ MLEfix method and plots Figure A.3.
+
+fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
+
+fitting3repAdd.r - constructing Figure 3, combining simulation results from
+ two sets of 10,000 simulated data sets (fitting3rep.r and 
+ xmax10000/fitting3rep10000.r).
+
+fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
+ MLEfix method.
+
+fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE 
+ of x_max for the 10,000 simulated data sets from Figure 3. And Figure A.5 for
+ MLEfix method.
+
+The following are the sensitivity analyses. Some are just modifications 
+ of the above code, with new a value of a parameter (e.g. xmax)
+ and renaming of anything that is saved (.RData and .eps files), and 
+ changing of axes sizes where necessary (and maybe some other necessary tweaks).
+ The above code may have been updated (written more clearly) after some of
+ the following were done.
+
+code/multiple/xmax10000/  - simulate 10,000 datasets with xmax = 10,000
+************************
+
+fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce 
+ Figures A.6 and A.7.
+
+fitting3rep10000.r - as for fitting3rep.r but for xmax=10,000, to give
+ gold histograms in Figure 3 and results in Table A.1.
+
+fitting3rep10000.RData - results from fitting3rep10000.r to save having
+ to re-run it.
+
+fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
+ Figure A.8.
+
+fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
+ xmax = 10,000.
+
+compareXmax.r - comparing sample of 1,000 random PLB numbers
+ for xmax=1,000 and xmax=10,000 with same seed, as documented in
+ Section A.2.8 in the Appendix.
+
+
+code/bMinus25/    b = -2.5
+**************
+
+fitting2bMinus25.r - Figure A.10.
+
+fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
+
+fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
+
+fitting3conf-bMinus25.r - Figure A.12
+
+
+code/bMinus15/   b = -1.5
+**************
+
+fitting2bMinus15.r - Figure A.13.
+
+fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
+
+fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
+
+fitting3conf-bMinus15.r - Figure A.15
+
+
+code/bMinus05/   b = -0.5
+**************
+
+fitting2bMinus05.r - Figure A.16.
+
+fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
+
+fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
+
+fitting3conf-bMinus05.r - Figure A.18
+
+
+code/n10000/     n = 10000
+************
+
+Redoing main results with sample size (number of individual measurements) 
+ increased to 10000.
+
+fitting2n10000.r - Figure A.19
+
+fitting3rep-n10000.r - Figure A.20 and Table A.5
+
+fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
+
+fitting3conf-n10000.r - Figure A.21
+
+
+code/MLEbin/    MLEbin method for likelihood when the data are already binned
+************
+
+fitting3repMLEbin.r - same simulated data sets as in fitting3rep.r, but
+ binning the data and then applying likelihood.
+
+fitting3repMLEbin.Rdata - results from fitting3repMLEbin.r, since this file is 
+ small.
+
+fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
+
+
+code/recommend/
+***************
+
+recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
+ data and fitted size spectrum.
+
+--
+
+To test sensitivity of results to xmax, b etc. (as I've done above), create a
+ new folder, and then copy in, rename and edit the files fitting2.r, 
+ fitting3rep.r and fitting3conf.r (or ones above that are closer to what
+ you are testing - e.g. use b=-2.5 if testing b=-2.6). 
+
+Such edits include: change required parameter value, change .eps and .RData
+ filenames, and then may need to manually edit axes since it's hard to
+ fully automate them, particularly the barplot with a gap, as in the 
+ function  gap.barplot.cust.
+
+To re-run code with a different seed, say 43, just change set.seed(42)
+ to set.seed(43) and make sure redo.simulation=TRUE (if it's there) so
+ that it doesn't just load in an already saved .RData file. It's best to first
+ move the code to a new directory.
+
+
+Most files have a  
+   redo.simulation = TRUE   
+or
+   redo.simulation = FALSE
+option at the start, and they will be mostly set to FALSE to just load in
+the simulation results, because I would have been tweaking the figures for
+publication. So obviously set to TRUE for the first run, until you have an
+.RData file that can then be loaded in. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
