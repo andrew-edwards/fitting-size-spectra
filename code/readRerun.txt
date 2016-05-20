@@ -58,11 +58,11 @@ GOING THROUGH EACH piece of code listed below in git branch 're-run', and
     change any in ssmRev.tex. 
 5. If only changed TRUE to FALSE in .r then just undo that, check git s.
 6. Close .RData file and Emacs window.
-7. git com "filename..."  if anything changed.
-8. Write 'Done' below.
+7. git com "<what changed...>" if anything changed.
+8. Write 'Done' or 'Changed' below.
 9. Do again for next piece of code.
 
-10. After doing all of them, re-latex the whole manuscript. Save as .pdf
+10. After doing all of them, check each says done or changed, then re-latex the whole manuscript. Save as .pdf
  and compare with original: ssmRevBeforeRerun.pdf that I saved before making
  re-run branch.
 11. Change anything in text if necessary, though will be doing that above.
@@ -89,7 +89,9 @@ Changed. fitting3rep.r - results from 10,000 simulated data sets, to give the bl
 DOES CHANGE (git s shows figures changed also). 
 original     2.423351   1.097383   1.522616
 re-run	     1.097383   1.522616   2.991980   so shifted.
-Checking output for tables and changing LCD 60 to 59 in ssmRev.tex.
+Checking output for tables and changing LCD 60 to 59 in ssmRev.tex. It only 
+ changed 4 out of the 10,000 LCD results across -2 in the fifth significant
+ figure, but because of rounding this changed 60% being <-2 to 59%.
 
 Changed. fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
 
@@ -97,7 +99,7 @@ fitting3repAdd.r - constructing Figure 3, combining simulation results from
  two sets of 10,000 simulated data sets (fitting3rep.r and 
  xmax10000/fitting3rep10000.r).
 
-fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
+Changed. fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
  MLEfix method.
 
 fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE 
