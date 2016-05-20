@@ -40,4 +40,4 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 Manually re-running fitting3rep.r and the randomly generated numbers are shifted along by 1. Though I'd figured that all out last year in seedTest/ but want to re-run code here and save the .Rdata files, because the currently saved ones give shifted random numbers to what I get from re-running the code. I thought it was a n R version issue, but don't think so. So about to create new branch and then re-run in that, recreate the .pdf of the paper (having saved a version), and compare figures. Expect figures won't change at all, I know that LCD number changes slightly (not important, but want it to agree with simulations from code). Manually checking numbers in the manuscript.
 
-
+Test.
