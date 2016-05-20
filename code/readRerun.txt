@@ -149,17 +149,20 @@ So, my issue is that if I re-run the code from an open .r ESS window, even with
  1000-2000 random numbers are the same (since MLE.rep[1] same each time), 
  but not the rest. Strange. THAT explains the results above also, plus the
  confusion about the seed I had last year. 
+
 So, to get consistent results I need to run everything in a fresh R console. 
  Simulations are getting 1000*10000 = 10^7 random numbers, but should still 
  be fine.
 
-fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
+Should also create a minimum working example. But for now just carry on:
+
+Done. fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
  Figure A.8.
 
-fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
+Done. fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
  xmax = 10,000.
 
-compareXmax.r - comparing sample of 1,000 random PLB numbers
+Done. compareXmax.r - comparing sample of 1,000 random PLB numbers
  for xmax=1,000 and xmax=10,000 with same seed, as documented in
  Section A.2.8 in the Appendix.
 
