@@ -186,7 +186,7 @@ Changed. fitting3conf-bMinus25.r - Figure A.12
 code/bMinus15/   b = -1.5
 **************
 
-fitting2bMinus15.r - Figure A.13.
+Done. fitting2bMinus15.r - Figure A.13.
 
 fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
 
