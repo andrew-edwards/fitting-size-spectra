@@ -1,6 +1,7 @@
 readRerun.txt - readMe file for Andy reruning all code to check .Rdata files 
- are from the final published versions. **Other users can ignore this file**.
- 20/5/16.
+ are from the final published versions. 
+ **Other users can ignore this file, it mainly contains notes for me**.
+ Andrew Edwards 20/5/16.
 
 Some double checking is finding that the current .RData files are not
  exactly the same as those obtained when re-running the code line-by-line,
@@ -233,35 +234,6 @@ code/recommend/
 
 Done. recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
  data and fitted size spectrum.
-
---
-
-To test sensitivity of results to xmax, b etc. (as I've done above), create a
- new folder, and then copy in, rename and edit the files fitting2.r, 
- fitting3rep.r and fitting3conf.r (or ones above that are closer to what
- you are testing - e.g. use b=-2.5 if testing b=-2.6). 
-
-Such edits include: change required parameter value, change .eps and .RData
- filenames, and then may need to manually edit axes since it's hard to
- fully automate them, particularly the barplot with a gap, as in the 
- function  gap.barplot.cust.
-
-To re-run code with a different seed, say 43, just change set.seed(42)
- to set.seed(43) and make sure redo.simulation=TRUE (if it's there) so
- that it doesn't just load in an already saved .RData file. It's best to first
- move the code to a new directory.
-
-
-Most files have a  
-   redo.simulation = TRUE   
-or
-   redo.simulation = FALSE
-option at the start, and they will be mostly set to FALSE to just load in
-the simulation results, because I would have been tweaking the figures for
-publication. So obviously set to TRUE for the first run, until you have an
-.RData file that can then be loaded in. 
-
-
 
 
 
