@@ -131,8 +131,6 @@ fitting2bMinus25.r - Figure A.10.
 
 fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
 
-fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
-
 fitting3conf-bMinus25.r - Figure A.12
 
 
@@ -143,8 +141,6 @@ fitting2bMinus15.r - Figure A.13.
 
 fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
 
-fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
-
 fitting3conf-bMinus15.r - Figure A.15
 
 
@@ -154,8 +150,6 @@ code/bMinus05/   b = -0.5
 fitting2bMinus05.r - Figure A.16.
 
 fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
-
-fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
 
 fitting3conf-bMinus05.r - Figure A.18
 
@@ -169,8 +163,6 @@ Redoing main results with sample size (number of individual measurements)
 fitting2n10000.r - Figure A.19
 
 fitting3rep-n10000.r - Figure A.20 and Table A.5
-
-fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
 
 fitting3conf-n10000.r - Figure A.21
 

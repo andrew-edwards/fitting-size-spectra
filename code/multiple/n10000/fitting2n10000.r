@@ -20,7 +20,7 @@ xmax.known = 1000         # known fixed value of xmax
 # Sample from PLB distribution:
 set.seed(42)      # To get the same observations for each run of code.
                   # 8 bins, only up to 400 with 2 empty.
-newdata = FALSE   # TRUE - generate new data, FALSE - load in previous set
+newdata = TRUE    # TRUE - generate new data, FALSE - load in previous set
                   #  Do NOT change seed and set to TRUE without editing
                   #  filenames for saving results and figures (below).
 if(newdata)

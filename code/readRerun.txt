@@ -210,11 +210,11 @@ code/n10000/     n = 10000
 Redoing main results with sample size (number of individual measurements) 
  increased to 10000.
 
-fitting2n10000.r - Figure A.19
+Done. fitting2n10000.r - Figure A.19
 
-fitting3rep-n10000.r - Figure A.20 and Table A.5
+Done. fitting3rep-n10000.r - Figure A.20 and Table A.5
 
-fitting3conf-n10000.r - Figure A.21
+Done. fitting3conf-n10000.r - Figure A.21
 
 
 code/MLEbin/    MLEbin method for likelihood when the data are already binned
