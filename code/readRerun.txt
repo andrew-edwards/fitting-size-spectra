@@ -69,9 +69,12 @@ GOING THROUGH EACH piece of code listed below in git branch 're-run', and
  and compare with original: ssmRevBeforeRerun.pdf that I saved before making
  re-run branch.
 11. Change anything in text if necessary, though will be doing that above.
-11. For any main ones that changed do a seed check also if time, though
- had done those before (another new branch).
+12. For any main ones that changed do a seed check also, to confirm text at the
+ end of the Appendix.
 
+Then merge re-run branch back into master, by doing:
+git co master
+git merge re-run
 
 code/single/ - simulate a single data set and fit spectra using the eight methods
 ************
