@@ -176,7 +176,7 @@ Done. compareXmax.r - comparing sample of 1,000 random PLB numbers
 code/bMinus25/    b = -2.5
 **************
 
-fitting2bMinus25.r - Figure A.10.
+Done. fitting2bMinus25.r - Figure A.10.
 
 fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
 

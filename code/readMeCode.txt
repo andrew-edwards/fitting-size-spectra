@@ -108,6 +108,9 @@ fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce
 fitting3rep10000.r - as for fitting3rep.r but for xmax=10,000, to give
  gold histograms in Figure 3 and results in Table A.1.
 
+fitting3rep10000.RData - results from fitting3rep10000.r, which gets
+ called in multiple/fitting3repAdd.r to produce Figure 3. 
+
 fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
  Figure A.8.
 
