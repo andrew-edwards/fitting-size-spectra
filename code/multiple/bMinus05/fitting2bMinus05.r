@@ -1,5 +1,4 @@
 # fitting2bMinus05.r - b=-0.5. 25/4/16, as per reviewer 3's suggestion.
-
 # fitting2bMinus25.r - b=-2.5. 2/12/15.
 
 # fitting2bMinus15.r - b=-1.5. 2/12/15.
@@ -7,6 +6,7 @@
 
 rm(list=ls())
 print(date())
+
 source("../../PLBfunctions.r")  # to load in required functions (probability
                           #  functions for PL and PLB and more, including
                           #  gap.barplot.andy)
@@ -19,7 +19,7 @@ xmax.known = 1000         # known fixed value of xmax
 # Sample from PLB distribution:
 set.seed(42)      # To get the same observations for each run of code.
                   # 8 bins, only up to 400 with 2 empty.
-newdata = FALSE    # TRUE - generate new data, FALSE - load in previous set
+newdata = TRUE    # TRUE - generate new data, FALSE - load in previous set
                   #  Do NOT change seed and set to TRUE without editing
                   #  filenames for saving results and figures (below).
 if(newdata)
@@ -29,7 +29,6 @@ if(newdata)
   {
   load(file="fitting2-bMinus05.RData")    # or load in data for x
   }
-
 # x is a vector of individual fish sizes (lengths or weights)
 
 log.x = log(x)                      # to avoid keep calculating

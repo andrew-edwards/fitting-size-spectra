@@ -57,7 +57,8 @@ GOING THROUGH EACH piece of code listed below in git branch 're-run', and
    So no need to do manually.
 4. Check numbers I've flagged in the manuscript if things have changed, and
     change any in ssmRev.tex. 
-5. If only changed TRUE to FALSE in .r then just undo that, check git s.
+5. If only changed TRUE to FALSE in .r then just undo that, check git s - not
+    always doing since not committing .RData files except main one and xmax10000.
 6. Close .RData file and Emacs window.
 7. git com "<what changed...>" if anything changed.
 8. Write 'Done' or 'Changed' below.
@@ -188,23 +189,19 @@ code/bMinus15/   b = -1.5
 
 Done. fitting2bMinus15.r - Figure A.13.
 
-fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
+Done. fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
 
-fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
-
-fitting3conf-bMinus15.r - Figure A.15
+Done. fitting3conf-bMinus15.r - Figure A.15
 
 
 code/bMinus05/   b = -0.5
 **************
 
-fitting2bMinus05.r - Figure A.16.
+Done. fitting2bMinus05.r - Figure A.16.
 
-fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
+Done. fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
 
-fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
-
-fitting3conf-bMinus05.r - Figure A.18
+Done. fitting3conf-bMinus05.r - Figure A.18
 
 
 code/n10000/     n = 10000
@@ -216,8 +213,6 @@ Redoing main results with sample size (number of individual measurements)
 fitting2n10000.r - Figure A.19
 
 fitting3rep-n10000.r - Figure A.20 and Table A.5
-
-fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
 
 fitting3conf-n10000.r - Figure A.21
 
