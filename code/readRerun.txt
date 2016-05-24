@@ -1,5 +1,5 @@
 readRerun.txt - readMe file for Andy reruning all code to check .Rdata files 
- are from the final published versions. Other users can ignore this file.
+ are from the final published versions. **Other users can ignore this file**.
  20/5/16.
 
 Some double checking is finding that the current .RData files are not
@@ -64,13 +64,12 @@ GOING THROUGH EACH piece of code listed below in git branch 're-run', and
 8. Write 'Done' or 'Changed' below.
 9. Do again for next piece of code.
 
-Re-run fitting3repAdd.r
-
 10. After doing all of them, check each says done or changed, then re-latex the whole manuscript. Save as .pdf
  and compare with original: ssmRevBeforeRerun.pdf that I saved before making
  re-run branch.
 11. Change anything in text if necessary, though will be doing that above.
-11. For any main ones that changed do a seed check also (another new branch).
+11. For any main ones that changed do a seed check also if time, though
+ had done those before (another new branch).
 
 
 code/single/ - simulate a single data set and fit spectra using the eight methods
