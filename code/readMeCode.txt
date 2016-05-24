@@ -199,18 +199,20 @@ publication. So obviously set to TRUE for the first run, until you have an
 .RData file that can then be loaded in. 
 
 I have re-run all code in R version 3.2.3 to ensure results are as stated in the
- manuscript. I strangely find that if I re-ran code such as fitting3rep.r
+ manuscript. I strangely find that if I re-run code such as fitting3rep.r
  (that generates 10,000 sets of 1,000 random numbers) from a new R console,
  I get a different final set of random numbers answer than re-running in a
  console in which I had just run fitting2.r. The first set of 1,000 random 
  numbers is the same, but the last is shifted along by one. I will try and
- create a minimum working example to investigate this. 
+ create a minimum working example to investigate this.
 
 This occurs even though I have
   rm(list=ls())
  at the start of each file and then set the seed to 42. It does not affect 
  any conclusions, but may be the reason if you find you get a slightly 
  different set of random numbers (and thus fitted values of b) to those
- in my provided .RData files. Further details on this are in
- readRerun.txt, which is really just my ongoing notes to document the issue.
+ in my provided .RData files.  I am running R in an Emacs shell through
+ Emacs Speaks Statistics, which may or may not be important. Further details
+ on this are in readRerun.txt, which is really just my ongoing notes to 
+ document the issue.
 
