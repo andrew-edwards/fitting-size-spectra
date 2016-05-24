@@ -47,9 +47,9 @@ Aha - it's to do with the issue I had last year  - see seedTest/ and decide
 
 GOING THROUGH EACH piece of code listed below in git branch 're-run', and
 
-1.Open the existing .Rdata file.
-1a. Open the .r code and check redo.simulation = TRUE.
-2. Run the code and compare x[1:8] and other output with the existing results.
+1.Double click on the existing .Rdata file to open it in an R console..
+1a. Open the .r code (Emacs) and check redo.simulation = TRUE.
+2. Run the code (Emacs R console) and compare x[1:8] and other output with the existing results.
  It will save the new .RData and new figures. Some code just plots figures
  and so will only change if an .RData file has changed.
 3. git s  will tell if the .Rdata (if committed) and .eps files file have changed 
@@ -98,7 +98,9 @@ Checking output for tables and changing LCD 60 to 59 in ssmRev.tex. It only
 
 Changed. fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
 
-fitting3repAdd.r - constructing Figure 3, combining simulation results from
+Changed (re-ran after rerunning xmax10000, though they didn't change but 
+ the ones here die). 
+ fitting3repAdd.r - constructing Figure 3, combining simulation results from
  two sets of 10,000 simulated data sets (fitting3rep.r and 
  xmax10000/fitting3rep10000.r).
 
@@ -152,7 +154,11 @@ So, my issue is that if I re-run the code from an open .r ESS window, even with
 
 So, to get consistent results I need to run everything in a fresh R console. 
  Simulations are getting 1000*10000 = 10^7 random numbers, but should still 
- be fine.
+ be fine. The last one run is the fresh one, or which x[1:8] agree (close enough)
+ to those for the re-run for multiple/fitting3rep.r. Close enough is correct
+ because the numbers should be slighlty different due to xmax changing.
+
+So these didn't change because fresh is the same as original. 
 
 Should also create a minimum working example. But for now just carry on:
 
