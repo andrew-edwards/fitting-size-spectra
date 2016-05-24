@@ -12,8 +12,10 @@ The resulting figures (as .eps postscript files) are also included so that
  code can be independnetly re-run and the results easily compared with my 
  original figures. I have included the .RData file for the results for 
  the main simulation of 10,000 data sets (multiple/fitting3rep.r) 
- because the code can take a while to run. The .RData files are generally 
- large and so I haven't included them.
+ and for the xmax=10000 simulation (multiple/xmax10000/fitting3rep10000.r)
+ because the code can take a while to run and the two resulting .RData files
+ are used to produce Figure 3. The remainaing .RData files are have
+ not been included because they are generally large.
 
 The main figures in the manuscript can be found in the following directories:
 
