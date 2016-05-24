@@ -235,7 +235,9 @@ code/recommend/
 Done. recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
  data and fitted size spectrum.
 
-
+For seed results at the end of the Appendix, I have re-run in a new folder
+  but then deleted the folder, since don't want to clutter up the directories 
+  further.
 
 
 

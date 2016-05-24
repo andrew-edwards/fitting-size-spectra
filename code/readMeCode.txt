@@ -2,7 +2,11 @@ readMeCode.txt - readMe file for R code for manuscript
  'Testing and recommending methods for fitting size spectra to data'
  by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum
  and Julia L. Blanchard, submitted to Method in Ecology and Evolution. 
- All code by Andrew Edwards, www.chebucto.ns.ca/~english .
+
+ All code by Andrew Edwards, and available at 
+  https://github.com/andrew-edwards/fitting-size-spectra .
+  andrew.edwards@dfo-mpo.gc.ca (though email will change soon so please check
+  website at  www.chebucto.ns.ca/~english ).
 
 I have tried to keep required packages to a minimum, but you will need:
   plotrix  (only for histograms with gaps, as for Figure 1)
