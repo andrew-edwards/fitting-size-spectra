@@ -232,7 +232,7 @@ Changed. fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give
 code/recommend/
 ***************
 
-recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
+Done. recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
  data and fitted size spectrum.
 
 --

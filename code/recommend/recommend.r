@@ -10,10 +10,15 @@ b.known = -2              # known fixed value of b
 xmin.known = 1            # known fixed value of xmin
 xmax.known = 1000         # known fixed value of xmax
 
+source("../PLBfunctions.r")
+                          # to load in required functions (probability
+                          #  functions for PL and PLB and more, including
+                          #  gap.barplot.andy)
+
 # Sample from PLB distribution:
 set.seed(42)      # To get the same observations for each run of code.
                   # 8 bins, only up to 400 with 2 empty.
-newdata = FALSE   # TRUE - generate new data, FALSE - load in previous data
+newdata = TRUE    # TRUE - generate new data, FALSE - load in previous data
                   #  (especially if the calculations take a while but you only
                   #  want to tweak the figures).
                   #  Do NOT change seed and set to TRUE without editing
@@ -27,10 +32,6 @@ if(newdata)
                                   #  your own data set.
   }
 
-source("../PLBfunctions.r")
-                          # to load in required functions (probability
-                          #  functions for PL and PLB and more, including
-                          #  gap.barplot.andy)
 
 # x is a vector of individual fish sizes (here it is body masses because
 #  we then calculate the biomass size spectrum)

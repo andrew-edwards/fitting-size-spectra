@@ -185,6 +185,8 @@ code/recommend/
 recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
  data and fitted size spectrum.
 
+recommend.eps - Figure 6.
+
 --
 
 To test sensitivity of results to xmax, b etc. (as I've done above), create a
