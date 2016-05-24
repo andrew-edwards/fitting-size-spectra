@@ -6,7 +6,7 @@ This repository contains R code for the manuscript
 
 by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and Julia L. Blanchard
 
-that we submitted and are currently revising for *Methods in Ecology and Evolution*. 
+that has been submitted to *Methods in Ecology and Evolution*. 
 
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 

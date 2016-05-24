@@ -8,6 +8,10 @@ readMeCode.txt - readMe file for R code for manuscript
   andrew.edwards@dfo-mpo.gc.ca (though email will change soon so please check
   website at  www.chebucto.ns.ca/~english ).
 
+This is version 1.0.0, as submitted to the journal with the revised version
+ of our manuscript. I will try and label this version as a release on
+ the GitHub site. 24th May 2016.
+
 I have tried to keep required packages to a minimum, but you will need:
   plotrix  (only for histograms with gaps, as for Figure 1)
   dplyr
