@@ -12,7 +12,7 @@ The aim of sharing this code is so that others can repeat (and extend) our simul
 
 To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code.
 
-This is release version 1.0.0, as finalised on 24th May 2016.
+This is release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript.
 
 Andrew Edwards. www.chebucto.ns.ca/~english 
 
@@ -35,14 +35,3 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 **code/MLEbin/** - MLEbin method for likelihood when the data are only available in binned form.
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
-
-
-Commit and push
-
-See if it says 'download ZIP' at home when not logged in.
-
-Add a release tag to GitHub.
-
-Download zip.
-
-Submit to MEE, along with other code. 
