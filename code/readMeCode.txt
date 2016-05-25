@@ -3,6 +3,15 @@ readMeCode.txt - readMe file for R code for manuscript
  by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum
  and Julia L. Blanchard, submitted to Method in Ecology and Evolution. 
 
+ All code by Andrew Edwards, and available at 
+  https://github.com/andrew-edwards/fitting-size-spectra .
+  andrew.edwards@dfo-mpo.gc.ca (though email will change soon so please check
+  website at  www.chebucto.ns.ca/~english ).
+
+This is version 1.0.0, as submitted to the journal with the revised version
+ of our manuscript. I will try and label this version as a release on
+ the GitHub site. 24th May 2016.
+
 I have tried to keep required packages to a minimum, but you will need:
   plotrix  (only for histograms with gaps, as for Figure 1)
   dplyr
@@ -12,8 +21,10 @@ The resulting figures (as .eps postscript files) are also included so that
  code can be independnetly re-run and the results easily compared with my 
  original figures. I have included the .RData file for the results for 
  the main simulation of 10,000 data sets (multiple/fitting3rep.r) 
- because the code can take a while to run. The .RData files are generally 
- large and so I haven't included them.
+ and for the xmax=10000 simulation (multiple/xmax10000/fitting3rep10000.r)
+ because the code can take a while to run and the two resulting .RData files
+ are used to produce Figure 3. The remainaing .RData files are have
+ not been included because they are generally large.
 
 The main figures in the manuscript can be found in the following directories:
 
@@ -26,30 +37,9 @@ So to use the MLE method to analyse your own data and plot results as per
  our Figure 6, see code/recommend/ . If your data are binned then you will
  need some of code/MLEbin/ .
 
-Tidy these up once have done the re-run bracnch - see readRerun.txt.
-
-** Code was mainly developed under R version 3.1.0, although I then upgraded to
- version 3.2.3 in January 2016. I have re-run the code in the latest version
- of R and get the same results, though it seems that minor (insignficant)
- changes may occur. For example, re-running  multiple/fitting3rep.r 
- under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
- but the original simulations (version 3.1.0, and also a test with version
- 3.2.2 on another computer) gives 60% - likely due to the random
- number generation. Though the difference is only due to 4 out of the 10,000
- simulations changing the estimate of b in the fifth signficant figure, and
- so not important in practice.
-** Aha - it's to do with the issue I had last year  - see seedTest/ and decide
- what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. Seems to be opposite to what I'd
- said in seedTest/.
-
-** GOING THROUGH EACH piece of code listed below, in turn, and rerunning 
- using command line (not replacing figures or saving .RData) to check get
- same, or close enough, answer. **Now creating separate git branch re-run,
- re-running and checking results with original: ssmRevBeforeRerun.pdf. 
-
-**PROB DELETE: Some code then broke (due to indexing) and is now fixed, but
- I may not have re-run all code from scratch under 3.2.3. If you encounter 
- problems then please contact me. **Am re-running all code under 3.2.3.
+Code was mainly developed under R version 3.1.0, although I then upgraded to
+ version 3.2.3 in January 2016, and so I  have re-run the code in 3.2.3
+ to verify that  I get the same results.
 
 I have functionalised code where practical, though I did not go back everywhere
  and replace original non-function code with functions; further improvements 
@@ -108,8 +98,8 @@ fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce
 fitting3rep10000.r - as for fitting3rep.r but for xmax=10,000, to give
  gold histograms in Figure 3 and results in Table A.1.
 
-fitting3rep10000.RData - results from fitting3rep10000.r to save having
- to re-run it.
+fitting3rep10000.RData - results from fitting3rep10000.r, which gets
+ called in multiple/fitting3repAdd.r to produce Figure 3. 
 
 fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
  Figure A.8.
@@ -129,8 +119,6 @@ fitting2bMinus25.r - Figure A.10.
 
 fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
 
-fitting3rep-bMinus25.RData - results from fitting3rep-bMinus25.r.
-
 fitting3conf-bMinus25.r - Figure A.12
 
 
@@ -141,8 +129,6 @@ fitting2bMinus15.r - Figure A.13.
 
 fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
 
-fitting3rep-bMinus15.RData - results from fitting3rep-bMinus15.r.
-
 fitting3conf-bMinus15.r - Figure A.15
 
 
@@ -152,8 +138,6 @@ code/bMinus05/   b = -0.5
 fitting2bMinus05.r - Figure A.16.
 
 fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
-
-fitting3rep-bMinus05.RData - results from fitting3rep-bMinus05.r.
 
 fitting3conf-bMinus05.r - Figure A.18
 
@@ -167,8 +151,6 @@ Redoing main results with sample size (number of individual measurements)
 fitting2n10000.r - Figure A.19
 
 fitting3rep-n10000.r - Figure A.20 and Table A.5
-
-fitting3rep-n10000.RData - results from fitting3rep-n10000.r.
 
 fitting3conf-n10000.r - Figure A.21
 
@@ -190,6 +172,8 @@ code/recommend/
 
 recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
  data and fitted size spectrum.
+
+recommend.eps - Figure 6.
 
 --
 
@@ -218,22 +202,21 @@ the simulation results, because I would have been tweaking the figures for
 publication. So obviously set to TRUE for the first run, until you have an
 .RData file that can then be loaded in. 
 
+I have re-run all code in R version 3.2.3 to ensure results are as stated in the
+ manuscript. I strangely find that if I re-run code such as fitting3rep.r
+ (that generates 10,000 sets of 1,000 random numbers) from a new R console,
+ I get a different final set of random numbers answer than re-running in a
+ console in which I had just run fitting2.r. The first set of 1,000 random 
+ numbers is the same, but the last is shifted along by one. I will try and
+ create a minimum working example to investigate this.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
+This occurs even though I have
+  rm(list=ls())
+ at the start of each file and then set the seed to 42. It does not affect 
+ any conclusions, but may be the reason if you find you get a slightly 
+ different set of random numbers (and thus fitted values of b) to those
+ in my provided .RData files.  I am running R in an Emacs shell through
+ Emacs Speaks Statistics, which may or may not be important. Further details
+ on this are in readRerun.txt, which is really just my ongoing notes to 
+ document the issue.
 

@@ -1,0 +1,259 @@
+readRerun.txt - readMe file for Andy reruning all code to check .Rdata files 
+ are from the final published versions. 
+ **Other users can ignore this file, it mainly contains notes for me**.
+ Andrew Edwards 20/5/16.
+
+Some double checking is finding that the current .RData files are not
+ exactly the same as those obtained when re-running the code line-by-line,
+ I think just for fittingrep3.RData and MLEbin.
+ To re-run all code again and redo all figures and check all numbers in 
+ manuscript, am creating a new branch 're-run' and doing that there.
+ Results should be identical if the random numbers are the same. 
+
+Last year in seedTest/ I thought I figured it out, but now want to re-run
+ everything. Think it's opposite to what I thought there.
+
+What's currently saved in master/ branch and so is in the submitted manuscript
+ and ssmRevBeforeRerun.pdf for x[1:8], the final set of 1,000 random numbers:
+
+fitting3rep.RData  	   2.420 1.097 1.527
+MLEbin.Rdata	    	   2.420 1.097 1.522
+fitting3rep10000.Rdata	   1.097 1.522 2.997    so shifted by one
+
+But re-running, I get:
+fitting3rep.r		   1.097 1.522 2.99
+fitting3repMLEbin.r        1.097 1.522 2.99
+
+So not actually doing a fair comparison, because the same random numbers
+ have not been used for all simulations (not so important when b etc. change).
+ Thinking those may be the only real differences. Won't be relevant in practice
+ (estimated b values may change very slightly), but worth fixing. 
+ Expect those ones may be the only real differences. And it's not an R version
+ issue.
+
+
+[
+ This may be only real change:
+For example, re-running  multiple/fitting3rep.r 
+ under version 3.2.3 gives 59% as the last number in the LCD row of Table 2,
+ but the original simulations (version 3.1.0, and also a test with version
+ 3.2.2 on another computer) gives 60% - likely due to the random
+ number generation. Though the difference is only due to 4 out of the 10,000
+ simulations changing the estimate of b in the fifth signficant figure, and
+ so not important in practice.
+Aha - it's to do with the issue I had last year  - see seedTest/ and decide
+ what to do. But not relevant in practice. Random numbers in saved fitting3rep.RData are shifted compared to re-running now. Seems to be opposite to what I'd
+ said in seedTest/.
+]
+
+GOING THROUGH EACH piece of code listed below in git branch 're-run', and
+
+1.Double click on the existing .Rdata file to open it in an R console..
+1a. Open the .r code (Emacs) and check redo.simulation = TRUE.
+2. Run the code (Emacs R console) and compare x[1:8] and other output with the existing results.
+ It will save the new figures. Some code just plots figures
+ and so will only change if an .RData file has changed. Most .RData files not
+ committed.
+3. git s  will tell if the .Rdata (if committed) and .eps files file have changed  (time will change, but if results are the same then the files won't change).
+   So no need to do manually.
+4. Check numbers I've flagged in the manuscript if things have changed, and
+    change any in ssmRev.tex. 
+5. If only changed TRUE to FALSE in .r then just undo that, check git s - not
+    always doing since not committing .RData files except main one and xmax10000.
+6. Close .RData file and Emacs window.
+7. git com "<what changed...>" if anything changed.
+8. Write 'Done' or 'Changed' below.
+9. Do again for next piece of code.
+
+10. After doing all of them, check each says done or changed, then re-latex the whole manuscript. Save as .pdf
+ and compare with original: ssmRevBeforeRerun.pdf that I saved before making
+ re-run branch.
+11. Change anything in text if necessary, though will be doing that above.
+12. For any main ones that changed do a seed check also, to confirm text at the
+ end of the Appendix.
+
+Then merge re-run branch back into master, by doing:
+git co master
+git merge re-run
+
+code/single/ - simulate a single data set and fit spectra using the eight methods
+************
+
+Done. fitting2.r - simulates a data set and then fits spectra using eight methods,
+ producing Figures 1, 2 and A.1.
+
+> x[1:8]
+[1] 11.613220 15.658847  1.400273  5.869136  2.786321  2.077175  3.785753
+[8]  1.155444
+
+
+code/multiple/ - simulate 10,000 data sets and fit using the eight methods
+**************
+
+Changed. fitting3rep.r - results from 10,000 simulated data sets, to give the blue
+ histograms in Figure 3 and the main results in Table 2. Also does the
+ MLEfix method and plots Figure A.3.
+DOES CHANGE (git s shows figures changed also). 
+original     2.423351   1.097383   1.522616
+re-run	     1.097383   1.522616   2.991980   so shifted.
+Checking output for tables and changing LCD 60 to 59 in ssmRev.tex. It only 
+ changed 4 out of the 10,000 LCD results across -2 in the fifth significant
+ figure, but because of rounding this changed 60% being <-2 to 59%.
+
+Changed. fitting3rep.RData - results from fitting3rep.r, to save having to re-run it.
+
+Changed (re-ran after rerunning xmax10000, though they didn't change but 
+ the ones here die). 
+ fitting3repAdd.r - constructing Figure 3, combining simulation results from
+ two sets of 10,000 simulated data sets (fitting3rep.r and 
+ xmax10000/fitting3rep10000.r).
+
+Changed. fitting3conf.r - Figure 4 plots of confidence intervals, and Figure A.4 for
+ MLEfix method.
+
+Changed. fitting3bmaxx.r - Figure A.2, showing relationship between MLE of b and MLE 
+ of x_max for the 10,000 simulated data sets from Figure 3. And Figure A.5 for
+ MLEfix method.
+
+The following are the sensitivity analyses. Some are just modifications 
+ of the above code, with new a value of a parameter (e.g. xmax)
+ and renaming of anything that is saved (.RData and .eps files), and 
+ changing of axes sizes where necessary (and maybe some other necessary tweaks).
+ The above code may have been updated (written more clearly) after some of
+ the following were done.
+
+code/multiple/xmax10000/  - simulate 10,000 datasets with xmax = 10,000
+************************
+
+Done. fitting2-10000new.r - as for fitting2.r but for xmax=10,000, to produce 
+ Figures A.6 and A.7.
+
+Done. fitting3rep10000.r - as for fitting3rep.r but for xmax=10,000, to give
+ gold histograms in Figure 3 and results in Table A.1.
+x[1:8] after running:
+Original  1.097479   1.523333   2.997359   1.174998 204.123944   6.720422   1.317265 3.385726
+Re-run    2.426463   1.097479   1.523333   2.997359   1.174998 204.123944   6.720422 1.317265
+So shifted, but OPPOSITE WAY ROUND to what I had before. I did run it in the same
+ window after running fitting2-10000new.r. So even though it sets the seed back
+ to 42 it gets different numbers? 
+WEIRD:
+Original:  MLE.rep[1:5]   -2.029340 -1.983046 -1.991417 -1.956672 -1.968601
+Re-run:                   -2.029340 -1.985733 -1.987021 -1.957228 -1.968988
+So first one is the same but the rest are not? LCD.rep has the same 'feature'.
+And fitting3rep10000.eps and fitting3rep10000fix.eps have changed (.Rdata isn't
+ committed).
+
+Try running again but from a fresh Emacs ESS window, and get:
+fresh x[1:8]:  1.097479   1.523333   2.997359   1.174998 204.123944   6.720422   1.317265
+MLE.rep[1:5]: -2.029340 -1.983046 -1.991417 -1.956672 -1.968601
+which agree with the ....  Original!!!
+And git says the figures are the same as before!
+
+So, my issue is that if I re-run the code from an open .r ESS window, even with 
+ setting the seed it doesn't give the same results. So advise users that you
+ need to open a fresh R window (at least using Emacs). But somehow the first
+ 1000-2000 random numbers are the same (since MLE.rep[1] same each time), 
+ but not the rest. Strange. THAT explains the results above also, plus the
+ confusion about the seed I had last year. 
+
+So, to get consistent results I need to run everything in a fresh R console. 
+ Simulations are getting 1000*10000 = 10^7 random numbers, but should still 
+ be fine. The last one run is the fresh one, or which x[1:8] agree (close enough)
+ to those for the re-run for multiple/fitting3rep.r. Close enough is correct
+ because the numbers should be slighlty different due to xmax changing.
+
+So these didn't change because fresh is the same as original. 
+
+Should also create a minimum working example. But for now just carry on:
+
+Done. fitting3conf10000.r - as for fitting3conf.r but for xmax=10,000, to give
+ Figure A.8.
+
+Done. fitting3bmaxx10000.r - Figure A.9 for the MLE and MLEfix methods, with 
+ xmax = 10,000.
+
+Done. compareXmax.r - comparing sample of 1,000 random PLB numbers
+ for xmax=1,000 and xmax=10,000 with same seed, as documented in
+ Section A.2.8 in the Appendix.
+
+
+code/bMinus25/    b = -2.5
+**************
+
+Done. fitting2bMinus25.r - Figure A.10.
+
+Changed. fitting3rep-bMinus25.r - Figure A.11 and Table A.2.
+
+Changed. fitting3conf-bMinus25.r - Figure A.12
+
+
+code/bMinus15/   b = -1.5
+**************
+
+Done. fitting2bMinus15.r - Figure A.13.
+
+Done. fitting3rep-bMinus15.r - Figure A.14 and Table A.3.
+
+Done. fitting3conf-bMinus15.r - Figure A.15
+
+
+code/bMinus05/   b = -0.5
+**************
+
+Done. fitting2bMinus05.r - Figure A.16.
+
+Done. fitting3rep-bMinus05.r - Figure A.17 and Table A.4.
+
+Done. fitting3conf-bMinus05.r - Figure A.18
+
+
+code/n10000/     n = 10000
+************
+
+Redoing main results with sample size (number of individual measurements) 
+ increased to 10000.
+
+Done. fitting2n10000.r - Figure A.19
+
+Done. fitting3rep-n10000.r - Figure A.20 and Table A.5
+
+Done. fitting3conf-n10000.r - Figure A.21
+
+
+code/MLEbin/    MLEbin method for likelihood when the data are already binned
+************
+
+Changed. fitting3repMLEbin.r - same simulated data sets as in fitting3rep.r, but
+ binning the data and then applying likelihood.
+
+Changed. fitting3repMLEbin.Rdata - results from fitting3repMLEbin.r, since this file is 
+ small.
+
+Changed. fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
+
+
+code/recommend/
+***************
+
+Done. recommend.r - Figure 6, recommended MLE calculations and resulting plots of 
+ data and fitted size spectrum.
+
+For seed results at the end of the Appendix, I have re-run in a new folder
+  but then deleted the folder, since don't want to clutter up the directories 
+  further.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+

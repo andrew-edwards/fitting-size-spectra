@@ -6,7 +6,7 @@ This repository contains R code for the manuscript
 
 by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and Julia L. Blanchard
 
-that we submitted and are currently revising for *Methods in Ecology and Evolution*. 
+that has been submitted to *Methods in Ecology and Evolution*. 
 
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 
@@ -35,9 +35,31 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 **code/MLEbin/** - MLEbin method for likelihood when the data are only available in binned form.
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
- 
-# Creating new branch 're-run' to re-run code (Andy's notes - please ignore); this is master branch
 
-Manually re-running fitting3rep.r and the randomly generated numbers are shifted along by 1. Though I'd figured that all out last year in seedTest/ but want to re-run code here and save the .Rdata files, because the currently saved ones give shifted random numbers to what I get from re-running the code. I thought it was a n R version issue, but don't think so. So about to create new branch and then re-run in that, recreate the .pdf of the paper (having saved a version), and compare figures. Expect figures won't change at all, I know that LCD number changes slightly (not important, but want it to agree with simulations from code). Manually checking numbers in the manuscript.
+Manually re-running fitting3rep.r and the randomly generated numbers are shifted along by 1. Though I'd figured that all out last year in seedTest/ but want to re-run code here and save the .Rdata files, because the currently saved ones give shifted random numbers to what I get from re-running the code. I thought it was a n R version issue, but don't think so. So about to create new branch and then re-run in that, recreate the .pdf of the paper (having saved a version), and compare figures. Expect figures won't change at all, I know that LCD number changes slightly (not important, but want it to agree with simulations from code). Manually checking numbers in the manuscript, and documenting in readReRun.txt.
 
+Test.
 
+Internet too slow at work. Go home and:
+
+git push
+
+git co master
+
+git merge re-run
+
+**CHECK that figures are as in the submitting version**
+
+tidy this file up (deleting these final bits, and edit further up). 
+
+Do a note to say this is the release version.
+
+Commit and push
+
+See if it says 'download ZIP' at home when not logged in.
+
+Add a release tag to GitHub.
+
+Download zip.
+
+Submit to MEE, along with other code. 
