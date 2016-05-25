@@ -8,13 +8,19 @@ by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and 
 
 that has been submitted to *Methods in Ecology and Evolution*. 
 
+Please email me if you would like a copy of the manuscript, and please cite the manuscript if you end up using the code.
+
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 
 To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code.
 
 This is release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript.
 
-Andrew Edwards. www.chebucto.ns.ca/~english 
+Andrew Edwards. 
+
+Andrew.Edwards@dfo-mpo.gc.ca (will change later in 2016).
+
+www.chebucto.ns.ca/~english 
 
 # Repository Contents
 
