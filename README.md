@@ -10,9 +10,9 @@ that has been submitted to *Methods in Ecology and Evolution*.
 
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 
-To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code. 
+To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code.
 
-This repository is **under development** and will change slightly while I'm finalising the revisions, though it should work from now one. Any errors are likely just because I re-organised the file structure and documentation. 
+This is release version 1.0.0, as finalised on 24th May 2016.
 
 Andrew Edwards. www.chebucto.ns.ca/~english 
 
@@ -36,23 +36,6 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
 
-Manually re-running fitting3rep.r and the randomly generated numbers are shifted along by 1. Though I'd figured that all out last year in seedTest/ but want to re-run code here and save the .Rdata files, because the currently saved ones give shifted random numbers to what I get from re-running the code. I thought it was a n R version issue, but don't think so. So about to create new branch and then re-run in that, recreate the .pdf of the paper (having saved a version), and compare figures. Expect figures won't change at all, I know that LCD number changes slightly (not important, but want it to agree with simulations from code). Manually checking numbers in the manuscript, and documenting in readReRun.txt.
-
-Test.
-
-Internet too slow at work. Go home and:
-
-git push
-
-git co master
-
-git merge re-run
-
-**CHECK that figures are as in the submitting version**
-
-tidy this file up (deleting these final bits, and edit further up). 
-
-Do a note to say this is the release version.
 
 Commit and push
 
