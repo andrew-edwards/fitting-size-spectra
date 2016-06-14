@@ -1,5 +1,9 @@
 # fitting-size-spectra
 
+***generalising*** branch - updating some code for second manuscript, that should still work fine with original code on ***master***. If you are downloading code, please go to the ***master*** branch.
+
+
+
 This repository contains R code for the manuscript 
 
 **Testing and recommending methods for fitting size spectra to data** 
