@@ -1247,21 +1247,30 @@ confPlot = function(repConf, legName, b.true = b.known, inCol="darkgrey",
     return(repConf.sort.full)     # repConf.sort is what's plotted though
 }
 
-histAxes = function()
+histAxes = function(yBigTickLab = c(0, 2000, 4000),
+                      yBigTickNoLab = seq(0, 6500, 1000),
+                      ySmallTick = seq(0, 6500, 500))
     # Do the histogram axes in fitting3rep.r and later, since almost all
     #  panels will have same axes. Not very flexible, use histAxes2()
-    #  to plot up to 10,000.
+    #  to plot up to 10,000. Have since added arguments to generalise this:
+    # Args:
+    #  yBigTickLab: y-axis big ticks to label
+    #  yBigTickNoLab: y-axis big ticks to not label
+    #  ySmallTick: y-axis small ticks (unlabelled)
+    #  Note that xbsmallticks and xbigticks need to be prespecified, but
+    #   they haven't yet been made arguments here.
     {
     axis(1, at=xbigticks, labels = xbigticks, mgp=c(1.7,0.7,0), cex.axis=cexAxis)  # big ticks
     axis(1, at=xsmallticks, labels=rep("",length(xsmallticks)), tcl=-0.2)
-    axis(2, at=c(0, 2000, 4000),
-         labels = c(0, 2000, 4000),     
+    axis(2, at=yBigTickLab,
+         labels = yBigTickLab,     
          mgp=c(1.7,0.7,0), cex.axis=cexAxis)  # big ticks labelled
-      axis(2, at=seq(0, 6500, 1000),
-         labels = rep("", 7),
+      axis(2, at=yBigTickNoLab,
+         labels = rep("", length(yBigTickNoLab)),
          mgp=c(1.7,0.7,0))  # big ticks unlabelled
-      axis(2, at=seq(0, 6500, 500),
-         labels = rep("", 14), mgp=c(1.7,0.7,0), tcl=-0.2)  # small ticks
+      axis(2, at=ySmallTick,
+         labels = rep("", length(ySmallTick)), mgp=c(1.7,0.7,0), tcl=-0.2)
+                           # small ticks
       abline(v=b.known, col=vertCol, lwd=vertThick) 
 }
 
