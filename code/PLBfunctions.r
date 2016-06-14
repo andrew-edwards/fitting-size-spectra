@@ -1114,7 +1114,8 @@ confPlot = function(repConf, legName, b.true = b.known, inCol="darkgrey",
     thin = 33, horizLines = FALSE,
     horizLinesOut = TRUE, horizLinesIn = TRUE, yLab = "Sample number",
     yTicks = seq(0, 300, 50), yLabels = TRUE, vertFirst = FALSE,
-    insetVal = c(-0.08, -0.06), insetVal2 = c(-0.08, 0.07), xsmallticks=NULL)
+    insetVal = c(-0.08, -0.06), insetVal2 = c(-0.08, 0.07), xsmallticks=NULL,
+    legLoc = "topleft")
     {
     # Plotting function for confidence intervals of the repeated estimates
     #  for one method. Gets called eight times to produce Figure 4. Plots
@@ -1152,6 +1153,7 @@ confPlot = function(repConf, legName, b.true = b.known, inCol="darkgrey",
     #  insetVal: inset shift for naming the panel
     #  insetVal2: inset shift for printing observed coverage percentage
     #  xsmallticks: where to put unlabelled small tick marks on x-axis
+    #  legLoc: where to put the legend, as the first argument in legend()    
     if(!colourCode) outCol = inCol
     if(!(thin %in% c(33,99))) stop("Need to edit confPlot if thin not 33 or 99")
     if(is.null(xLim))
@@ -1194,8 +1196,8 @@ confPlot = function(repConf, legName, b.true = b.known, inCol="darkgrey",
     # xlab = expression(paste("Estimate of slope (or ", italic(b), ")")),
     points(repConf.sort$confMax, repConf.sort$num.sorted,
            col=repConf.sort$confCol, pch=pchVal, cex=cexVal)
-    legend("topleft", legName, bty="n", inset=insetVal)
-    legend("topleft", paste(round(sum.inConf*100, dig=0), "%", sep=""),
+    legend(legLoc, legName, bty="n", inset=insetVal)
+    legend(legLoc, paste(round(sum.inConf*100, dig=0), "%", sep=""),
            bty="n", inset=insetVal2)
     # legend("topleft", "hello", bty="n", inset=c(-0.08, -0.2))
     
