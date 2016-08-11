@@ -1,26 +1,29 @@
 # fitting-size-spectra
 
-This repository contains R code for the manuscript 
+This repository contains R code for the paper 
 
 **Testing and recommending methods for fitting size spectra to data** 
 
 by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and Julia L. Blanchard
 
-that has been submitted to *Methods in Ecology and Evolution*. 
+that has been accepted for publication in *Methods in Ecology and Evolution*. 
 
-Please email me if you would like a copy of the manuscript, and please cite the manuscript if you end up using the code.
+Please email me if you would like a copy of the paper, and please cite it if you end up using the code.
 
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
 
-To download the code from the GitHub site just click the 'Download ZIP' button (near the top on the right). If you use GitHub then feel free to fork and even adapt the code.
+To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. If you use GitHub then feel free to fork and even adapt the code.
 
-This is release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript.
+To *exactly* reproduce the results in the paper
+download release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript. [Click on 'release' tab in the GitHub site]. Later updates of the code will have some generalisation in functions that should not affect the older code (but I just won't re-test it all.
+
+There are also functions (in **code/PLBfunctions.r**) that may be of more general use, such as **logTicks()** for adding tick marks to a log-log plot, and **legJust()** for right-justifying a legend (functionalising an example in ?legend). 
 
 Andrew Edwards. 
 
-Andrew.Edwards@dfo-mpo.gc.ca (will change later in 2016).
+Andrew.Edwards@dfo-mpo.gc.ca (may change later in 2016).
 
-www.chebucto.ns.ca/~english 
+http://www.chebucto.ns.ca/~english 
 
 # Repository Contents
 
@@ -41,3 +44,9 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 **code/MLEbin/** - MLEbin method for likelihood when the data are only available in binned form.
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
+
+# Exactly reproducing results
+
+To ***exactly*** reproduce the results in our manuscript use release version 1.0.0 (see above). You need to run each R code (that generates random numbers) in a fresh R window. But why, when the seed is set in each .r file?
+
+**TO FINISH**
