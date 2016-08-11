@@ -15,9 +15,9 @@ The aim of sharing this code is so that others can repeat (and extend) our simul
 To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. If you use GitHub then feel free to fork and even adapt the code.
 
 To *exactly* reproduce the results in the paper
-download release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript. [Click on 'release' tab in the GitHub site]. Later updates of the code will have some generalisation in functions that should not affect the older code (but I just won't re-test it all.
+download release version 1.0.0 (see below). Later updates of the code will have some generalisation in functions that should not affect the older code (but I just won't re-test it all for back compatibility).
 
-There are also functions (in **code/PLBfunctions.r**) that may be of more general use, such as **logTicks()** for adding tick marks to a log-log plot, and **legJust()** for right-justifying a legend (functionalising an example in ?legend). 
+There are also functions (in **code/PLBfunctions.r**) that may be of more general use, such as **logTicks()** for adding tick marks to a log-log plot, and **legJust()** for right-justifying a legend (based on an example in ?legend). 
 
 Andrew Edwards. 
 
@@ -45,8 +45,14 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
 
-# Exactly reproducing results
+# Exactly reproducing results in the paper
 
-To ***exactly*** reproduce the results in our manuscript use release version 1.0.0 (see above). You need to run each R code (that generates random numbers) in a fresh R window. But why, when the seed is set in each .r file?
+To ***exactly*** reproduce the results in our paper use release version 1.0.0, as finalised on 24th May 2016, and submitted to *Methods in Ecology and Evolution* with the revised version of the manuscript. [Click on 'release' tab in the GitHub site to find version 1.0.0]. 
 
-**TO FINISH**
+You then need to run each R script (that generates random numbers) in a fresh R window. But why, when the seed is set in each .r file?
+
+I eventually narrowed it down to the fact that **require(dplyr)** actually uses one random number when loading **dplyr**. I had **require(dplyr)** within some functions (rather than requiring it globally up front). I thought I was being helpful by doing this, since then people would not have to have **dplyr** installed if they only required functions that didn't use it. 
+
+But this messed up the reproducibility, since running a piece of code once (that included **require(dplyr)**) in a new R window would give one set of random numbers. Then running it again in the same R window (with the same seed still set at the start of the code) would give a different set of random numbers because the **require(dplyr)** command would not do anything this time around, because the **dplyr** package would already be loaded; in particular the command would not use up one random number. So the realised set of random numbers would be different (actually, the sequence would be shifted along by one place). Yes, this took a while to figure out.
+
+If you don't wish to exactly reproduce the original results of the paper then just download the latest version of the code from the GitHub repository and use that (since I will move the **require(dplyr)** command to the start of the **PLBfunctions.r** file so it always get called). Using the later code will give you very slightly different numerical results to the published ones; differences are not important and so the conclusions are unaffected.  
