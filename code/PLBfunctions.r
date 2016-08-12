@@ -38,6 +38,7 @@
 #  2nd Sept 2014 onwards.
 
 require(plotrix)       # for axis.break function in gap.barplot.cust
+require(dplyr)         # used in various functions
 
 # Statistical functions:
 
@@ -257,7 +258,8 @@ Llin.method = function(bodyMass, num.bins = NULL, binBreaks = NULL)
     #   slope: slope of the linear regression fit
     #   breaks: bin breaks
     #   confVals: 95% confidence interval of the fitted slope
-        require(dplyr)   
+    #    
+    #   require(dplyr)            # Need for this function.
         if(!is.vector(bodyMass)) stop("bodyMass not a vector in Llin.method")
         if(anyNA(bodyMass)) stop("bodyMass contains NA's in Llin.method")
         if(min(bodyMass) <= 0) stop("bodyMass needs to be >0 in Llin.method")
@@ -334,8 +336,9 @@ LBNbiom.method = function(bodyMass = NULL, counts = NULL,
     #    normalising the biomass in each bin
     #  unNorm.slope: slope of the linear regression fit when not
     #    normalising the biomass in each bin
-    # 
-        require(dplyr)
+    #
+    #
+    #  require(dplyr)           # Need for this function.
         if(!is.null(bodyMass) & !is.null(counts)) {
             stop("need only one of bodyMass or counts in LBNbiom.method") }
         if(is.null(bodyMass) & is.null(counts)) {
@@ -497,7 +500,9 @@ log2bins = function(x = NULL, counts = NULL)
     #                  (appropriate if x represents biomass, but not length)
     #                 binSumNorm - binSum / binWidth    
     #                 log10.... - log10 of some of the above quantities
-        require(dplyr)
+    #
+    #
+    #   require(dplyr)            # Need for this function.
         if(!is.null(x) & !is.null(counts)) {
             stop("need only one of x or counts in log2bins") }
         if(is.null(x) & is.null(counts)) {
