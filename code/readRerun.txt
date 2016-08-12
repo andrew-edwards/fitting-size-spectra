@@ -1,7 +1,28 @@
-readRerun.txt - readMe file for Andy reruning all code to check .Rdata files 
- are from the final published versions. 
- **Other users can ignore this file, it mainly contains notes for me**.
+readRerun.txt - notes regarding how to exactly reproduce the published results,
+ plus what was my readMe file rerunning all code to check that the .Rdata 
+ files are from the final published versions. 
+
  Andrew Edwards 20/5/16.
+
+Exactly reproducing the results in our paper
+********************************************
+
+To exactly reproduce the results in our paper use release version 1.0.0, as finalised on 24th May 2016, and submitted to 'Methods in Ecology and Evolution' with the revised version of the manuscript. [Click on 'release' tab in the GitHub site to find version 1.0.0]. 
+
+You then need to run each R script (that generates random numbers) in a fresh R window. But why a fresh window, when the seed is set in each .r file?
+
+[** is markdown highlighting which I've just left in here.]
+
+I eventually narrowed it down to the fact that **require(dplyr)** actually uses one random number when loading **dplyr**. I had **require(dplyr)** within some functions (rather than requiring it globally up front). I thought I was being helpful by doing this, since then people would not have to have **dplyr** installed if they only required functions that didn't use it. 
+
+But this messed up the reproducibility, since running a piece of code once (that included **require(dplyr)**) in a new R window would give one set of random numbers. Then running it again in the same R window (with the same seed still set at the start of the code) would give a different set of random numbers because the **require(dplyr)** command would not do anything this time around, because the **dplyr** package would already be loaded; in particular the command would not use up one random number. So the realised set of random numbers would be different (actually, the sequence would be shifted along by one place). Yes, this took a while to figure out.
+
+If you don't wish to exactly reproduce the original results of the paper then just download the latest version of the code from the GitHub repository and use that (since I have now moved the **require(dplyr)** command to the start of the **PLBfunctions.r** file so it always get called at the start of each R script, rather than partway through as part of a function). Using this later code will give you very slightly different numerical results to the published ones (when reproducing the original results); differences are not important and so the conclusions are unaffected.  
+
+
+
+**Other users can ignore the rest of this file, it was mainly my notes to 
+ figure out the issue with the seed, that is explained above.**
 
 Some double checking is finding that the current .RData files are not
  exactly the same as those obtained when re-running the code line-by-line,
