@@ -31,7 +31,7 @@ http://www.chebucto.ns.ca/~english
 
 # Repository Contents
 
-**README.md** - this file.
+**README.md** - this file (can be read in a Markdown viewer or simply any text editor).
 
 **.gitignore** - ignore this if you don't know what it is.
 
