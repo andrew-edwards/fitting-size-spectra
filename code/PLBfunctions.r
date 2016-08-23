@@ -1,6 +1,9 @@
 # PLBfunctions.r - functions to be sourced, including density, distribution
 #  function and random number generator for unbounded and bounded power-law
-#  distributions.
+#  distributions. Associated with paper in Methods in Ecology and Evolution:
+#  http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12641/full
+#
+#  andrew.edwards@dfo-mpo.gc.ca   or  andrew.edwards.dfo@gmail.com
 #
 # CONTENTS
 #
