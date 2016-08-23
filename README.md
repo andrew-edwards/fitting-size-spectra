@@ -12,12 +12,12 @@ that has been accepted for publication in ***Methods in Ecology and Evolution***
 
 The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data. I have endeavoured to properly document the code.
 
-To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. If you use GitHub then feel free to fork and even adapt the code.
+To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. Make a note of the 'Latest commit' number in case you have any questions for me. If you use GitHub then feel free to fork and adapt the code.
+
+If you want to run new simulations or apply the code to your own data then just use the latest version that will be automatically displayed on the GitHub site.
 
 To *exactly* reproduce the results in the paper
-you should download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt** concerning the seed and how **require(dplyr)** generates a random number. Later updates of the code will have some generalisation in functions that should not affect the older code (but I won't re-test it all for back compatibility). 
-
-If you want to run new simulations or apply the code to your own data then just use the latest version that will be automatically displayed on the GitHub site (make a note of the date that you download it, in case you have any questions for me).
+you should download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt** concerning the seed and how **require(dplyr)** generates a random number. Later updates of the code will have some generalisation of functions that should not affect the older code (but I won't re-test it all for back compatibility). 
 
 There are functions (in **code/PLBfunctions.r**) that may be of more general use, such as **logTicks()** for adding tick marks to a log-log plot, and **legJust()** for right-justifying a legend (based on an example in **?legend**). 
 
