@@ -15,7 +15,7 @@ The aim of sharing this code is so that others can repeat (and extend) our simul
 To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. If you use GitHub then feel free to fork and even adapt the code.
 
 To *exactly* reproduce the results in the paper
-download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt**. Later updates of the code will have some generalisation in functions that should not affect the older code (but I won't re-test it all for back compatibility). 
+download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt** concerning the seed and how **require(dplyr)** uses a random number. Later updates of the code will have some generalisation in functions that should not affect the older code (but I won't re-test it all for back compatibility). 
 
 If you want to run new simulations or apply the code to your own data then just use the latest version that will be automatically displayed on the GitHub site (make a note of the date that you download it, in case you have any questions for me).
 
@@ -29,7 +29,7 @@ Andrew Edwards.
 
 http://www.chebucto.ns.ca/~english 
 
-Andrew.Edwards@dfo-mpo.gc.ca - this may change later in 2016 so then use andrew.edwards.dfo@gmail.com .
+Andrew.Edwards@dfo-mpo.gc.ca - this may change later in 2016, but andrew.edwards.dfo@gmail.com will always automatically forward to my correct email.
 
 # Repository Contents
 
