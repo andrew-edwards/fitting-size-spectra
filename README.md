@@ -6,16 +6,16 @@ This repository contains R code for the paper
 
 by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and Julia L. Blanchard
 
-that has been accepted for publication in ***Methods in Ecology and Evolution***. 
+that has been accepted for publication in ***Methods in Ecology and Evolution***. The preprint is currently available on the journal's website at
 
-Email me if you would like a copy of the paper, and please cite it if you end up using the code.
+<http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12641/full>
 
-The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data.
+The aim of sharing this code is so that others can repeat (and extend) our simulation study, and also analyse their own data. I have endeavoured to properly document the code.
 
 To download the code from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP'. If you use GitHub then feel free to fork and even adapt the code.
 
 To *exactly* reproduce the results in the paper
-download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt** concerning the seed and how **require(dplyr)** uses a random number. Later updates of the code will have some generalisation in functions that should not affect the older code (but I won't re-test it all for back compatibility). 
+you should download release version 1.0.0 (click on 'release' tab in the GitHub site) and see the notes in **code/readReRun.txt** concerning the seed and how **require(dplyr)** generates a random number. Later updates of the code will have some generalisation in functions that should not affect the older code (but I won't re-test it all for back compatibility). 
 
 If you want to run new simulations or apply the code to your own data then just use the latest version that will be automatically displayed on the GitHub site (make a note of the date that you download it, in case you have any questions for me).
 
@@ -27,7 +27,7 @@ Thanks,
 
 Andrew Edwards. 
 
-http://www.chebucto.ns.ca/~english 
+<http://www.chebucto.ns.ca/~english>
 
 Andrew.Edwards@dfo-mpo.gc.ca - this may change later in 2016, but andrew.edwards.dfo@gmail.com will always automatically forward to my correct email.
 
