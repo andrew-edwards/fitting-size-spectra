@@ -11,161 +11,151 @@
 #  of estimates of b rather than estimates of slope, since they will be clearer.
 #  13th July 2015.
 
-# fitting2rep.r - repeatedly fitting simulated data sets (drawn from PLB
-#  with known fixed parameters) using the various techniques, and plotting
-#  histograms of estimated slopes/exponents. Based on fitting2.r and
-#  some of fitting1repr. 3rd July 2015
-
-# fitting1rep.r - repeatedly fitting simulated data sets (drawn from PLB
-#  with known fixed parameters) using the various techniques, and plotting
-#  histograms of estimated slopes/exponents. 10th September 2014.
-
-# fitting1.r - simulating data then fitting using various techniques.
-#  Somewhat adapated from raw1infexamp.r from JAE paper. 3rd September 2014.
-
-
 rm(list=ls())
 print(date())
 
 redo.simulation = TRUE    # Whether or not to redo the simulations
 if(!redo.simulation)
-  {load("fitting3repMLEbin.RData")
+  {
+  load("fitting3repMLEbin.RData")
   source("../PLBfunctions.r")
   } else
   {                                                   
-source("../PLBfunctions.r")
-n = 1000                  # sample size
-b.known = -2              # known fixed value of b
-xmin.known = 1            # known fixed value of xmin
-xmax.known = 1000         # known fixed value of xmax
+  source("../PLBfunctions.r")
+  n = 1000                  # sample size
+  b.known = -2              # known fixed value of b
+  xmin.known = 1            # known fixed value of xmin
+  xmax.known = 1000         # known fixed value of xmax
 
-num.reps = 10000          # number of times to draw sets of n random numbers.
-                          #  (throwing n PLB dice num.reps times)  
-set.seed(42)              # Same seed as for original simulations in
-                          #  first manuscript. 
-
-# Record the slope for each method
-
-MLEbin.rep = numeric(num.reps)*NA
-       # MLE calculations that explicitly account for binning
-
-# Record the confidence intervals
-MLEbin.rep.conf = data.frame(confMin = MLEbin.rep, confMax = MLEbin.rep)
-
-# Main loop for doing the fitting num.reps times
-for(iii in 1:num.reps)
-{
-if(num.reps > 1000)
+  num.reps = 10000          # number of times to draw sets of n random numbers.
+                            #  (throwing n PLB dice num.reps times)  
+  set.seed(42)              # Same seed as for original simulations in
+                            #  first manuscript. 
+  
+  # Record the slope for each method
+  
+  MLEbin.rep = numeric(num.reps)*NA
+         # MLE calculations that explicitly account for binning
+  
+  # Record the confidence intervals
+  MLEbin.rep.conf = data.frame(confMin = MLEbin.rep, confMax = MLEbin.rep)
+  
+  # Main loop for doing the fitting num.reps times
+  for(iii in 1:num.reps)
     {
-    if(iii %in% seq(1000, num.reps, 1000)) print(paste("iii = ", iii))
-                                        # show progress
-    }
-
-x = rPLB(n, b = b.known, xmin = xmin.known, xmax = xmax.known)
-
-# Bin the raw data. Linear bins will put almost everything in the first bin
-#  (since a power law), as in Figure 1 of manuscript. So use doubling bins,
-#  which is common for length data in size spectra analyses. 
-
-log2bins.list = log2bins(x)
-num.bins = dim(log2bins.list$binVals)[1]
-# These stopped working in R 3.2.3, need to not have as a table data frame:
-# binBreaks = log2bins.list$binVals[,"binMin"]
-# # Need to append endpoint of final bin:
-# binBreaks = c(binBreaks, as.vector(log2bins.list$binVals[num.bins, "binMax"]))
-# binCounts = log2bins.list$binVals[,"binCount"]
-
-# This works, but next set of code is shorter:
-#binBreaks = as.data.frame(log2bins.list$binVals[,"binMin"])
-#class(binBreaks) = "data.frame"           # Need to not be a table data frame
-## Need to append endpoint of final bin:
-#maxOfMaxBin = log2bins.list$binVals[num.bins, "binMax"]
-#class(maxOfMaxBin) = "data.frame"
-#binBreaks = c(binBreaks[,1], maxOfMaxBin[1,1])   # [..] to lose column names
-                   # Not the best code, but it works.
-
-# This is better, and safer since end up as vectors (as original code had):
-binBreaks = log2bins.list$binVals[,"binMin"]$binMin     # Loses the column names
-# Need to append endpoint of final bin:
-maxOfMaxBin = log2bins.list$binVals[num.bins, "binMax"]$binMax
-binBreaks = c(binBreaks, maxOfMaxBin)
-
-binCounts = log2bins.list$binVals[,"binCount"]$binCount
-binMids = log2bins.list$binVals[,"binMid"]$binMid  # Midpoints of bins, can be
-                      #  used when not properly accounting for the binning
-                      #  (exploring in second manuscript)
-
-if(!is.integer(binCounts))
-    { stop("Need to adapt code for noninteger counts")
-    }
-                            # will need to do at some point.
-   
-xmin = min(binBreaks)
-xmax = max(binBreaks)
-
-
-# Notation:
-# hAAA - h(istrogram) for method AAA.
-
-# MLEbin (maximum likelihood on binned data) calculations.
-# 
-# Use analytical value of MLE b for PL model (Box 1, Edwards et al. 2007)
-#  as a starting point for nlm for MLE of b for PLB model.
-# PL.bMLE = 1/( log(min(x)) - sum.log.x/length(x)) - 1
-
-# Analytical calculation for unbounded power law, to use as a starting point.
-#  If we only have the binned values then need to calculate an approximate:
-sum.log.xBinned2 = sum(log(binMids) * binCounts)
-
-PL.bMLE.binned = 1/( log(min(binBreaks)) - sum.log.xBinned2/sum(binCounts)) - 1
-
-# Calculate the MLE for the PLB model using the binned data.
-PLB.bin.minLL = nlm(negLL.PLB.binned, p = PL.bMLE.binned, 
-    w = binBreaks, d = binCounts, J = length(binCounts))
-
-PLB.bin.bMLE = PLB.bin.minLL$estimate
-
-MLEbin.rep[iii] = PLB.bin.bMLE
-#MLE.rep.xmax[iii] = xmax
-
-# 95% confidence intervals for MLEbin method.
-PLB.bin.minNegLL = PLB.bin.minLL$minimum
-
-# Values of b to test to obtain confidence interval. For the movement data
-#  sets in Table 2 of Edwards (2011) the intervals were symmetric, so make a
-#  symmetric interval here.
-bvec = seq(PLB.bin.bMLE - 0.5, PLB.bin.bMLE + 0.5, 0.001) 
+    if(num.reps > 1000)
+      {
+      if(iii %in% seq(1000, num.reps, 1000)) print(paste("iii = ", iii))
+                                          # show progress
+      }
+  
+    x = rPLB(n, b = b.known, xmin = xmin.known, xmax = xmax.known)
+  
+    # Bin the raw data. Linear bins will put almost everything in the first bin
+    #  (since a power law), as in Figure 1 of manuscript. So use doubling bins,
+    #  which is common for length data in size spectra analyses. 
     
-PLB.bin.LLvals = vector(length=length(bvec))  # negative log-likelihood for bvec
-for(i in 1:length(bvec))
-    {
+    log2bins.list = log2bins(x)
+    num.bins = dim(log2bins.list$binVals)[1]
+    # These stopped working in R 3.2.3, need to not have as a table data frame:
+    # binBreaks = log2bins.list$binVals[,"binMin"]
+    # # Need to append endpoint of final bin:
+    # binBreaks = c(binBreaks, as.vector(log2bins.list$binVals[num.bins,
+    #    "binMax"]))
+    # binCounts = log2bins.list$binVals[,"binCount"]
+  
+    # This works, but next set of code is shorter:
+    #binBreaks = as.data.frame(log2bins.list$binVals[,"binMin"])
+    #class(binBreaks) = "data.frame"      # Need to not be a table data frame
+    ## Need to append endpoint of final bin:
+    #maxOfMaxBin = log2bins.list$binVals[num.bins, "binMax"]
+    #class(maxOfMaxBin) = "data.frame"
+    #binBreaks = c(binBreaks[,1], maxOfMaxBin[1,1])   # [..] to lose column names
+                     # Not the best code, but it works.
+
+    # This is better, and safer since end up as vectors (as original code had):
+    binBreaks = log2bins.list$binVals[,"binMin"]$binMin     # Loses column names
+    # Need to append endpoint of final bin:
+    maxOfMaxBin = log2bins.list$binVals[num.bins, "binMax"]$binMax
+    binBreaks = c(binBreaks, maxOfMaxBin)
+    
+    binCounts = log2bins.list$binVals[,"binCount"]$binCount
+    binMids = log2bins.list$binVals[,"binMid"]$binMid  # Midpoints of bins,
+                     #  can be used when not properly accounting for the binning
+  
+    if(!is.integer(binCounts))
+      { stop("Need to adapt code for noninteger counts")
+      }
+                              # will need to do at some point.
+     
+    xmin = min(binBreaks)
+    xmax = max(binBreaks)
+  
+    
+    # Notation:
+    # hAAA - h(istrogram) for method AAA.
+    
+    # MLEbin (maximum likelihood on binned data) calculations.
+    # 
+    # Use analytical value of MLE b for PL model (Box 1, Edwards et al. 2007)
+    #  as a starting point for nlm for MLE of b for PLB model.
+    # PL.bMLE = 1/( log(min(x)) - sum.log.x/length(x)) - 1
+    
+    # Analytical calculation for unbounded power law, to use as a starting point.
+    #  If we only have the binned values then need to calculate an approximate:
+    sum.log.xBinned2 = sum(log(binMids) * binCounts)
+    
+    PL.bMLE.binned = 1/( log(min(binBreaks)) -
+        sum.log.xBinned2/sum(binCounts)) - 1
+  
+    # Calculate the MLE for the PLB model using the binned data.
+    PLB.bin.minLL = nlm(negLL.PLB.binned, p = PL.bMLE.binned, 
+      w = binBreaks, d = binCounts, J = length(binCounts))
+  
+    PLB.bin.bMLE = PLB.bin.minLL$estimate
+    
+    MLEbin.rep[iii] = PLB.bin.bMLE
+    
+    # 95% confidence intervals for MLEbin method.
+    PLB.bin.minNegLL = PLB.bin.minLL$minimum
+    
+    # Values of b to test to obtain confidence interval. For the movement data
+    #  sets in Table 2 of Edwards (2011) the intervals were symmetric, so make a
+    #  symmetric interval here.
+    bvec = seq(PLB.bin.bMLE - 0.5, PLB.bin.bMLE + 0.5, 0.001) 
+        
+    PLB.bin.LLvals = vector(length=length(bvec))  # -ve log-likelihood for bvec
+    for(i in 1:length(bvec))
+      {
         PLB.bin.LLvals[i] = negLL.PLB.binned(bvec[i], 
           w = binBreaks, d = binCounts, J = length(binCounts))
-    }
-critVal = PLB.bin.minNegLL  + qchisq(0.95,1)/2
+      }
+    critVal = PLB.bin.minNegLL  + qchisq(0.95,1)/2
                     # 1 degree of freedom, Hilborn and Mangel (1997) p162.
-bIn95 = bvec[ PLB.bin.LLvals < critVal ]
+    bIn95 = bvec[ PLB.bin.LLvals < critVal ]
                     # b values in 95% confidence interval
-PLB.bin.MLE.bConf = c(min(bIn95), max(bIn95))
-if(PLB.bin.MLE.bConf[1] == min(bvec) | PLB.bin.MLE.bConf[2] == max(bvec))
-  { windows()
-    plot(bvec, PLB.bin.LLvals)
-    abline(h = critVal, col="red")
-    stop("Need to make bvec larger - see R window")   # Could automate
-  }
-MLEbin.rep.conf[iii,] = c(PLB.bin.MLE.bConf[1], PLB.bin.MLE.bConf[2])
-
-}  # End for for(iii in 1:num.reps) loop
-
-} # End of if(!redo.simulation) {load("fitting1rep.RData")} else { 
+    PLB.bin.MLE.bConf = c(min(bIn95), max(bIn95))
+    if(PLB.bin.MLE.bConf[1] == min(bvec) | PLB.bin.MLE.bConf[2] == max(bvec))
+      { windows()
+      plot(bvec, PLB.bin.LLvals)
+      abline(h = critVal, col="red")
+      stop("Need to make bvec larger - see R window")   # Could automate
+      }
+    MLEbin.rep.conf[iii,] = c(PLB.bin.MLE.bConf[1], PLB.bin.MLE.bConf[2])
+  
+    }  # End for(iii in 1:num.reps) loop
+  
+  } # End of if(!redo.simulation) {load("fitting1rep.RData")} else { 
 
 # Prints Latex code for table that summarises the results
 # Quartiles:
-print("Method & Slope is estimating: & 1st quartile & Median & Mean & 3rd quartile & Percentage below true \\")
+print("Method & Slope is estimating: & 1st quartile & Median & Mean &
+  3rd quartile & Percentage below true \\")
 print(paste("MLEbin & $b$ & ", qqtab(MLEbin.rep), "\\hline"))
 
 # 5% and 95% values:
-print("Method & Slope represents & 5% quantile & Median & Mean & 95% quantile & Percentage below true \\")
+print("Method & Slope represents & 5% quantile & Median & Mean & 95% quantile
+  & Percentage below true \\")
 print(paste("MLEbin & $b$ & ", qqtab(MLEbin.rep, quants=c(0.05, 0.95)), "\\"))
 
 # Doing all figures in fitting3repMLEbinConf.r

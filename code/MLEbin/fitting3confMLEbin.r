@@ -13,24 +13,6 @@
 # fittingConf.r - showing the confidence intervals for some of
 #  methods, and how many of them include the true value. 8th July 2015
 
-# fitting2rep.r - repeatedly fitting simulated data sets (drawn from PLB
-#  with known fixed parameters) using the various techniques, and plotting
-#  histograms of estimated slopes/exponents. Based on fitting2.r and
-#  some of fitting1repr. 3rd July 2015
-
-# fitting1rep.r - repeatedly fitting simulated data sets (drawn from PLB
-#  with known fixed parameters) using the various techniques, and plotting
-#  histograms of estimated slopes/exponents. 10th September 2014.
-
-# fitting1.r - simulating data then fitting using various techniques.
-#  Somewhat adapated from raw1infexamp.r from JAE paper. 3rd September 2014.
-
-
-# 1. copy fitting2.r into main loop.
-# 2. change notation for .rep stuff
-# 3. add tracking of conf intervals (for LCD also, as an extra figure?)
-
-
 rm(list=ls())
 require(dplyr)
 
@@ -69,11 +51,10 @@ vertThick = 1              # Thickness for vertical lines
 # xrange = c(-2.25, -1.75)     # common width of axes, symmetric about -2
 
 # from fitting3rep.r, make x-range the same
-xrange = c(-3.5, 0.5)         # range of x-axis for histograms - actually to defi
+xrange = c(-3.5, 0.5)         # range of x-axis for histograms 
 xbigticks = seq(-3.5, 0.5, 0.5)
 
 xsmallticks = seq(xrange[1], xrange[2], by=0.1)
-# breakshist = seq(xrange[1]-0.05/2, xrange[2]+0.05, by=0.05)   # then 2 is centre of a bin, but then it missed a value 1.001   (what does that mean?)
 # breakshist = seq(xrange[1], xrange[2], by=0.05)
          # ends a bin at 0 for xrange[1]=0, just won't have 2 in centre of bin
 breakshist = seq(xrange[1], xrange[2], by=3/61)
@@ -81,7 +62,7 @@ breakshist = seq(xrange[1], xrange[2], by=3/61)
 xLim = c(-3.2, -1.5)
 ylimA = c(0, 5500)
 
-cexAxis = 1  # was 0.9      # font size for axes labels to make the y ones fit okay
+cexAxis = 1  # was 0.9      # font size for axes labels to make y ones fit ok
 
 inset = c(-0.08, -0.04)       # (default in confPlot)
 xlabpos = 0.75       # just play with a number, as now using pos=4 in text
