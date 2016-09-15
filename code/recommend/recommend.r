@@ -100,10 +100,10 @@ inset = c(0, -0.04)     # inset distance of legend
 #  log2 bins of bodymass, sum the total biomass in each bin, normalises
 #  biomasses by binwidths, fits regression to log10(normalised biomass) v
 #  log10(midpoint of bin), but we're not going to use the regression slope
-#  here, but we need the binning.
+#  here, we just need the binning.
 hLBNbiom.list = LBNbiom.method(x)
 
-# Plotting Figure 6(a)
+# Plotting MEE Figure 6(a)
 
 plot(hLBNbiom.list[["binVals"]]$log10binMid,
      hLBNbiom.list[["binVals"]]$log10totalBiomNorm,
@@ -123,7 +123,7 @@ axis(2, at = c(0.5, 1.5, 2.5), mgp=mgpVals, tcl=-0.2, labels=rep("", 3))
 
 x.PLB = seq(min(x), max(x), length=1000)     # x values to plot PLB. Note
                            # that these encompass the data, and are not based
-                           # on the binning (in Figure 6 the line starts as
+                           # on the binning (in MEE Figure 6 the line starts as
                            # min(x), not the first bin.
 
 B.PLB = dPLB(x.PLB, b = PLB.bMLE, xmin=min(x.PLB),
@@ -151,7 +151,7 @@ for(i in c(1, length(bIn95)))
 
 legend("topright", "(a)", bty="n", inset=inset)
 
-# Plotting Figure 6(b):
+# Plotting MEE Figure 6(b):
 plot(sort(x, decreasing=TRUE), 1:length(x), log="xy",
      xlab=expression(paste("Values, ", italic(x))),
      ylab=expression( paste("Number of ", values >= x)), mgp=mgpVals,
@@ -165,8 +165,6 @@ y.PLB = (1 - pPLB(x = x.PLB, b = PLB.bMLE, xmin = min(x.PLB),
                   xmax = max(x.PLB))) * length(x)    
 lines(x.PLB, y.PLB, col="red") #, lty=5)
 
-# legend("topright", paste("(b) Exponent=", signif(PLB.bMLE, 3)), bty="n",
-#       inset=inset)
 legend("topright", "(b)", bty="n", inset=inset)
 
 
