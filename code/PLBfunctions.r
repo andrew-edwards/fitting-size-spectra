@@ -197,7 +197,7 @@ negLL.PLB = function(b, x, n, xmin, xmax, sumlogx)
   #  min and max of the data, not numerically using likelihood.
   # Args:
   #   b: value of b for which to calculate the negative log-likelihood
-  #   x: values of data x
+  #   x: vector of values of data (e.g. masses of individual fish)
   #   n: length(x), have as an input to avoid repeatedly calculating it 
   #   xmin: minimum value of x, have as an input to avoid repeatedly calculating
   #   xmax: maximum value of x, have as an input to avoid repeatedly calculating
