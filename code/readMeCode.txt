@@ -166,6 +166,9 @@ fitting3repMLEbin.Rdata - results from fitting3repMLEbin.r, since this file is
 
 fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
 
+code/MLEbinRerun/ - rerunning MLEbin code after fixing b=-1 error (see Issue #7
+*****************    on GitHub page). Not committing this folder to GitHub as
+                     it would just add clutter and is not important. 
 
 code/recommend/
 ***************
