@@ -966,7 +966,7 @@ negLL.PLB.binned = function(b, w, d, J=length(d), xmin=min(w), xmax=max(w))
       { neglogLL = n * log( abs( w[J+1]^(b+1) - w[1]^(b+1) ) ) -
             sum( d * log( abs( w[-1]^(b+1) - w[-(J+1)]^(b+1) ) ) ) 
       } else
-      { neglogLL = 1 / (log(w[J+1]) - log(w[1]) ) *
+      { neglogLL = - n * log( log(w[J+1]) - log(w[1]) ) +
             sum( d * ( log(w[-1]) - log(w[-(J+1)]) ) )
       }
     return(neglogLL)
