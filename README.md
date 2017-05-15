@@ -6,7 +6,7 @@ This repository contains R code for the paper
 
 by Andrew M. Edwards, James P. W. Robinson, Michael J. Plank, Julia K. Baum and Julia L. Blanchard
 
-that has been accepted for publication in ***Methods in Ecology and Evolution***. The preprint is currently available on the journal's website at
+published in ***Methods in Ecology and Evolution*** (2017, 8:57-67). The paper is freely available at
 
 <http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12641/full>
 
@@ -29,7 +29,7 @@ Andrew Edwards.
 
 <http://www.chebucto.ns.ca/~english>
 
-Andrew.Edwards@dfo-mpo.gc.ca - this may change later in 2016, but andrew.edwards.dfo@gmail.com will always automatically forward to my correct email.
+Andrew.Edwards@dfo-mpo.gc.ca - this may change at some point, and if it does not work then try andrew.edwards.dfo@gmail.com which will always automatically forward to my correct email.
 
 # Repository Contents
 
@@ -50,3 +50,5 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 **code/MLEbin/** - MLEbin method for likelihood when the data are only available in binned form.
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
+
+15th May 2017 - corrected a minor error regarding the likelihood function for the MLEbin method when b=-1. In practice this should not have any effect. See Issue #7. 
