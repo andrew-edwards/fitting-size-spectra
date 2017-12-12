@@ -166,9 +166,18 @@ fitting3repMLEbin.Rdata - results from fitting3repMLEbin.r, since this file is
 
 fitting3confMLEbin.r  - confidence intervals for MLEbin method, to give Figure 5.
 
-code/MLEbinRerun/ - rerunning MLEbin code after fixing b=-1 error (see Issue #7
-*****************    on GitHub page). Not committing this folder to GitHub as
+   /MLEbinRerun/ - rerunning MLEbin code after fixing b=-1 error (see Issue #7
+   *************     on GitHub page). Not committing this folder to GitHub as
                      it would just add clutter and is not important. 
+
+   /MLEbinRerun2/ - rerunning MLEbin code after completely fixing b=-1 error
+   **************     in December 2012 (see Issue #7); again not committing.
+
+   /MLEbin-bMinus1/ - testing with b=-1 after fixing the errors in
+   ****************    Issue #7, but it appears to make no difference
+                       as in the nlm search you still never have exactly
+                       b == -1 (results summary is same when running from
+                       commit 36a43ff, before fixing the Issue).
 
 code/recommend/
 ***************

@@ -13,6 +13,6 @@
 *.docx
 *.RData
 
-code/MLEbinRerun/
-code/MLEbinRerun2/
+code/MLEbin/MLEbinRerun/
+code/MLEbin/MLEbinRerun2/
 
