@@ -51,4 +51,7 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
 
-15th May 2017 - corrected a minor error regarding the likelihood function for the MLEbin method when b=-1. In practice this should not have any effect. See Issue #7. 
+15th May 2017 - corrected a minor error regarding the likelihood function for the MLEbin method when b=-1. In practice this should not have any effect. See Issue #7.
+
+12th December 2017 - fully corrected the above point. Phil Wallhead correctly pointed out that I had not completely corrected the code for b=-1. Again, in practice this should not have any effect (though it would for simulating data with b=-1). See Issue #7.
+ 
