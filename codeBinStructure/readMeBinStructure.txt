@@ -10,3 +10,7 @@ Sweave files, which automates some text also).
 
 Figure 1 - Length-weight relationships for two species.
 binFigs/binLW.r
+
+Figure 2 - how binned body masses get assigned to logarithmic bins.
+binFigs/binLW.r
+
