@@ -33,12 +33,12 @@ redo.simulation = TRUE    # Whether or not to redo the simulations
 if(!redo.simulation)
   {
   load("fitMLEmidMLEbin.RData")
-  source("../../../fitting-size-spectra/code/PLBfunctions.r")
+  source("../../code/PLBfunctions.r")
   source("../countsFunctions.r")     # repeated here for developing
   } else
-  {                                                   
-  source("../../../fitting-size-spectra/code/PLBfunctions.r")
-  source("../countsFunctions.r")
+  {
+  source("../../code/PLBfunctions.r")
+  # source("../countsFunctions.r")  #MAY WELL NEED BACK IN
 
   n = 1000                  # sample size
   b.known = -2              # known fixed value of b
@@ -51,16 +51,16 @@ if(!redo.simulation)
                  2k method. Will need to think about this for real data; maybe
                  best to just remove the first bin (and a fit a range that is
                  encompassed by the binned data).")
-      }  
+      }
   xmax.known = 1000         # known fixed value of xmax
-  
+
   num.reps = 10000          # number of times to draw sets of n random numbers.
-                            #  (throwing n PLB dice num.reps times)  
+                            #  (throwing n PLB dice num.reps times)
   set.seed(42)              # Same seed as for original simulations in
-                            #  first manuscript. 
+                            #  first manuscript.
 
 # From Rowan, to create empty 3-d array with names. I wouldn't name the rows.
-  
+
 
   binType = list(1, 5, 10, "2k")   # or use substring("lin1", 4) or grep
                                    #  and then adapt binData.
@@ -73,20 +73,20 @@ if(!redo.simulation)
 
   MLEmethod.name = c("MLEmid", "MLEbin")    # If these change then need to change likelihood
   MLEmethods = length(MLEmethod.name)       #  calls below, and table output; not automatic.
-  
+
   # Do an array for MLE's and then an array for confMin and confMax
   MLE.array = array(NA, dim=c(num.reps, binTypes, MLEmethods),
       dimnames=list(1:num.reps, unlist(binType.name), MLEmethod.name))
        # no need to name the rows, just index by simulation number
   # MLE.array[i,j,k] is random sample i, bin type j, MLE method j
-  
+
   # Record the confidence intervals
     MLEconf.array = array(NA, dim=c(num.reps, binTypes, MLEmethods, 2),
       dimnames=list(1:num.reps, unlist(binType.name), MLEmethod.name,
       c("confMin", "confMax")))
   # MLEconf.array[i,j,k, ] is confidence interval [c(confMin, confMax)] for
   #   random sample i, bin type j, MLE method k
-  
+
   # Main loop for doing the fitting num.reps times
   for(i in 1:num.reps)
   {
@@ -97,19 +97,19 @@ if(!redo.simulation)
       }
 
     x = rPLB(n, b = b.known, xmin = xmin.known, xmax = xmax.known)
-  
+
     for(j in 1:binTypes)                    # Loop over binning type
     {
       bins.list = binData(x, binWidth=binType[[j]])  # 1, 2, 5 or "2k", etc.
       num.bins = dim(bins.list$binVals)[1]
- 
+
       binBreaks = bins.list$binVals[,"binMin"]$binMin   # Loses the column names
       maxOfMaxBin = bins.list$binVals[num.bins, "binMax"]$binMax
       binBreaks = c(binBreaks, maxOfMaxBin) # Append endpoint of final bin
-    
+
       binCounts = bins.list$binVals[,"binCount"]$binCount
       binMids = bins.list$binVals[,"binMid"]$binMid  # Midpoints of bins
-    
+
       if(sum(!is.wholenumber(binCounts)) > 0)
         { stop("Need to adapt code for noninteger counts")
         }
@@ -119,9 +119,9 @@ if(!redo.simulation)
                                 #  functionalised.
 
       sumCntLogMids = sum(binCounts * log(binMids))
-    
+
       # MLEmid (maximum likelihood using midpoints) calculations.
-    
+
       # Use analytical value of MLE b for PL model (Box 1, Edwards et al. 2007)
       #  as a starting point for nlm for MLE of b for PLB model.
       PL.bMLE = 1/( log(min(binBreaks)) - sumCntLogMids/sum(binCounts)) - 1
@@ -144,12 +144,12 @@ if(!redo.simulation)
 
       MLE.array[i,j,"MLEbin"] = MLEbin.res$MLE
       MLEconf.array[i,j,"MLEbin", ] = MLEbin.res$conf
-      
+
     }   # End of for(j in 1:binTypes) loop
-    
+
   }  # End of for(i in 1:num.reps) loop
 
-} # End of if(!redo.simulation) {load("fitting1rep.RData")} else { 
+} # End of if(!redo.simulation) {load("fitting1rep.RData")} else {
 
 # Prints Latex code for table that summarises the results
 

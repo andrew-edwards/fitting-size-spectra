@@ -8,6 +8,8 @@ R code to reproduce each figure (let me know if you would like the original
 Sweave files, which automates some text also).
 
 
+countsFunctions.r - common functions called by other code.
+
 Figure 1 - Length-weight relationships for two species.
 binFigs/binLW.r
 
