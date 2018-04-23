@@ -14,3 +14,5 @@ binFigs/binLW.r
 Figure 2 - how binned body masses get assigned to logarithmic bins.
 binFigs/binLW.r
 
+Figure 3 -
+binFitting/fitMLEmidMLEbin.r - create the simulated data
