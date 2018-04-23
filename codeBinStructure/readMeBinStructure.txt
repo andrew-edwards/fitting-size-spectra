@@ -16,5 +16,12 @@ binFigs/binLW.r
 Figure 2 - how binned body masses get assigned to logarithmic bins.
 binFigs/binLW.r
 
-Figure 3 -
+Figure 3 (histograms of b for simulated data sets) and Figure 4 (confidence
+ intervals of b for simulated data sets) and Table A.3 (summary statistics
+ related to those results).
 binFitting/fitMLEmidMLEbin.r - create the simulated data
+binFitting/fitMLEbinConf.r - does Figures 3, 4, Table A.3 and extra figures
+ for each method.
+
+
+
