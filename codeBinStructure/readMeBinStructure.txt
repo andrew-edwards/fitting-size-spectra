@@ -24,4 +24,20 @@ binFitting/fitMLEbinConf.r - does Figures 3, 4, Table A.3 and extra figures
  for each method.
 
 
+North Sea IBTS data:
+
+nSeaFung/nSeaFungData/ibtsQ1cpuelength.RData - original file of data as downloaded
+ by Julia Blanchard from ICES DATRAS website.
+
+nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
+ up. Run using Sweave("nSeaFungImport.Snw") - this runs the R code and creates
+ nSeaFungImport.tex latex file, which you can then run
+ (e.g. latex nSeaFungImport.tex, dvips nSeaFungImport, ps2pdf nSeaFungImport.ps)
+ to create a .pdf. If you don't use latex then R code will still have run, done
+ the tidying up, and created nSeaFungImport.Rdata.
+ 
+
+
+Figure 5 - species-specific body mass bins resulting from the length bins
+
 
