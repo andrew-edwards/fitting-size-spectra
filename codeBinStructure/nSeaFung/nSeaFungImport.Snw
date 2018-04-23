@@ -1,0 +1,285 @@
+% nSeaFungImport.Snw - importing Julia's new ibtsQ1cpuelength.RData file,
+%  simplifying as necessary and re-saving to then analyse. 3/11/15.
+
+% nSea15import.Snw - importing Julia's original file for North Sea data,
+%  simplifying the data as necessary (removing un-needed columns) and
+%  re-saving. 22/7/15.
+
+% iphcSerBallHooksYYR.Snw - updating to include 2014. Find
+%  and replace 0312 for 0314, and correct all save(...) and load commands.
+%  Search for 2012 also.
+%  Not changing save(). 3/3/15
+
+\documentclass[11pt]{article}
+
+\textheight 213mm
+\topmargin -10mm
+\addtolength{\textwidth}{1.0in}
+\addtolength{\oddsidemargin}{-0.5in}
+\usepackage{Sweave}
+\usepackage{epsfig}
+% \usepackage{rotating}           % For sideways table
+% \usepackage{lineno}
+\usepackage{amsmath}       % for \text for x_min, for \dfrac
+% \usepackage{cancel}        % for \cancel
+\usepackage{natbib}
+
+% \usepackage{resDocSty}   % Res Doc .sty file
+\usepackage{graphicx}
+
+
+\bibliographystyle{natbib}
+
+% \linenumbers
+
+
+\newcommand{\eb}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\xmin}{x_{\mathrm{min}}}
+\newcommand{\xmax}{x_{\mathrm{max}}}
+\newcommand{\logten}{\log_{\mathrm{10}}}
+\newcommand{\logtwo}{\log_{\mathrm{2}}}
+
+\newcommand\onefig[2]{    % filename is #1, text is #2
+  \begin{figure}[tp]
+  \begin{center}
+   % \includegraphics[width=6in,height=7in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  \epsfxsize=5in     % usually 6in, just changed for maps - 1/11/14.
+  \epsfbox{#1.eps}
+  \end{center}
+  \caption{#2 }
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\twofig[3]{   % figure #1 under #2, caption text #3
+  \begin{figure}[tp]     %  label will be #1
+  \centering
+%  \epsfxsize=6in
+%  \epsfysize=3.5in
+  \begin{tabular}{c}
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#2.eps}
+  \epsfbox{#1.eps} \\
+  \epsfbox{#2.eps}
+  \end{tabular}
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\threefig[4]{    % figure #1 then #2 then #3,
+  \begin{figure}[htp]       %  caption text #4, label will be #1
+  \centering
+  \begin{tabular}{c}
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#2.eps} \\
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#3.eps}
+  \vspace{-20mm}
+  \epsfbox{#1.eps} \\
+  \vspace{-20mm}
+  \epsfbox{#2.eps} \\
+   \vspace{-20mm}
+  \epsfbox{#3.eps}
+  \end{tabular}
+  \caption{#4}
+  \label{fig:#1}
+  \end{figure}
+}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\begin{document}
+
+\SweaveOpts{pdf=FALSE, echo=TRUE, results=verbatim}
+% Most useful options (with defaults):
+% echo        = TRUE     - includes R code in output file
+% keep.source = FALSE    - when echoing, if TRUE then original source is copied to the file, otherwise deparsed source is echoed.
+% eval        = TRUE     - if FALSE then chunk is not evaluated
+% results     = VERBATIM - R output included verbatim, if TEX output is already proper latex and included as is,
+%                          if HIDE then all output is completely suppressed (but the code executed - good for admb) results options should all be lower case (else get warnings)
+% pdf         = TRUE     - whether .pdf figures shall be generated
+% eps         = TRUE     - whether .eps figures shall be generated
+% strip.white = FALSE    - if true then blank lines at beginning and end of output are removed. If all, then all blank lines are removed.
+% width       = 6        - width of figures in inches
+% height      = 6        - height of figures in inches
+% fig         = FALSE    - whether the code chunk produces graphical output (only one per chunk)
+
+\begin{center}
+{\LARGE Importing North Sea data based on Fung et al. and reducing the columns and rows where possible}
+
+Andrew M.~Edwards
+
+\today{}
+\end{center}
+
+% \section{Introduction}
+
+<<setupR, echo=FALSE, results=hide>>=
+require(dplyr)
+require(xtable)
+require(gplots)                 # for plotCI
+# require(boot)
+# require(PBSmapping)             # for .createIDs
+rm(list=ls())
+
+source("../s_dplyr_funcs.r")     # helper functions that allow string arguments,
+                                #  by Sebastian Kranz.
+source("../../code/PLBfunctions.r")
+figheight = 6
+figwidth = 5.7
+@
+
+\section{Introduction}
+
+Here loading in {\tt ibtsQ1cpuelength.RData} dated 2/11/15 in Julia's Dropbox, and understanding it.
+
+\subsection{Loading in {\tt ibtsQ1cpuelength.RData}}
+
+<<loading>>=
+#reload.full = 1      # whether to reload full dataset again
+#if(reload.full == 1)
+
+load("nSeaFungData/ibtsQ1cpuelength.RData")   # 2.2 Mb dataset, just contains
+                             #  "q1" which is a data.frame
+
+dataOrig = tbl_df(q1)        # for dplyr
+
+dim(dataOrig)
+names(dataOrig)
+dataOrig[1:5,1:7]
+dataOrig[1:5,8:13]
+
+summary(dataOrig)
+
+@
+
+Note that {\tt LngtClas} is in mm, not cm, but that $a$ and $b$ are the length-weight coefficients for the length being in cm. Will use cm as units later.
+
+Looks like some columns are duplicated.
+
+\noindent {\bf Q1}. Julia, I'm just keeping {\tt AphiaID} (since it's a shorter numerical code and so more concise) and discarding {\tt Species} and {\tt Taxonomic.group}. Though any idea why there are 10 more {\tt Species} than the others? See:
+
+<<columns>>=
+length(unique(dataOrig$AphiaID))   # 150
+length(unique(dataOrig$Species))   # 160
+length(unique(dataOrig$Taxonomic.group))  # 150
+@
+
+Want to end up with a data frame of the same format as in {\tt nSea15import.Snw}, since then presumably the {\tt nSea15analysis.Snw} code will not need too much modification to work on this new data set. {\tt Survey} and {\tt Quarter} are the same for all entries, and I don't need {\tt Area}.
+
+<<keeping>>=
+colsKeep = c("Year", "AphiaID", "LngtClas", "CPUE_number_per_hour",
+    "a", "b", "weight_g", "CPUE_bio_per_hour")   # if change this then change
+                                                 #  renaming below
+colsDiscard = setdiff(names(dataOrig), colsKeep)
+colsDiscard
+@
+
+Note that {\tt data} will change a lot in the following code.
+
+<<>>=
+data = s_select(dataOrig, colsKeep)   # uses Sebastian Kranz's s_dplyr_funcs.r
+data
+str(data)
+summary(data)
+min(data$CPUE_number_per_hour)
+@
+
+So no negative CPUE values or spurious weights. There are a lot of zero CPUE values:
+<<>>=
+sum(data$CPUE_number_per_hour == 0)
+@
+
+Want to end up with {\tt data} in the same form as was done in {\tt nSea15import.Snw}, so that analysis code won't need modifying much. So need to rename some of the headings, make the lengths in cm not mm, and it would be helpful to order by Year, SpecCode and then Lgnt.
+
+1. Rename the columns:
+<<rename>>=
+if(sum( colsKeep != c("Year", "AphiaID", "LngtClas", "CPUE_number_per_hour",
+    "a", "b", "weight_g", "CPUE_bio_per_hour")) > 0)
+       { stop("Need to adjust renaming") }
+names(data) = c("Year", "SpecCode", "LngtClass", "Number", "LWa", "LWb",
+         "bodyMass", "CPUE_bio_per_hour")
+# CPUE_bio_per_hour is Number * bodyMass
+@
+
+2. Make cm not mm:
+<<cm>>=
+data$LngtClass = data$LngtClass/10
+@
+
+3. Rearrange the order to be more intuitive:
+<<arrange>>=
+data = arrange(data, Year, SpecCode, LngtClass)
+data
+@
+
+That shows that we have a lot of (i) repeated values that can be amalgamated (presumably repeated because at one point the data included details about trawls, or it's just how the data were obtained), (ii) lots of {\tt Number == 0} that we can discard, though keep for now since will help verify the binning.
+
+(i) So, each row represents a combination of {\tt Year, SpecCode, LngtClass}, but these aren't unique. For example, looking at just one species for one year for one length class:
+<<>>=
+exampleSp = filter(data, Year == 1986, SpecCode == 105814, LngtClass == 60)
+exampleSp
+@
+So, yes, we have multiple counts of 60cm fish of this species, which we can just aggregate together. Do this for all years, species and lengths:
+
+<<aggregating>>=
+data = summarise(group_by(data, Year, SpecCode, LngtClass),
+    "Number" = sum(Number), "LWa" = unique(LWa), "LWb" = unique(LWb),
+    "bodyMass" = unique(bodyMass))   # , "totalBiom" = sum(CPUE_bio_per_hour))
+# Don't think I need the totalBiom one; it gets calculated in the methods.
+
+data
+summary(data)
+
+filter(data, SpecCode == 105814, Year == 1986, LngtClass == 60)
+  # "Number" here correctly equals the sum of the first two rows of exampleSp
+@
+
+% **Total biomass for each unique row should also get calculated in {\tt nSeaFungAnalysis.Snw}, so check it agrees with this {\tt totalBiom} here.
+
+Now to redo the calculations for {\tt bodyMass} (body mass of an individual of that {\tt LngtClass}); should get the same answer, using species-specific length-weight coversions.
+<<bodyMass>>=
+data = mutate(data, bodyMass2 = LWa * LngtClass^LWb)
+if(max(abs(data$bodyMass2 - data$bodyMass)) > 0.0001) stop("Check conversions")
+data = select(data, -bodyMass2)              # don't keep the confirming column
+@
+
+
+
+
+
+
+
+Blanchard et al.~(2005) only included body-mass classes above 4~g. Do that here (since presumably data are noisy for smaller organisms):
+<<>>=
+range(data$LngtClass)
+range(data$bodyMass)
+sum(data$bodyMass == 0)   # 2549
+sum(data$bodyMass < 4 )   # 6893
+data = filter(data, bodyMass >= 4)
+range(data$bodyMass)
+data
+summary(data)
+
+# Total number of fish in this dataset is:
+sum(data$Number)
+@
+
+The unique length classes are:
+<<lengths>>=
+sort(unique(data$LngtClass))
+diff(sort(unique(data$LngtClass)))
+@
+
+I think they may change over the years, which will become apparent in the figure to be constructed in {\tt nSeaFungAnalysis.Snw}, which will load in this {\tt data} dataframe.
+
+Saving {\tt data} so this file does not need to be re-run:
+
+<<saveData>>=
+save(data, file="nSeaFungImport.RData")
+@
+
+\end{document}

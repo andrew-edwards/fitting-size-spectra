@@ -32,7 +32,7 @@ nSeaFung/nSeaFungData/ibtsQ1cpuelength.RData - original file of data as download
 nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
  up. Run using Sweave("nSeaFungImport.Snw") - this runs the R code and creates
  nSeaFungImport.tex latex file, which you can then run
- (e.g. latex nSeaFungImport.tex, dvips nSeaFungImport, ps2pdf nSeaFungImport.ps)
+ (e.g. pdflatex nSeaFungImport.tex)
  to create a .pdf. If you don't use latex then R code will still have run, done
  the tidying up, and created nSeaFungImport.Rdata.
  
