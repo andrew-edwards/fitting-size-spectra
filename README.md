@@ -1,5 +1,7 @@
 # fitting-size-spectra
 
+This **branch** contains the code for our second manuscript (concerning dealing with data that are only available in binned form). It will be merged into **master** at some point, I just wanted to keep it separate while I'm creating it all (and not confuse people just looking for the MEE paper code). 
+
 This repository contains R code for the paper 
 
 **Testing and recommending methods for fitting size spectra to data** 
