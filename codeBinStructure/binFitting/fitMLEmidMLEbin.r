@@ -38,7 +38,7 @@ if(!redo.simulation)
   } else
   {
   source("../../code/PLBfunctions.r")
-  # source("../countsFunctions.r")  #MAY WELL NEED BACK IN
+  source("../countsFunctions.r")  #MAY WELL NEED BACK IN
 
   n = 1000                  # sample size
   b.known = -2              # known fixed value of b
@@ -59,9 +59,6 @@ if(!redo.simulation)
   set.seed(42)              # Same seed as for original simulations in
                             #  first manuscript.
 
-# From Rowan, to create empty 3-d array with names. I wouldn't name the rows.
-
-
   binType = list(1, 5, 10, "2k")   # or use substring("lin1", 4) or grep
                                    #  and then adapt binData.
                                    # Must be numeric, for linear bins, or "2k"
@@ -71,8 +68,9 @@ if(!redo.simulation)
   binType.name[!binType %in% "2k"] = paste0("Linear ",
                   binType[which(!binType %in% "2k")])
 
-  MLEmethod.name = c("MLEmid", "MLEbin")    # If these change then need to change likelihood
-  MLEmethods = length(MLEmethod.name)       #  calls below, and table output; not automatic.
+  MLEmethod.name = c("MLEmid", "MLEbin")    # If these change then need to
+                                            #  change likelihood calls below
+  MLEmethods = length(MLEmethod.name)       #  and table output; not automatic.
 
   # Do an array for MLE's and then an array for confMin and confMax
   MLE.array = array(NA, dim=c(num.reps, binTypes, MLEmethods),
@@ -151,10 +149,7 @@ if(!redo.simulation)
 
 } # End of if(!redo.simulation) {load("fitting1rep.RData")} else {
 
-# Prints Latex code for table that summarises the results
-
-
-# Doing all figures in fitting3repMLEbinConf.r
+# Doing all figures and table code in fitting3repMLEbinConf.r
 
 write.csv(bins.list$binVals, "binVals.csv")  # row.names=FALSE - put in at some point
 write.csv(bins.list$indiv, "indiv.csv")
