@@ -16,3 +16,6 @@
 code/MLEbin/MLEbinRerun/
 code/MLEbin/MLEbinRerun2/
 
+codeBinStructure/*/*.eps
+codeBinStructure/*/*.tex
+codeBinStructure/*/*.csv
