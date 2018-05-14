@@ -168,7 +168,16 @@ length(unique(dataOrig$Species))   # 160
 length(unique(dataOrig$Taxonomic.group))  # 150
 @
 
-Want to end up with a data frame of the same format as in {\tt nSea15import.Snw}, since then presumably the {\tt nSea15analysis.Snw} code will not need too much modification to work on this new data set. {\tt Survey} and {\tt Quarter} are the same for all entries, and I don't need {\tt Area}.
+Want to end up with a data frame of the same format as in {\tt
+  nSea15import.Snw}, since then presumably the {\tt nSea15analysis.Snw} code
+will not need too much modification to work on this new data set. {\tt Survey}
+and {\tt Quarter} are the same for all entries, and I don't need to keep {\tt
+  Area}, just need the number of areas.
+
+<<numAreas>>=
+numAreas = length(unique(dataOrig$Area))
+numAreas
+@
 
 <<keeping>>=
 colsKeep = c("Year", "AphiaID", "LngtClas", "CPUE_number_per_hour",
@@ -227,7 +236,7 @@ So, yes, we have multiple counts of 60cm fish of this species, which we can just
 
 <<aggregating>>=
 data = summarise(group_by(data, Year, SpecCode, LngtClass),
-    "Number" = sum(Number), "LWa" = unique(LWa), "LWb" = unique(LWb),
+    "Number" = sum(Number)/numAreas, "LWa" = unique(LWa), "LWb" = unique(LWb),
     "bodyMass" = unique(bodyMass))   # , "totalBiom" = sum(CPUE_bio_per_hour))
 # Don't think I need the totalBiom one; it gets calculated in the methods.
 
@@ -236,9 +245,13 @@ summary(data)
 
 filter(data, SpecCode == 105814, Year == 1986, LngtClass == 60)
   # "Number" here correctly equals the sum of the first two rows of exampleSp
+  #  divided by 7
 @
 
 % **Total biomass for each unique row should also get calculated in {\tt nSeaFungAnalysis.Snw}, so check it agrees with this {\tt totalBiom} here.
+
+So {\tt Number} is the average number (of each species and length) caught per 
+hour of trawling across all seven areas. Originally I had the sum.
 
 Now to redo the calculations for {\tt bodyMass} (body mass of an individual of that {\tt LngtClass}); should get the same answer, using species-specific length-weight coversions.
 <<bodyMass>>=
