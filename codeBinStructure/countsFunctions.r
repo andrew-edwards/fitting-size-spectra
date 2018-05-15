@@ -705,15 +705,23 @@ eightMethods.count = function(data = data, oneYear = 1980,
                                         #  actual sample size is 33,592.02), so
                                         #  this does what a sample of 33,593
                                         #  would likely look like.
-  MLE.sim = mutate(MLE.sim, bodyMassSim = MLE.valCounts[
-                findInterval(cumPropSim, MLE.valCounts$cumProp), "bodyMass"])
+  # Had to update this due to change in dplyr; this approach wouldn't work, or
+  #  using select
+  #MLE.sim = mutate(MLE.sim,
+  #                 bodyMassSim = as.numeric(MLE.valCounts[findInterval(
+  #                                  cumPropSim, MLE.valCounts$cumProp),
+  #                                 "bodyMass"]))
+
+  MLE.sim = mutate(MLE.sim,
+                   bodyMassSim = MLE.valCounts[findInterval(
+                       cumPropSim, MLE.valCounts$cumProp), ]$bodyMass)
 
       # findInterval():
       #  vec = MLE.valCounts$cumProp     # breakpoints
       # Find interval containing each of the  elements of
       #  x = MLE.sim$cumPropSim  (x in findInterval() terminology)
 
-#        LCD.valCounts = mutate(LCD.valCounts, logBodyMass = log(bodyMass),
+      #        LCD.valCounts = mutate(LCD.valCounts, logBodyMass = log(bodyMass),
       #                      logCumProp = log(cumProp))
                                        # logSorted = log(x.sorted)
   plot(MLE.sim$bodyMassSim, MLE.sim$cumPropSim, log="xy",
