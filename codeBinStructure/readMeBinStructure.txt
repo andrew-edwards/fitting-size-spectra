@@ -35,8 +35,18 @@ nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
  (e.g. pdflatex nSeaFungImport.tex)
  to create a .pdf. If you don't use latex then R code will still have run, done
  the tidying up, and created nSeaFungImport.Rdata.
- 
 
+nSeaFung/nSeaFungAnalysis.Snw - Sweave file to show example data, fit all eight
+ methods (from MEE paper) to each year of the IBTS data, and fit linear
+ regressions to the estimated size-spectrum exponents. 
+
+nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
+ MLEbins method. Also creates figures...   .
+ [Needs some of nSeaFungMLEbin.Snw (because that
+ does some pre-analysis),
+ nSeaFungMLEbinsNew.Snw, and nSeaFungCompareNew.Snw]
+
+Then need nSeaFungMLEbinsRecommend-ISD.Snw
 
 Figure 5 - species-specific body mass bins resulting from the length bins
 

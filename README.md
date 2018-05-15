@@ -54,6 +54,8 @@ The subdirectories of **code/** are summarised below, but see **readMeCode.txt**
 **code/recommend/** - recommended likelihood calculations and resulting plots of data and fitted size spectrum (Figure 6).
 
 **codeBinStructure/** - directory containing code for second manuscript, see **readMeBinStructure.txt** for details.
+
+# Updates for Methods in Ecology and Evolution code
  
 15th May 2017 - corrected a minor error regarding the likelihood function for the MLEbin method when b=-1. In practice this should not have any effect. See Issue #7.
 
