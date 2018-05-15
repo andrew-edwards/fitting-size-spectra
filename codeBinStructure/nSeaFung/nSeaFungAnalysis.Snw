@@ -255,10 +255,13 @@ Only reruns the calculations when the input data changes (the {\tt redo.eight} s
 if(redo.eight) {           # Redo method-dependent fits
   fullYears = unique(data$Year)
   fullResults = data.frame()
+
+  dirToSaveFigs = "eightMethods"
+  if(!dir.exists(dirToSaveFigs)) dir.create(dirToSaveFigs)
   for(ii in fullYears)
     {
     eightMethodsRes = eightMethods.count(data = data, oneYear = ii,
-        figName = "nSeaFung")
+        figName = paste0(dirToSaveFigs, "/nSeaFung"))
     fullResults = rbind(fullResults, eightMethodsRes)
     # print(paste("Have done ", oneYear))  - can't print in console - try message
     }
