@@ -1,0 +1,690 @@
+% nSeaMLEbins.Snw - combining several files to analyse the IBTS data using the
+%  MLEbins method. 15/5/18.
+
+% nSeaFungMLEbin.Snw - analysis of the North Sea data using the MLEbin
+%  method. 2/10/16.
+
+% nSeaFungAnalysis.Snw - analysis of data that Julia downloaded based on
+%  Fung et al., that I first imported into nSeaFungImport.Snw. 3/11/15.
+
+% nSea15analysis1.Snw - initial analysis of North Sea data, to demonstrate
+%  what can be done. LWa and LWb not species-specific yet, and length-of-tow
+%  etc. not been accounted for. 23/7/15.
+
+% nSea15import.Snw - importing Julia's original file for North Sea data,
+%  simplifying the data as necessary (removing un-needed columns) and
+%  re-saving. 22/7/15.
+
+% iphcSerBallHooksYYR.Snw - updating to include 2014. Find
+%  and replace 0312 for 0314, and correct all save(...) and load commands.
+%  Search for 2012 also.
+%  Not changing save(). 3/3/15
+
+\documentclass[11pt]{article}
+
+\textheight 213mm
+\topmargin -10mm
+\addtolength{\textwidth}{1.0in}
+\addtolength{\oddsidemargin}{-0.5in}
+\usepackage{Sweave}
+\usepackage{epsfig}
+% \usepackage{rotating}           % For sideways table
+% \usepackage{lineno}
+\usepackage{amsmath}       % for \text for x_min, for \dfrac
+% \usepackage{cancel}        % for \cancel
+\usepackage{natbib}
+
+% \usepackage{resDocSty}   % Res Doc .sty file
+\usepackage{graphicx}
+
+
+\bibliographystyle{natbib}
+
+% \linenumbers
+
+
+\newcommand{\eb}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\xmin}{x_{\mathrm{min}}}
+\newcommand{\xmax}{x_{\mathrm{max}}}
+\newcommand{\logten}{\log_{\mathrm{10}}}
+\newcommand{\logtwo}{\log_{\mathrm{2}}}
+
+\newcommand\onefig[2]{    % filename is #1, text is #2
+  \begin{figure}[tp]
+  \begin{center}
+   % \includegraphics[width=6in,height=7in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  \epsfxsize=6.5in
+  \epsfbox{#1.eps}
+  \end{center}
+  \caption{#2 }
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\twofig[3]{   % figure #1 under #2, caption text #3
+  \begin{figure}[tp]     %  label will be #1
+  \centering
+%  \epsfxsize=6in
+%  \epsfysize=3.5in
+  \begin{tabular}{c}
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#2.eps}
+  \epsfbox{#1.eps} \\
+  \epsfbox{#2.eps}
+  \end{tabular}
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\threefig[4]{    % figure #1 then #2 then #3,
+  \begin{figure}[htp]       %  caption text #4, label will be #1
+  \centering
+  \begin{tabular}{c}
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#2.eps} \\
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#3.eps}
+  \vspace{-20mm}
+  \epsfbox{#1.eps} \\
+  \vspace{-20mm}
+  \epsfbox{#2.eps} \\
+   \vspace{-20mm}
+  \epsfbox{#3.eps}
+  \end{tabular}
+  \caption{#4}
+  \label{fig:#1}
+  \end{figure}
+}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\begin{document}
+
+\SweaveOpts{pdf=FALSE, echo=TRUE, results=verbatim}
+% Most useful options (with defaults):
+% echo        = TRUE     - includes R code in output file
+% keep.source = FALSE    - when echoing, if TRUE then original source is copied to the file, otherwise deparsed source is echoed.
+% eval        = TRUE     - if FALSE then chunk is not evaluated
+% results     = VERBATIM - R output included verbatim, if TEX output is already proper latex and included as is,
+%                          if HIDE then all output is completely suppressed (but the code executed - good for admb) results options should all be lower case (else get warnings)
+% pdf         = TRUE     - whether .pdf figures shall be generated
+% eps         = TRUE     - whether .eps figures shall be generated
+% strip.white = FALSE    - if true then blank lines at beginning and end of output are removed. If all, then all blank lines are removed.
+% width       = 6        - width of figures in inches
+% height      = 6        - height of figures in inches
+% fig         = FALSE    - whether the code chunk produces graphical output (only one per chunk)
+
+% \setkeys{Gin}{width=6in}     % from googling sweave figure bigger.
+%  It will set this for the rest of document [doesn't width do that in the above?]
+
+
+\begin{center}
+{\LARGE Analysis of IBTS data using the MLEbins method,
+
+  {\tt nSeaMLEbins.Snw}}
+
+Andrew M.~Edwards
+
+\today{}
+\end{center}
+
+<<setupR, echo=FALSE, results=hide>>=
+require(dplyr)
+require(xtable)
+require(gplots)                 # for plotCI
+# require(boot)
+# require(PBSmapping)             # for .createIDs
+rm(list=ls())
+
+source("../s_dplyr_funcs.r")     # helper functions that allow string arguments,
+                                #  by Sebastian Kranz.
+figheight = 7 # 6
+figwidth = 5.7
+@
+
+\section{Introduction}
+
+**USING THIS to get the preprocessing done plus various figures, because binsNew
+calls the output from this. **uses Andy's original likelihood function -- see {\tt nSeaFungMLEbinsNew.Snw} for the likelihood calculations using Mike's simpler function.
+
+In {\tt nSeaFungAnalysis.Snw} we calculated the size-spectrum exponent for each of the eight methods for each year of the the North Sea data set, and analysed for trends over time. That used the MLE method for each body mass, based on converting lengths to body mass using length-weight coefficients. But the lengths are values rounded down to the nearest 1~cm (or 0.5~cm for herring and sprat), and so ignore the effect of binning.
+
+Here we will keep track of the bins and then use the MLEbins method on the resulting binned data set.
+
+\medskip
+
+Initial pre-processing has already been done, so:
+<<>>=
+redo.calcs = TRUE #FALSE      # whether or not to redo this code, or load in
+                              #  the latest results.
+if(redo.calcs)
+  { load("nSeaFungImport.RData")
+    specCodeNames = read.csv("nSeaFungData/speccodes.csv")
+    } else
+  { load("nSeaMLEbins.RData")
+    redo.calcs=FALSE }         # else it loads in previous, which can be TRUE.
+source("../../code/PLBfunctions.r")
+source("../countsFunctions.r")
+
+data = ungroup(data)           # otherwise groups carry on.
+data
+summary(data)
+
+specCodeNames = tbl_df(specCodeNames)
+specCodeNames                  # species names and id's. But there are more
+                               #  species in the data than here (see later)
+length(unique(specCodeNames$speccode))   # checking speccode are unique
+@
+
+The local data frame {\tt data} has a unique row for every combination of year, species code and length class, as checked by:
+<<>>=
+unique = dim(summarise(group_by(data, Year, SpecCode, LngtClass), count=n()))[1]
+unique
+if( unique != dim(data)[1]) stop("something wrong with 'data'")
+@
+
+The `Number' column in {\tt data} is the number of individuals of that species
+in that length class in that year, observed per hour of trawling (averaged over
+the areas). `bodyMass' is the body mass of such an individual, as calculated by {\tt LWa * LngtClass$^{{\tt LWb}}$} in {\tt nSeaFungImport.Snw}.
+
+<<dataSumm, echo=FALSE, results=hide>>=
+dataSumm = summarise(group_by(data, Year),
+    uniqLngtClass = length(unique(LngtClass)),
+    uniqSpec = length(unique(SpecCode)),
+    medNumber = median(Number), medBodyMass = median(bodyMass))
+@
+
+<<defineFunction, echo=FALSE, results=hide>>=
+dataSummTab = xtable(round(dataSumm), caption="Summary of the data available
+  for each year. For each year, `uniqLngtClass' is the number of unique
+  length classes, `uniqSpec' is the number of unique species, `medNumber'
+  is the median number of individuals (where `Number' is length-class-specific
+  and species-specific), and `medBodyMass' is the median body mass (where
+  body mass is also length-class-specific and species-specific). All values
+  rounded to nearest integer (which is why `medNumber' comes out all 0, since
+  it's per hour, not an integer).",
+  lab="tab:dataSumm", digits = 0)    # Number of digits after decimal
+
+# To plot them:
+#plot(dataSumm$Year, dataSumm$uniqSpec, xlab="Year",
+#     ylab="No. unique species", type="o", ylim=c(0, max(dataSumm$uniqSpec)))
+#plot(dataSumm$Year, dataSumm$medNumber, xlab="Year",
+#    ylab="Median number (per hour)", type="o", ylim=c(0, max(dataSumm$medNumber)))
+#plot(dataSumm$Year, dataSumm$medBodyMass, xlab="Year",
+#     ylab="Median body mass (g)", type="o", ylim=c(0, max(dataSumm$medBodyMass)))
+
+@
+
+<<results=tex, echo=FALSE>>=
+print(dataSummTab, table.placement="tp", caption.placement="top",
+    include.rownames = FALSE) #, sanitize.text.function=function(x){x})  # was !ht
+@
+
+Table~\ref{tab:dataSumm} shows the data summarised by year.
+
+The number of unique species in each year ranges from \Sexpr{range(dataSumm$uniqSpec)[1]} to \Sexpr{range(dataSumm$uniqSpec)[2]}.
+
+
+\section{Determining which rows are 0.5~cm bins}
+
+{\tt LngtClass} for all species is the minimum value of a 1~cm-width bin, except for herring (\emph{Clupea harengus}) and sprat (\emph{Sprattus sprattus)}) for which lengths are rounded down to 0.5~cm values. The {\tt SpecCode} values for these:
+
+<<speciesNames, echo=TRUE>>=
+# For the 0.5-cm bins; note speccode from specCodeNames, not SpecCode
+herringCode = filter(specCodeNames, species == "Clupea harengus")$speccode
+herringCode
+spratCode = filter(specCodeNames, species == "Sprattus sprattus")$speccode
+spratCode
+@
+
+\subsection{Verify sprat and herring}
+
+First verify that (i) these species codes do have 0.5~cm values for {\tt LngtClass}, and (ii) that no other species codes have 0.5~cm values for {\tt LngtClass}.
+
+<<herring, echo=TRUE>>=
+herring = filter(data, SpecCode == herringCode)
+unique(herring$LngtClass)
+@
+
+So, yes, herring do have 0.5~cm length classes.
+
+<<sprat, echo=TRUE>>=
+sprat = filter(data, SpecCode == spratCode)
+unique(sprat$LngtClass)
+@
+
+And so do sprat.
+
+<<others>>=
+specCode05 = c(herringCode, spratCode)      # species codes with 0.5cm length bins
+others = filter(data, !SpecCode %in% specCode05)
+sort(unique(others$LngtClass))
+@
+
+Can visually see that there are no 0.5 values.
+
+This confirms that just the two species have the 0.5~cm length bins.
+
+\subsection{Append the max of the bin breaks for each row}
+
+So {\tt LngtClass} is the minimum of each length bin. Need to work out the maximum of each length bin {\tt LengthMax}, and then use the species specific length-weight relationships to give the min and max of each body-mass bin.
+
+It seems straightfoward to just add {\tt LengthMax, wmin} and {\tt wmax} to the dataframe.
+
+<<lengthmax>>=
+dataBin = mutate(data, LngtMax = LngtClass + 1) # for all species, dataBin is
+                                                #  adding the bins to data
+aa = which(dataBin$SpecCode %in% specCode05)    # row numbers for herring, sprat
+dataBin[aa, "LngtMax"] = dataBin[aa, "LngtMax"] - 0.5    # subtract 0.5 cm
+unique(dataBin$LngtMax - dataBin$LngtClass)      # correctly just has 0.5 and 1
+unique( filter(dataBin, LngtMax - LngtClass == 0.5)$SpecCode)  # just herring,sprat
+
+dataBin = mutate(dataBin, wmax = LWa * LngtMax^LWb)   # calculate max body mass
+                                                # for each bin (min is bodyMass)
+dataBin = rename(dataBin, LngtMin = LngtClass)
+dataBin = rename(dataBin, wmin = bodyMass)
+
+dataBin = dataBin[ , c("Year", "SpecCode", "LngtMin", "LngtMax",
+    "LWa", "LWb", "wmin", "wmax", "Number")]     # Just reorder columns
+
+range(mutate(dataBin, wminCheck = LWa * LngtMin^LWb)$wminCheck - dataBin$wmin)
+                                              # Verifying that wmin is correct
+length(unique(dataBin$SpecCode))
+@
+
+So there are \Sexpr{length(unique(dataBin$SpecCode))} uniques species. Now
+ going to plot the resulting body mass bins for each species. Do vertically (like my existing bin figures), should be okay with 45 on a figure (45 species along x axis, no need to number them).
+
+\section{Plot the resulting body mass bins}
+
+<<multipleBins, echo=FALSE, results=hide>>=
+
+# For this figure just want the species-specific bodymass bins, don't need
+#  Year, length info or Number.
+dataBinSpec = summarise(group_by(dataBin, SpecCode, wmin),
+    wmax = unique(wmax))
+    #uniqLngtClass = length(unique(LngtClass)),
+    #uniqSpec = length(unique(SpecCode)),
+    #medNumber = median(Number), medBodyMass = median(bodyMass))
+
+# want to arrange species in order of their max(wmax)
+
+dataBinSpecWmax = summarise(group_by(dataBinSpec, SpecCode), maxWmax = max(wmax))
+dataBinSpecWmax = ungroup(dataBinSpecWmax)
+dataBinSpecWmax = arrange(dataBinSpecWmax, maxWmax)   # Gives the SpecCode in
+                                         # the order corresponding to maxWmax.
+dataBinSpec = ungroup(dataBinSpec)
+# http://stackoverflow.com/questions/26548495/reorder-rows-using-custom-order
+# Create levels in the desired order
+dataBinSpec = mutate(dataBinSpec, SpecCode = factor(SpecCode, levels =
+                                      dataBinSpecWmax$SpecCode))
+dataBinSpec = arrange(dataBinSpec, SpecCode)
+
+length(unique(dataBinSpec$SpecCode))     # should still be 135
+
+uniqBinSpecCode = levels(dataBinSpec$SpecCode)   # unique species codes, in
+                                   #  the desired order
+
+# species in the data (in order of figures) but with no name:
+specIDnoName = setdiff(uniqBinSpecCode, specCodeNames$speccode)
+# species with names but not in data (not so important):
+specNotInData = setdiff(specCodeNames$speccode, uniqBinSpecCode)
+
+maxNumBins = max(summarise(group_by(dataBinSpec,SpecCode),
+    numBins = length(unique(wmin)))$numBins)    # max number of bins for any
+                                                #  species
+
+dataBinSpec = mutate(dataBinSpec, wWidth = wmax - wmin,
+    wWidthRatio = wWidth/wmin)
+          # wWidth is width of body-mass bin, wWidthRatio is ratio to wmin
+rowMaxWidth = which.max(dataBinSpec$wWidth)
+specCodeMaxWidth = dataBinSpec[rowMaxWidth, ]$SpecCode
+specNameMaxWidth = filter(specCodeNames, speccode ==  specCodeMaxWidth)$species
+
+rowMaxRatio = which.max(dataBinSpec$wWidthRatio)
+specCodeMaxRatio = dataBinSpec[rowMaxRatio, ]$SpecCode
+specNameMaxRatio = filter(specCodeNames, speccode ==  specCodeMaxRatio)$species
+dataBinMaxRatio = filter(dataBin, SpecCode == specCodeMaxRatio,
+    wmin == dataBinSpec[rowMaxRatio, ]$"wmin")
+                                   # original data row(s) for maxRatio. "wmin"
+                                   #  needed since wmin appears in dataBin also
+
+
+col = c("blue", "lightblue")     # Colours for bins
+# colHerSpr = c("red", "pink")     # Colours for herring and sprat
+colHighlight = c("red", "pink")     # Colours for herring and sprat
+
+thick=7                           # thickness of bins
+
+# Doing 3 figures, each with 135/3 = 45 species. Then a fourth that is
+#  just some of the third one.
+numSpec = 45                   # Number in figure, since 135/3 to give 3 figs.
+# xVals = seq(0.2, 9.8, length=numSpec)     # xvals for vertical mass bins
+specVecStart = c(1, 1+numSpec, 1+2*numSpec, 1+2*numSpec)   # start spec for fig
+specVecEnd = specVecStart+numSpec-1
+specVecEnd[4] = specVecStart[4] + 37 - 1
+                               # species 126447, as seen in Fig 3 (not automated)
+                               #  is the largest one below 10kg, to make Fig 4
+
+smallTicks = c(2, 20, 1000, 200)         # location of small ticks for fig.num
+medTicks = c(10, 100, 5000, 1000)         # location of medium (unlabelled) ticks
+
+# xLim = c(0, 10)
+xLimMax = c(10, 10, 10, specVecEnd/numSpec * 10)
+
+# specCodeHighlight = c(126160, 127203, 126436, 127251)
+                                   # one species to highlight in each figure,
+specCodeHighlight = c(127205, 154675)
+                                   #  now doing two for first figure for
+                                   #  manuscript.
+
+for(fig.num in 1:4)      # doing 3 figures
+    {
+    specForFig = uniqBinSpecCode[ specVecStart[fig.num]:specVecEnd[fig.num]]
+    xVals = seq(0.2, xLimMax[fig.num]-0.2, length=length(specForFig))
+                                        # xvals for vertical mass bins
+    yLim = 1.02*max(filter(dataBinSpec, SpecCode %in% specForFig)$wmax)
+    postscript(paste("nSeaFungBins", fig.num, ".eps", sep=""),
+            height = 6, width = 7.5,
+            horizontal=FALSE,  paper="special")
+
+    par(xaxs="i", yaxs="i")
+    par(mgp=c(2.0, 0.5, 0))    # puts axes labels closer I think
+    par(lend="butt")           # To have butted line caps, need for thick lines.
+
+    plot(0, 0, xlab="", ylab="Body mass, g", xlim=c(0, xLimMax[fig.num]),
+     ylim=c(0, yLim), xaxt="n", type="n")      # dummy points to set up axes.
+
+    # Manually adding horizontal grey lines (need grey first else to then get
+    #  overdrawn by black axes)
+    axis(2, at = seq(0, yLim, by=medTicks[fig.num]), labels=rep("",
+             length(seq(0, yLim, by=medTicks[fig.num]))), tck=1, col="lightgrey")
+    # Manually adding extra tick marks on:
+    axis(2, at = seq(0, yLim, by=smallTicks[fig.num]), labels=rep("",
+        length(seq(0, yLim, by=smallTicks[fig.num]))), tck=-0.01)
+    axis(2, at = seq(0, yLim, by=medTicks[fig.num]), labels=rep("",
+             length(seq(0, yLim, by=medTicks[fig.num]))), tck=-0.02)
+
+    axis(1, at = xVals, labels = as.numeric(specForFig), las = 2,
+        tck = -0.005, cex.axis=0.8)
+    mtext("Species Code", side=1, line=3, cex.lab=1)
+    abline(h=0)                 # to draw over horizontal line at 0
+
+    for(ii in 1:length(specForFig))   # loop over species, plot bins for each
+        {
+        xVal = xVals[ii]         # where to have vertical bars
+        if(as.numeric(specForFig[ii]) %in% specCodeHighlight)
+            { colSpec = colHighlight } else { colSpec = col}
+
+        segments(x0 = xVal, y0 = filter(dataBinSpec,
+                                SpecCode == specForFig[ii])$wmin,
+         y1 = filter(dataBinSpec, SpecCode == specForFig[ii])$wmax,
+         col=colSpec, lwd=thick)    # recycles col
+        }
+    par(xpd=TRUE)                   # allow plotting outside main region
+    if(fig.num == 1)
+      {
+        points( xVals[which(as.numeric(specForFig) %in% specCode05)],
+           -rep(0.015, length(specCode05))*yLim, pch=4, cex=0.96)
+      }                                        # indicate two species in first
+                                               #  figure
+    dev.off()
+    }         # for fig.num=1:3
+@
+
+<<specNames, echo=TRUE>>=
+as.numeric(specIDnoName) # species ID but no name right now, so avoid
+                         #  highlighting in figures for now
+@
+
+Figures~\ref{fig:nSeaFungBins1}-\ref{fig:nSeaFungBins4} show how the length bins
+for each species get converted to body mass bins. The conversions are different
+for each species because of the different values of the length-weight
+coefficients. Figures~\ref{fig:nSeaFungBins1}-\ref{fig:nSeaFungBins4} show that even with 1-cm length bins (and 0.5-cm for herring and sprat) the resulting body-mass bins can span a large range.
+
+<<>>=
+if(specCodeMaxRatio != 127251) stop("Need common name; not Blackbelly Rosefish")
+if(specCodeMaxWidth != 126436) stop("Need common name; not Atlantic Cod")
+
+specNameHighlight = filter(specCodeNames, speccode %in% specCodeHighlight)
+                   # 127203 is Shorthorn Sculpin
+specNameHighlight
+@
+
+\emph{Triglops murrayi} is Moustache Sculpin (code 127205). \emph{Lumpenus lampretaeformis} is Snakeblenny (code 154675). Data for these are
+<<highlighted, echo=FALSE>>=
+dataHighlight = filter(data, SpecCode %in% specCodeHighlight)
+dataHighlightSumm = summarise(group_by(dataHighlight, SpecCode),
+    minLngt = min(LngtClass),
+    maxLngt = max(LngtClass),
+    LWa = unique(LWa),
+    LWb = unique(LWb))
+dataHighlightSumm
+@
+
+
+
+The body-mass bin with the biggest ratio of width to lower bound of the bin occurs for the Blackbelly Rosefish (\emph{\Sexpr{specNameMaxRatio}}) which is species code \Sexpr{specCodeMaxRatio}, indicated by $\times$ in Figure~\ref{fig:nSeaFungBins4} [not any more]. The bin goes from \Sexpr{round(dataBinSpec[rowMaxRatio, ]$wmin, dig=2)} to \Sexpr{round(dataBinSpec[rowMaxRatio, ]$wmax, dig=2)}~g, such that the ratio of bin-width to the lower bound is \Sexpr{round(dataBinSpec[rowMaxRatio, ]$wWidthRatio, dig=2)} (though this is hard to see in Figure~\ref{fig:nSeaFungBins4}). Consequently, in the earlier  analyses, all individuals of this species with a body-length of \Sexpr{dataBinMaxRatio$LngtMin}-\Sexpr{dataBinMaxRatio$LngtMax}~cm would get assigned a body length of \Sexpr{dataBinMaxRatio$LngtMin}~cm, and consequently a body mass of \Sexpr{round(dataBinMaxRatio$wmin, dig=2)}. However, the true possible range of body masses is \Sexpr{round(dataBinMaxRatio$wmin, dig=2)}-\Sexpr{round(dataBinMaxRatio$wmax, dig=2)}~g. Thus, individuals at the upper end of this range are being assigned body masses of about half of their actual body mass.
+
+A similar effect occurs for \emph{all} body masses in the data set. This systematic rounding down of body masses is likely to have some impact on any analyses (including the MLE method that we used earlier).
+
+The widest resulting body-mass bin occurs for Atlantic Cod (\emph{\Sexpr{specNameMaxWidth}}), which is species code \Sexpr{specCodeMaxWidth}, the rightmost species in Figure~\ref{fig:nSeaFungBins3}. The widest bin goes from \Sexpr{round(dataBinSpec[rowMaxWidth, ]$wmin, dig=0)} to \Sexpr{round(dataBinSpec[rowMaxWidth, ]$wmax, dig=0)}~g, with a width of \Sexpr{round(dataBinSpec[rowMaxWidth, ]$wWidth, dig=0)}~g.
+
+
+
+
+\onefig{nSeaFungBins1}{Vertical blue bars show the body-mass bins that result from converting the 1-cm length bins into body-mass bins using the species-specific length-weight parameters. These are the first 45 species, ordered by the maximum value of the highest bin. Herring and sprat use 0.5-cm length bins, and their resulting body-mass bins are given by crosses (sprat is code \Sexpr{spratCode}). The vertical gaps between vertical bars indicate that there were no body masses of that species in that range (i.e. there were no individuals in the length bin that would result in the body-mass bin(s) that would fill the gap). The two red columns indicate two species that are explicitly discussed in the text.}
+
+\onefig{nSeaFungBins2}{As for Figure~\ref{fig:nSeaFungBins1} but for the next 45 species -- note the different vertical axis scale from Figure~\ref{fig:nSeaFungBins1}.}
+
+\onefig{nSeaFungBins3}{As for Figure~\ref{fig:nSeaFungBins1} but for the final 45 species -- note the different vertical axis scale from Figure~\ref{fig:nSeaFungBins1}. In some sense the tail containing rare large organisms, characteristic of a power-law distribution, shows up if you rotate the figure clockwise 90 degrees -- it somewhat resembles a power-law distribution.}
+
+\onefig{nSeaFungBins4}{As for Figure~\ref{fig:nSeaFungBins3} but just for species with maximum body mass up to 10~kg to more clearly show their body-mass bins.}
+
+<<plotWmax, echo=FALSE, results=hide>>=
+postscript("nSeaFungwmax.eps",
+            height = 6, width = 7.5,
+            horizontal=FALSE,  paper="special")
+
+plot(1:(dim(dataBinSpecWmax)[1]), dataBinSpecWmax$maxWmax, log="y",
+     xlab="Species index", ylab="Wmax for each species")
+dev.off()
+@
+
+\onefig{nSeaFungwmax}{Plot of maximum body size (max of max body-size bin) for each species.}
+
+Figure~\ref{fig:nSeaFungwmax} shows the values of maximum body size -- could
+analyse further if interest (I think it's a metric used by someone somewhere).
+
+<<wmaxByYear, echo=FALSE>>=
+maxWmaxByYear = summarise(group_by(dataBin, Year), maxWmax = max(wmax))
+smallTck=0.01
+yLimWmaxByYear = range(pretty(c(0, max(maxWmaxByYear$maxWmax))))
+postscript("maxWmaxByYear.eps",
+            height = 6, width = 7.5,
+            horizontal=FALSE,  paper="special")
+plot(maxWmaxByYear$Year, maxWmaxByYear$maxWmax,
+     xlab="Year", ylab="Wmax for each year", ylim=yLimWmaxByYear)
+xTicksSmall = maxWmaxByYear$Year
+axis(1, at = xTicksSmall, labels = rep("", length(xTicksSmall)), tck=-smallTck)
+yTicksSmall = seq(yLimWmaxByYear[1], yLimWmaxByYear[2], by=2000)
+axis(2, at = yTicksSmall, labels = rep("", length(yTicksSmall)), tck=-smallTck)
+points(2011, filter(maxWmaxByYear, Year == 2011)$maxWmax, col="red", pch=19)
+dev.off()
+@
+
+\onefig{maxWmaxByYear}{Plot of the maximum body size (max of max body-size bin)
+  observed in each year. Doing this because in earlier analyses it looked like 2011 was an outlier when comparing MLE and MLEbins methods for estimating $b$. But actually 2011 (in red) is typical.}
+
+\end{document}
+<<>>=
+stop("stopping here")
+@
+
+\section{Likelihood calculations using MLEbins method, which can use species-specific bins -- Andy's original likelihood function; see nSeaFungMLEbinsNew.Snw for these calculations for Mike's simpler one}
+
+<<dataPrep>>=
+dataBin
+dataBinForLike = filter(dataBin, Year == 1986)   # Need one year for now, then
+                                              #  do a loop or a function
+dataBinForLike = select(dataBinForLike, SpecCode, wmin, wmax, Number)
+dataBinForLike
+# Want to calculate the max and bin breaks for each species outside of the
+#  log-likelihood function to be minimised. So do here as a separate input
+#  to the negative log-likelihood function.
+dataBinForLikeSummary = (summarise(group_by(dataBinForLike, SpecCode),
+                            wminSpecies = min(wmin), wmaxSpecies = max(wmax),
+                            n_s = sum(Number)))
+dataBinForLikeSummary
+
+# MUST have d_{s1} and d_{s,J_s} >0 for each species. Check that before calling
+#  the log-likelihood function.
+
+# To test:
+bvec = seq(-2, -1.01, by=0.01)
+negLL = bvec/0
+for(i in 1:length(bvec))
+    {
+    negLL[i] = negLL.PLB.binned.species(b=bvec[i],
+             dataBinForLikeSummary = dataBinForLikeSummary,
+             dataBinForLike = dataBinForLike)
+    }
+# plot(bvec, negLL)
+
+# That works, now to use nlm and my calcLike function
+
+bstart = -2                     # just start with -2, could try and see what
+                                #  the PL value should be, but may be tricky**
+# From fitMLEmidMLEbin.r
+# PL.bMLE = 1/( log(min(binBreaks)) - sumCntLogMids/sum(binCounts)) - 1
+
+MLEbins.nSeaFung.res = calcLike(negLL.PLB.binned.species, p=bstart,
+             dataBinForLikeSummary = dataBinForLikeSummary,
+             dataBinForLike = dataBinForLike)
+
+# From fitMLEmidMLEbin.r:
+#    calcLike(negLL.PLB.counts, p=PL.bMLE, x=binMids,
+#        c=binCounts, K=num.bins, xmin=min(binBreaks), xmax=max(binBreaks),
+#        sumclogx=sumCntLogMids)
+#      MLE.array[i,j,"MLEmid"] = MLEmid.res$MLE
+#      MLEconf.array[i,j,"MLEmid", ] = MLEmid.res$conf
+@
+
+% Now do loop for each year, similar format to doEachYear chunk in
+%  nSeaFungAnalysis.Snw:
+<<doEachYear>>=
+fullYears = sort(unique(dataBin$Year))
+#MLEbins.nSeaFung = data.frame(MLE = NA, confMin=NA, confMax=NA)
+#MLEbins.nSeaFung = MLEbins.nSeaFung[-1,]     # empty but has column names
+for(iii in 1:length(fullYears))
+    {
+    dataBinForLike = filter(dataBin, Year == fullYears[iii])
+    dataBinForLike = select(dataBinForLike, SpecCode, wmin, wmax, Number)
+    # dataBinForLike
+    # Want to calculate the max and bin breaks for each species outside of the
+    #  log-likelihood function to be minimised. So do here as a separate input
+    #  to the negative log-likelihood function.
+    dataBinForLikeSummary = (summarise(group_by(dataBinForLike, SpecCode),
+                            wminSpecies = min(wmin), wmaxSpecies = max(wmax),
+                            n_s = sum(Number)))
+    # dataBinForLikeSummary
+    MLEbin.nSeaFung.oneyear = calcLike(negLL.PLB.binned.species, p=bstart,
+             dataBinForLikeSummary = dataBinForLikeSummary,
+             dataBinForLike = dataBinForLike)
+    # maybe plot a figure ***somehow***
+    if(iii == 1)
+        {
+        MLEbins.nSeaFung = data.frame(Year = fullYears[iii],
+            b=MLEbin.nSeaFung.oneyear$MLE,
+            confMin=MLEbin.nSeaFung.oneyear$conf[1],
+            confMax=MLEbin.nSeaFung.oneyear$conf[2])
+        } else
+        {
+        MLEbins.nSeaFung = rbind(MLEbins.nSeaFung,
+            c(fullYears[iii], MLEbin.nSeaFung.oneyear$MLE,
+            MLEbin.nSeaFung.oneyear$conf[1],
+            MLEbin.nSeaFung.oneyear$conf[2]))
+        }
+    # print(paste("Have done ", oneYear))  - can't print in console - try message
+    }
+
+# Need the standard error for weighted linear regression.
+#  From eightMethods.count():
+ #  Assume for that confidence interval is PLB.bMLE +/- 1.96 * stdErr
+  #   just to quickly calc stdErr. So stdErr = -(confMin - PLB.bMLE)/1.96.
+  #      PLB.bMLE - PLB.MLE.bConf - is symmetric anyway, implying quadratic
+  #      likelihood profile, implying normal approximation is okay. So use
+  #      it now to go backwards, to properly calculate should do the
+  #      Fisher information. stdErr = 1 / (sqrt( d^2 logLik /db^2 at MLE))
+  #      though that is fiddly to derive.
+MLEbins.nSeaFung = tbl_df(MLEbins.nSeaFung)
+MLEbins.nSeaFung = mutate(MLEbins.nSeaFung, stdErr =
+   (abs(confMin-b) + abs(confMax-b))/(2*1.96) )
+ #  mean(abs(( c(confMin, confMax) - b)/1.96)))
+# ***DOUBLE CHECK THAT LAST BIT
+
+@
+
+
+<<>>=
+# time series plot:
+postscript("nSeaFungMLEbins.eps",
+            height = 6, width = 7.5,
+            horizontal=FALSE,  paper="special")
+yLim=c(-2.2, -0.9)
+res = timeSerPlot(MLEbins.nSeaFung, legName = "(a) MLEbins",
+    yLim=yLim, xLab="Year", method = "MLEbins", legPos = "bottomleft",
+    weightReg=TRUE, xTicksSmallInc = 1, yTicksSmallInc = 0.05)
+dev.off()
+
+postscript("nSeaFungMLEbinsNonWeightReg.eps",
+            height = 6, width = 7.5,
+            horizontal=FALSE,  paper="special")
+resNonWeight = timeSerPlot(MLEbins.nSeaFung, legName = "(a) MLEbins",
+    yLim=yLim, xLab="Year", method = "MLEbinsNonweight", legPos = "bottomleft",
+    weightReg=FALSE, xTicksSmallInc = 1, yTicksSmallInc = 0.05)
+dev.off()
+@
+
+\onefig{nSeaFungMLEbins}{MLEs for $b$ with weighted linear regression -- ***NEED to check all math and all code! Did a Friday blitz! Results then get fed into {\tt nSeaFungCompare}.}
+
+\onefig{nSeaFungMLEbinsNonWeightReg}{MLEs for $b$ with non-weighted linear regression -- ***NEED to check all math and all code! Did a Friday blitz!}
+
+
+<<results=tex, echo=FALSE>>=
+trendResultsMLEbin = tbl_df(rbind(res, resNonWeight))
+
+
+trendResultsMLEbinTab = xtable(select(trendResultsMLEbin, -adjRsquared),
+  caption="Summary of regression analysis
+  of trend through time of the estimated exponent $b$; top row is MLEbins
+  with weighted linear regression, bottom row is with unweighted linear
+  regression. `Trend' is the estimated annual trend, with
+  95\\% confidence intervals given by `Low' and `High';
+  p is the p-value for the probability that the trend is significantly
+  different to 0, and $R^2$ is the coefficient of determination.
+  If $p \\geq 0.05$ then the trend can be considered not
+  significantly different to 0. If $p<0.05$ then a negative trend indicates
+  a statistically significant decline in the exponent over time, and
+  a positive trend indicates a statistically significant increase.",
+  lab="tab:trendResMLEbins", digits=c(1, 1, 5, 5, 5, 4, 4))
+
+print(trendResultsMLEbinTab, table.placement="tp", caption.placement="top",
+    include.rownames = FALSE, sanitize.text.function=function(x){x})  # was !ht
+@
+
+
+
+
+\section{Save results}
+
+<<save>>=>>=
+save.image(file="nSeaFungMLEbin.RData")   # save everything again, even if
+                                           #  redo = FALSE
+
+@
+
+\end{document}
