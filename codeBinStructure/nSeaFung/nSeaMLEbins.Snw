@@ -162,6 +162,7 @@ redo.calcs = TRUE #FALSE      # whether or not to redo this code, or load in
                               #  the latest results.
 if(redo.calcs)
   { load("nSeaFungImport.RData")
+    load("MLEresults.RData")  # Original MLE results (ignoring binning)
     specCodeNames = read.csv("nSeaFungData/speccodes.csv")
     } else
   { load("nSeaMLEbins.RData")
@@ -635,6 +636,146 @@ trendResultsMLEbinTabNew = xtable(select(trendResultsMLEbinNew, -adjRsquared),
   lab="tab:trendResMLEbins", digits=c(1, 1, 5, 5, 5, 4, 4))
 
 print(trendResultsMLEbinTabNew, table.placement="tp", caption.placement="top",
+    include.rownames = FALSE, sanitize.text.function=function(x){x})  # was !ht
+@
+
+\section{Compare with original MLE results}
+
+% Extracting from nSeaFungCompareNew.Snw
+
+In {\tt nSeaFungAnalysis.Snw} I used all eight original methods (that we
+documented in MEE paper) to fit the IBTS, including MLE just based on the body
+masses that were converted using the species-specific length-weight
+relationships and the minima of each bin. Here comparing those MLE results with
+the MLEbins method used above.
+
+\medskip
+
+<<>>=
+# Results from using MLEbinsNew
+fullResults.MLEbins = MLEbins.nSeaFung.new  # should have just used MLEbins..
+trend.MLEbins.new = filter(trendResultsMLEbinNew, Method == "MLEbins")
+
+figwidth = 7.5
+
+bYears = fullResults.MLE$Year
+xLim = range(bYears)
+yLim = c(-1.82, -1.38)
+MLE.col = "blue"
+MLEbins.col = "red"
+postscript("nSeaFungCompareTrends.eps", height = figheight*0.9,
+           width = figwidth,
+           horizontal=FALSE,  paper="special")
+res.MLE = timeSerPlot(fullResults.MLE, legName = "", xLim=xLim,
+    yLim=yLim, xLab = "Year", method = "MLE", legPos = "bottomleft",
+    weightReg=TRUE, bCol=MLE.col,
+    regPlot = FALSE,
+    regColNotSig = "lightblue", regColSig="darkblue",
+    xTicksSmallInc = 1, yTicksSmallInc = 0.02,
+    legExtra = c("MLEbins", "MLE"), legExtraCol=c(MLEbins.col, MLE.col),
+    legExtraPos = "topleft")  # MLEbins on top as values are higher in figure
+         # Haven't tested the darkblue yet
+
+res.MLEbins.new = timeSerPlot(fullResults.MLEbins, legName = "",
+    method = "MLEbins", weightReg=TRUE, newPlot=FALSE, bCol=MLEbins.col,
+    regPlot = FALSE,
+    regColNotSig = "pink", regColSig="darkred")  # Haven't seen the darkred
+dev.off()
+@
+
+
+\onefig{nSeaFungCompareTrends}{Comparison of the annual estimates of $b$ using the original MLE method and the MLEbins method.}
+
+Some calculations to compare trends:
+<<bRatio>>=
+bRatio = fullResults.MLE$b / fullResults.MLEbins$b
+xLim = range(bYears)
+yLim = c(1, max(bRatio))
+smallTck = 0.01
+
+lm.bRatio = lm(bRatio ~ bYears)
+yearInc = seq(xLim[1], xLim[2], 0.1)
+p.conf.bRatio = predict(lm.bRatio, newdata=data.frame(Year=bYears),
+    interval="confidence")    # gives warning with Year = yearInc
+pVal.bRatio = summary(lm.bRatio)$coeff["bYears",4]
+
+postscript("nSeaFungCompareRatio.eps",
+           height = figheight*0.9, width = figwidth,
+           horizontal=FALSE,  paper="special")
+plot( bYears, bRatio, xlab="Year", pch=19,
+     ylab= expression(paste("(", italic(b), " from MLE)/(", italic(b),
+         " from MLEbins)"), sep=""), ylim = yLim)
+xTicksSmall = seq(xLim[1], xLim[-1], by=1)
+axis(1, at = xTicksSmall, labels = rep("", length(xTicksSmall)),
+                tck=-smallTck)
+yTicksSmall = seq(yLim[1], yLim[-1], by=0.05)
+axis(2, at = yTicksSmall, labels = rep("", length(yTicksSmall)),
+                tck=-smallTck)
+
+if (pVal.bRatio > 0.05) regCol = "darkgrey" else regCol = "red"
+lm.line(xLim, lm.bRatio, col=regCol)
+matlines(bYears, p.conf.bRatio[ ,c("lwr", "upr")], col=regCol,
+                lty=2)
+confVals = confint(lm.bRatio, "bYears", level=0.95)
+
+dev.off()
+@
+
+
+\onefig{nSeaFungCompareRatio}{The annual ratio of the estimate of $b$ using the original MLE method to the estimate of $b$ using the MLEbins method. The linear regression slope is \Sexpr{round(lm.bRatio$coeff[2],dig=5)} (95\% confidence interval \Sexpr{round(confVals[1],dig=5)}-\Sexpr{round(confVals[2],dig=5)}), $p=$\Sexpr{round(pVal.bRatio, dig=5)}, $R^2=$\Sexpr{round(summary(lm.bRatio)$r.squared, dig=3)}.}
+
+
+<<bDiff>>=
+bDiff = fullResults.MLEbins$b - fullResults.MLE$b
+yLim = range(pretty(bDiff))   # c(1, max(bRatio))
+
+lm.bDiff = lm(bDiff ~ bYears)
+p.conf.bDiff = predict(lm.bDiff, newdata=data.frame(Year=bYears),
+    interval="confidence")    # gives warning with Year = yearInc
+pVal.bDiff = summary(lm.bDiff)$coeff["bYears",4]
+
+postscript("nSeaFungCompareDiff.eps",
+           height = figheight*0.9, width = figwidth,
+           horizontal=FALSE,  paper="special")
+plot( bYears, bDiff, xlab="Year", pch=19,
+     ylab= expression(paste("(", italic(b), " from MLEbins) - (", italic(b),
+         " from MLE)"), sep=""), ylim = yLim)
+xTicksSmall = seq(xLim[1], xLim[-1], by=1)
+             axis(1, at = xTicksSmall, labels = rep("", length(xTicksSmall)),
+                tck=-smallTck)
+yTicksSmall = seq(yLim[1], yLim[-1], by=0.01)
+axis(2, at = yTicksSmall, labels = rep("", length(yTicksSmall)),
+                tck=-smallTck)
+
+if (pVal.bDiff > 0.05) regCol = "darkgrey" else regCol = "red"
+lm.line(xLim, lm.bDiff, col=regCol)
+matlines(bYears, p.conf.bDiff[ ,c("lwr", "upr")], col=regCol,
+                lty=2)
+confVals = confint(lm.bDiff, "bYears", level=0.95)
+dev.off()
+@
+
+\onefig{nSeaFungCompareDiff}{The annual difference of the estimate of $b$ using MLEbins to the estimate of $b$ using the original MLE method. The linear regression slope is \Sexpr{round(lm.bDiff$coeff[2],dig=5)} (95\% confidence interval \Sexpr{round(confVals[1],dig=5)}-\Sexpr{round(confVals[2],dig=5)}), $p=$\Sexpr{round(pVal.bDiff, dig=5)}, $R^2=$\Sexpr{round(summary(lm.bDiff)$r.squared, dig=3)}.}
+
+For the earlier MLEbins likelihood function, the 2011 estimate of $b$ was somewhat higher than the rest, looking a bit of an outlier. Interestingly, this doesn't happen here, so no need to investigate.
+
+Showing the actual values for each method:
+
+<<results=tex, echo=FALSE>>=
+fullResults.MLEtab = xtable(select(fullResults.MLE, -Method),
+  caption="Full results for original MLE method.",
+  lab="tab:fullresults.MLE", digits=c(0, 0, 3, 3, 3, 5))
+
+print(fullResults.MLEtab, table.placement="tp", caption.placement="top",
+    include.rownames = FALSE, sanitize.text.function=function(x){x})  # was !ht
+
+fullResults.MLEbinsTab = xtable(
+  # select(fullResults.MLEbins, -n, -xmin, -xmax),
+  fullResults.MLEbins,
+  caption="Full results for MLEbins.",
+  lab="tab:fullresults.MLEbins", digits=c(0, 0, 2, 2, 1, 3, 3, 3, 5))
+
+print(fullResults.MLEbinsTab, table.placement="tp", caption.placement="top",
     include.rownames = FALSE, sanitize.text.function=function(x){x})  # was !ht
 @
 
