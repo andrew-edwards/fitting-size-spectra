@@ -29,6 +29,9 @@ North Sea IBTS data:
 nSeaFung/nSeaFungData/ibtsQ1cpuelength.RData - original file of data as downloaded
  by Julia Blanchard from ICES DATRAS website.
 
+nSeaFung/nSeaFungData/speccodes.csv - species codes for the data.
+
+
 nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
  up. Run using Sweave("nSeaFungImport.Snw") - this runs the R code and creates
  nSeaFungImport.tex latex file, which you can then run
