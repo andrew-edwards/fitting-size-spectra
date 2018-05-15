@@ -519,147 +519,108 @@ dev.off()
 \onefig{maxWmaxByYear}{Plot of the maximum body size (max of max body-size bin)
   observed in each year. Doing this because in earlier analyses it looked like 2011 was an outlier when comparing MLE and MLEbins methods for estimating $b$. But actually 2011 (in red) is typical.}
 
-\end{document}
-<<>>=
-stop("stopping here")
-@
 
-\section{Likelihood calculations using MLEbins method, which can use species-specific bins -- Andy's original likelihood function; see nSeaFungMLEbinsNew.Snw for these calculations for Mike's simpler one}
+% From nSeaFungMLEbinsNew.Snw:
 
-<<dataPrep>>=
-dataBin
-dataBinForLike = filter(dataBin, Year == 1986)   # Need one year for now, then
-                                              #  do a loop or a function
-dataBinForLike = select(dataBinForLike, SpecCode, wmin, wmax, Number)
-dataBinForLike
-# Want to calculate the max and bin breaks for each species outside of the
-#  log-likelihood function to be minimised. So do here as a separate input
-#  to the negative log-likelihood function.
-dataBinForLikeSummary = (summarise(group_by(dataBinForLike, SpecCode),
-                            wminSpecies = min(wmin), wmaxSpecies = max(wmax),
-                            n_s = sum(Number)))
-dataBinForLikeSummary
+\section{Likelihood calculations using new MLEbins method}
 
-# MUST have d_{s1} and d_{s,J_s} >0 for each species. Check that before calling
-#  the log-likelihood function.
-
-# To test:
-bvec = seq(-2, -1.01, by=0.01)
-negLL = bvec/0
-for(i in 1:length(bvec))
-    {
-    negLL[i] = negLL.PLB.binned.species(b=bvec[i],
-             dataBinForLikeSummary = dataBinForLikeSummary,
-             dataBinForLike = dataBinForLike)
-    }
-# plot(bvec, negLL)
-
-# That works, now to use nlm and my calcLike function
-
-bstart = -2                     # just start with -2, could try and see what
-                                #  the PL value should be, but may be tricky**
-# From fitMLEmidMLEbin.r
-# PL.bMLE = 1/( log(min(binBreaks)) - sumCntLogMids/sum(binCounts)) - 1
-
-MLEbins.nSeaFung.res = calcLike(negLL.PLB.binned.species, p=bstart,
-             dataBinForLikeSummary = dataBinForLikeSummary,
-             dataBinForLike = dataBinForLike)
-
-# From fitMLEmidMLEbin.r:
-#    calcLike(negLL.PLB.counts, p=PL.bMLE, x=binMids,
-#        c=binCounts, K=num.bins, xmin=min(binBreaks), xmax=max(binBreaks),
-#        sumclogx=sumCntLogMids)
-#      MLE.array[i,j,"MLEmid"] = MLEmid.res$MLE
-#      MLEconf.array[i,j,"MLEmid", ] = MLEmid.res$conf
-@
-
-% Now do loop for each year, similar format to doEachYear chunk in
+% Do a loop for each year, similar format to doEachYear chunk in
 %  nSeaFungAnalysis.Snw:
 <<doEachYear>>=
+bstart = -1.9                   # just start close to -2,
 fullYears = sort(unique(dataBin$Year))
-#MLEbins.nSeaFung = data.frame(MLE = NA, confMin=NA, confMax=NA)
-#MLEbins.nSeaFung = MLEbins.nSeaFung[-1,]     # empty but has column names
+
 for(iii in 1:length(fullYears))
     {
     dataBinForLike = filter(dataBin, Year == fullYears[iii])
     dataBinForLike = select(dataBinForLike, SpecCode, wmin, wmax, Number)
-    # dataBinForLike
-    # Want to calculate the max and bin breaks for each species outside of the
-    #  log-likelihood function to be minimised. So do here as a separate input
-    #  to the negative log-likelihood function.
-    dataBinForLikeSummary = (summarise(group_by(dataBinForLike, SpecCode),
-                            wminSpecies = min(wmin), wmaxSpecies = max(wmax),
-                            n_s = sum(Number)))
+    n = sum(dataBinForLike$Number)
+    xmin = min(dataBinForLike$wmin)
+    xmax = max(dataBinForLike$wmax)
+
     # dataBinForLikeSummary
-    MLEbin.nSeaFung.oneyear = calcLike(negLL.PLB.binned.species, p=bstart,
-             dataBinForLikeSummary = dataBinForLikeSummary,
-             dataBinForLike = dataBinForLike)
-    # maybe plot a figure ***somehow***
+    MLEbins.nSeaFung.oneyear.new  =
+        calcLike(negLL.fn = negLL.PLB.bins.species,
+                 p = bstart,
+                 dataBinForLike = dataBinForLike,
+                 n = n,
+                 xmin = xmin,
+                 xmax = xmax)
+
     if(iii == 1)
         {
-        MLEbins.nSeaFung = data.frame(Year = fullYears[iii],
-            b=MLEbin.nSeaFung.oneyear$MLE,
-            confMin=MLEbin.nSeaFung.oneyear$conf[1],
-            confMax=MLEbin.nSeaFung.oneyear$conf[2])
+        MLEbins.nSeaFung.new =
+          data.frame(Year = fullYears[iii],
+                     xmin=xmin, xmax=xmax, n=n,
+                     b=MLEbins.nSeaFung.oneyear.new$MLE,
+                     confMin=MLEbins.nSeaFung.oneyear.new$conf[1],
+                     confMax=MLEbins.nSeaFung.oneyear.new$conf[2])
         } else
         {
-        MLEbins.nSeaFung = rbind(MLEbins.nSeaFung,
-            c(fullYears[iii], MLEbin.nSeaFung.oneyear$MLE,
-            MLEbin.nSeaFung.oneyear$conf[1],
-            MLEbin.nSeaFung.oneyear$conf[2]))
+        MLEbins.nSeaFung.new =
+          rbind(MLEbins.nSeaFung.new,
+            c(fullYears[iii],
+              xmin, xmax, n,
+              MLEbins.nSeaFung.oneyear.new$MLE,
+              MLEbins.nSeaFung.oneyear.new$conf[1],
+              MLEbins.nSeaFung.oneyear.new$conf[2]))
         }
     # print(paste("Have done ", oneYear))  - can't print in console - try message
     }
 
 # Need the standard error for weighted linear regression.
 #  From eightMethods.count():
- #  Assume for that confidence interval is PLB.bMLE +/- 1.96 * stdErr
-  #   just to quickly calc stdErr. So stdErr = -(confMin - PLB.bMLE)/1.96.
-  #      PLB.bMLE - PLB.MLE.bConf - is symmetric anyway, implying quadratic
-  #      likelihood profile, implying normal approximation is okay. So use
-  #      it now to go backwards, to properly calculate should do the
-  #      Fisher information. stdErr = 1 / (sqrt( d^2 logLik /db^2 at MLE))
-  #      though that is fiddly to derive.
-MLEbins.nSeaFung = tbl_df(MLEbins.nSeaFung)
-MLEbins.nSeaFung = mutate(MLEbins.nSeaFung, stdErr =
-   (abs(confMin-b) + abs(confMax-b))/(2*1.96) )
- #  mean(abs(( c(confMin, confMax) - b)/1.96)))
-# ***DOUBLE CHECK THAT LAST BIT
+#  Assume for that confidence interval is PLB.bMLE +/- 1.96 * stdErr
+#   just to quickly calc stdErr. So stdErr = -(confMin - PLB.bMLE)/1.96.
+#      PLB.bMLE - PLB.MLE.bConf - is symmetric anyway (see below),
+#      implying quadratic
+#      likelihood profile, implying normal approximation is okay. So use
+#      it now to go backwards.
+#      To properly calculate should do the
+#      Fisher information. stdErr = 1 / (sqrt( d^2 logLik /db^2 at MLE))
+#      though that is fiddly to derive [d is derivative].
 
+MLEbins.nSeaFung.new = tbl_df(MLEbins.nSeaFung.new)
+MLEbins.nSeaFung.new = mutate(MLEbins.nSeaFung.new, stdErr =
+   (abs(confMin-b) + abs(confMax-b))/(2*1.96) )
+
+MLEbins.nSeaFung.new = mutate(MLEbins.nSeaFung.new,
+                               diff = confMax + confMin - 2*b)
+range(MLEbins.nSeaFung.new$diff)    # thus conf int is symmetric
+ # [1] -4.440892e-16  4.440892e-16
+MLEbins.nSeaFung.new = select(MLEbins.nSeaFung.new, -diff)
 @
 
 
 <<>>=
 # time series plot:
-postscript("nSeaFungMLEbins.eps",
+postscript("nSeaMLEbins.eps",
             height = 6, width = 7.5,
             horizontal=FALSE,  paper="special")
 yLim=c(-2.2, -0.9)
-res = timeSerPlot(MLEbins.nSeaFung, legName = "(a) MLEbins",
+res = timeSerPlot(MLEbins.nSeaFung.new, legName = "(a) MLEbins",
     yLim=yLim, xLab="Year", method = "MLEbins", legPos = "bottomleft",
     weightReg=TRUE, xTicksSmallInc = 1, yTicksSmallInc = 0.05)
 dev.off()
 
-postscript("nSeaFungMLEbinsNonWeightReg.eps",
+postscript("nSeaMLEbinsUnw.eps",
             height = 6, width = 7.5,
             horizontal=FALSE,  paper="special")
-resNonWeight = timeSerPlot(MLEbins.nSeaFung, legName = "(a) MLEbins",
+resNonWeight = timeSerPlot(MLEbins.nSeaFung.new, legName = "(a) MLEbins",
     yLim=yLim, xLab="Year", method = "MLEbinsNonweight", legPos = "bottomleft",
     weightReg=FALSE, xTicksSmallInc = 1, yTicksSmallInc = 0.05)
 dev.off()
 @
 
-\onefig{nSeaFungMLEbins}{MLEs for $b$ with weighted linear regression -- ***NEED to check all math and all code! Did a Friday blitz! Results then get fed into {\tt nSeaFungCompare}.}
+\onefig{nSeaMLEbins}{MLEs for $b$ with weighted linear regression for new MLEbinsNew method (simpler likelihood function). Results are going into {\tt nSeaFungCompareNew.Snw}.}
 
-\onefig{nSeaFungMLEbinsNonWeightReg}{MLEs for $b$ with non-weighted linear regression -- ***NEED to check all math and all code! Did a Friday blitz!}
-
+\onefig{nSeaMLEbinsUnw}{MLEs for $b$ with non-weighted linear regression for MLEbinsNew.}
 
 <<results=tex, echo=FALSE>>=
-trendResultsMLEbin = tbl_df(rbind(res, resNonWeight))
+trendResultsMLEbinNew = tbl_df(rbind(res, resNonWeight))
 
-
-trendResultsMLEbinTab = xtable(select(trendResultsMLEbin, -adjRsquared),
-  caption="Summary of regression analysis
+trendResultsMLEbinTabNew = xtable(select(trendResultsMLEbinNew, -adjRsquared),
+  caption="New likelihood function. Summary of regression analysis
   of trend through time of the estimated exponent $b$; top row is MLEbins
   with weighted linear regression, bottom row is with unweighted linear
   regression. `Trend' is the estimated annual trend, with
@@ -672,19 +633,15 @@ trendResultsMLEbinTab = xtable(select(trendResultsMLEbin, -adjRsquared),
   a positive trend indicates a statistically significant increase.",
   lab="tab:trendResMLEbins", digits=c(1, 1, 5, 5, 5, 4, 4))
 
-print(trendResultsMLEbinTab, table.placement="tp", caption.placement="top",
+print(trendResultsMLEbinTabNew, table.placement="tp", caption.placement="top",
     include.rownames = FALSE, sanitize.text.function=function(x){x})  # was !ht
 @
-
-
-
 
 \section{Save results}
 
 <<save>>=>>=
-save.image(file="nSeaFungMLEbin.RData")   # save everything again, even if
-                                           #  redo = FALSE
-
+save.image(file="nSeaMLEbins.RData")
 @
 
 \end{document}
+
