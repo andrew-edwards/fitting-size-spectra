@@ -320,7 +320,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
   # postscript("nSea1980-fitting2a.eps", height = figheight,
   #           width = figwidth, horizontal=FALSE, paper="special")
   # Postscript plots all 3million points, ends up >150Mb file. So try .png:
-  png(paste(figName, "Cnt-", oneYear, ".png", sep=""), height = figheight,
+  png(paste(figName, "Eight-", oneYear, ".png", sep=""), height = figheight,
              width = figwidth, res=300,, units="in")
 
   par(mfrow=c(4,2))
@@ -748,7 +748,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
 }
 
 # Function to plot and fit time series of exponent as estimated by
-#  a given method. Called from nSea15analysis.Snw
+#  a given method.
 timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     bCol="black",
     pchVal = 20, cexVal = 1, confCol="black", confThick = 1,
@@ -760,7 +760,8 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     regPlot = TRUE,
     regColNotSig = "darkgrey", regColSig = "red",
     legExtra = NULL, legExtraPos = "topleft", legExtraCol = "",
-    insetVal = c(-0.08, -0.06))         # insetVal2 = c(-0.08, 0.07))
+    insetVal = c(-0.08, -0.06),
+    xJitter = 0)                        # insetVal2 = c(-0.08, 0.07))
                                         # yTicks = seq(0, 300, 50),
     {
     # Plotting time series of estimated b with confidence intervals, for
@@ -803,6 +804,8 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     #  legExtraPos: position for extra manually-specified legend
     #  legExtraCol: colours (vector) for extra manually-specified legend
     #  insetVal: inset shift for naming the panel
+    #  xJitter: value to jitter the x-values by (for comparison plot the confidence
+    #   intervals overlap)
     #  # insetVal2: inset shift for printing observed coverage percentage
     if(is.null(xLim))
         {
@@ -821,7 +824,7 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
                  #  conf intervals, so need na.rm.
     if(newPlot)
        {
-       plot(bForYears$Year, bForYears$b, xlim=xLim, ylim=yLim, col=bCol,
+       plot(bForYears$Year+xJitter, bForYears$b, xlim=xLim, ylim=yLim, col=bCol,
          pch=pchVal, cex=cexVal, xlab=xLab, ylab=yLab)    # yaxt="n")
 
        legend(legPos, legName, bty="n", inset=insetVal)
@@ -836,16 +839,16 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
                 tck=-xTicksSmallTck)
            }
        # Confidence intervals (instead of plotCI from regress2.Snw):
-       segments(x0=bForYears$Year, y0=bForYears$confMin, x1=bForYears$Year,
-             y1=bForYears$confMax)
+       segments(x0=bForYears$Year+xJitter, y0=bForYears$confMin,
+                x1=bForYears$Year+xJitter, y1=bForYears$confMax)
        if(!is.null(legExtra)) legend(legExtraPos, legExtra, bty="n",
                                      col=legExtraCol, pch=pchVal, cex=cexVal)
        } else    # Add to existing plot
        {
-       points(bForYears$Year, bForYears$b, col=bCol,
+       points(bForYears$Year+xJitter, bForYears$b, col=bCol,
          pch=pchVal, cex=cexVal)
-       segments(x0=bForYears$Year, y0=bForYears$confMin, x1=bForYears$Year,
-             y1=bForYears$confMax)
+       segments(x0=bForYears$Year+xJitter, y0=bForYears$confMin,
+                x1=bForYears$Year+xJitter, y1=bForYears$confMax)
        }
 
 

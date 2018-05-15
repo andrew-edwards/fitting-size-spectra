@@ -660,7 +660,7 @@ figwidth = 7.5
 
 bYears = fullResults.MLE$Year
 xLim = range(bYears)
-yLim = c(-1.82, -1.38)
+yLim = c(-1.82, -1.35)
 MLE.col = "blue"
 MLEbins.col = "red"
 postscript("nSeaFungCompareTrends.eps", height = figheight*0.9,
@@ -673,13 +673,15 @@ res.MLE = timeSerPlot(fullResults.MLE, legName = "", xLim=xLim,
     regColNotSig = "lightblue", regColSig="darkblue",
     xTicksSmallInc = 1, yTicksSmallInc = 0.02,
     legExtra = c("MLEbins", "MLE"), legExtraCol=c(MLEbins.col, MLE.col),
-    legExtraPos = "topleft")  # MLEbins on top as values are higher in figure
-         # Haven't tested the darkblue yet
+    legExtraPos = "topleft",
+    xJitter = -0.03)       # MLEbins on top as values are higher in figure
+                           # Haven't tested the darkblue yet
 
 res.MLEbins.new = timeSerPlot(fullResults.MLEbins, legName = "",
     method = "MLEbins", weightReg=TRUE, newPlot=FALSE, bCol=MLEbins.col,
     regPlot = FALSE,
-    regColNotSig = "pink", regColSig="darkred")  # Haven't seen the darkred
+    regColNotSig = "pink", regColSig="darkred",
+    xJitter = 0.03)        # Haven't seen the darkred
 dev.off()
 @
 
