@@ -612,9 +612,10 @@ resNonWeight = timeSerPlot(MLEbins.nSeaFung.new, legName = "(a) MLEbins",
 dev.off()
 @
 
-\onefig{nSeaMLEbins}{MLEs for $b$ with weighted linear regression for new MLEbinsNew method (simpler likelihood function). Results are going into {\tt nSeaFungCompareNew.Snw}.}
+\onefig{nSeaMLEbins}{MLEs for $b$ with weighted linear regression for MLEbins method.} % Results are going into {\tt nSeaFungCompareNew.Snw}.}
 
-\onefig{nSeaMLEbinsUnw}{MLEs for $b$ with non-weighted linear regression for MLEbinsNew.}
+\onefig{nSeaMLEbinsUnw}{MLEs for $b$ with non-weighted linear regression for
+  MLEbins method.}
 
 <<results=tex, echo=FALSE>>=
 trendResultsMLEbinNew = tbl_df(rbind(res, resNonWeight))
