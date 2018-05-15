@@ -151,12 +151,13 @@ Have tested the new {\tt eightMethods.count()} code on the earlier North Sea 201
 
 Initial pre-processing has already been done, so:
 <<>>=
-redo.eight = FALSE       # whether or not to redo the eight methods
+redo.eight = FALSE             # whether or not to redo the eight methods
                                #  of calculation for every year - took
                                #  over two hours for nSea15analysis1.Snw,
                                #  so be good to make parallel. LCD method is
                                #  I think what took the time (on 3 million
-                               #  data points).
+                               #  data points). Obviously set to TRUE for the first
+                               #  run through.
 
 if(redo.eight)
   { load("nSeaFungImport.RData")
@@ -236,13 +237,6 @@ print(dataSummTab, table.placement="tp", caption.placement="top",
 @
 
 Table~\ref{tab:dataSumm} and Figure~\ref{fig:dataSumm} show the data summarised by year.
-
-....Can write text to describe results.....
-
-% ***HERE**There is a clear jump in 2004 of the number of unique length classes, and a gradual increase in the number of unique species identified each year (though with a recent drop). The increase and decline in the median number in each species-specific length class may be of interest (or not), and the jump in median body mass may well be due to the decline in observed species (and it may not be as pronounced when species-specific length-weight conversions get used).
-
-
-% {\noindent \bf Q1.} Julia, see the above paragraph. We may well need to understand some of this to interpret the final results. I'm hoping you might know about changes in survey protocols, or how comparable the data might be from year-to-year.
 
 \onefig{dataSumm}{Time series of the four columns shown in Table~\ref{tab:dataSumm}. Median number and median body mass are simply based on the species-specific and length-class-specific numbers and body masses, and so can't be easily interpreted for these data.}
 
@@ -540,8 +534,12 @@ dev.off()
 % data no longer seem to be a table_df   - correct
 
 <<save>>=>>=
+fullResults.MLE = filter(fullResults, Method == "MLE")
+trend.MLE = filter(trendResults, Method == "MLE")
+save(fullResults.MLE, trend.MLE, file = "MLEresults.RData")   # for nSeaMLEbins.Snw
+
 save.image(file="nSeaFungAnalysis.RData")   # save everything again, even if
-                                           #  redo.eight = FALSE
+                                            #  redo.eight = FALSE
 @
 
 \end{document}
