@@ -28,15 +28,15 @@ negLL.PLB.counts = function(b, x, c, K=length(c), xmin=min(x), xmax=max(x),
   #  because the x values correspond to bins. But if x just represents
   #  counts of discrete values then no need to specify xmin and xmax, they
   #  will be automatically determined as min(x) and max(x), respectively,
-  #  although it can be good to specify them to avoid repeated calculation.    
+  #  although it can be good to specify them to avoid repeated calculation.
   #
   # Args:
   #   b: value of b for which to calculate the negative log-likelihood.
   #   x: vector of length K corresponding to data values x_k, with a
-  #    corresponding count c being the number of times that xk is repeated.  
+  #    corresponding count c being the number of times that xk is repeated.
   #   c: vector of length K giving the counts c_k for each k=1, 2, 3, ..., K.
   #       Must have c[1]>0 and c[K]>0, i.e. non-zero counts for first and last
-  #       x_k. Note that the c_k do not have to be integer-valued.    
+  #       x_k. Note that the c_k do not have to be integer-valued.
   #   K: number of c_k (length of c).
   #   xmin: minimum value of x_k, as an input to avoid repeatedly calculating.
   #   xmax: maximum value of x_k, as an input to avoid repeatedly calculating.
@@ -67,8 +67,8 @@ LBNbiom.method.counts = function(valCounts, binBreaks = NULL, lowerCutOff = 0)
     #  a linear regression of log10(normalised biomass in bin)
     #  against log10(midpoint of bin). Bins can be defined by user,
     #  else are created to double in size. Also calculates slope
-    #  for biomasses not being normalised. 
-    # 
+    #  for biomasses not being normalised.
+    #
     # Args:
     #  valCounts: data.frame (and can be tbl_df) with columns bodyMass
     #   and Number (which is the count for each body mass). bodyMass can
@@ -103,7 +103,7 @@ LBNbiom.method.counts = function(valCounts, binBreaks = NULL, lowerCutOff = 0)
     #    normalising the biomass in each bin
     #  unNorm.slope: slope of the linear regression fit when not
     #    normalising the biomass in each bin
-    # 
+    #
         require(dplyr)
         if(!is.data.frame(valCounts))
             { stop("valCounts not a data.frame in LBNbiom.method.counts")}
@@ -119,7 +119,7 @@ LBNbiom.method.counts = function(valCounts, binBreaks = NULL, lowerCutOff = 0)
            {
             binBreaks = 2^( floor(log2(xmin)) : ceiling(log2(xmax)) )
            } else
-           { 
+           {
             if(min(diff(binBreaks)) < 0) { stop("binBreaks need to be increasing
                                               in LBNbiom.method.counts")}
            }
@@ -167,12 +167,12 @@ LBNbiom.method.counts = function(valCounts, binBreaks = NULL, lowerCutOff = 0)
             na.action=na.omit)
         unNorm.slope = unNorm.lm$coeff[2]
         unNorm.conf = confint(unNorm.lm, "log10binMid", 0.95)
-        
+
         norm.lm = lm( log10totalBiomNorm ~ log10binMid,
             data = filter(binVals, aboveCutOff),
             na.action=na.omit)
         norm.slope = norm.lm$coeff[2]
-        norm.conf = confint(norm.lm, "log10binMid", 0.95)        
+        norm.conf = confint(norm.lm, "log10binMid", 0.95)
         y = list(valCounts2 = valCounts2, binVals = binVals,
             unNorm.lm = unNorm.lm, unNorm.slope = unNorm.slope,
             unNorm.conf = unNorm.conf,
@@ -185,7 +185,7 @@ Llin.method.counts = function(valCounts, num.bins = NULL, binBreaks = NULL)
     {
     # The Llin method, which is plotting binned counts on log-linear
     #  axes and then fitting a regression, for count data.
-    # 
+    #
     # Args:
     #  valCounts: data.frame (and can be tbl_df) with columns bodyMass
     #   and Number (which is the count for each body mass). bodyMass can
@@ -208,7 +208,7 @@ Llin.method.counts = function(valCounts, num.bins = NULL, binBreaks = NULL)
     #   breaks: bin breaks
     #   confVals: 95% confidence interval of the fitted slope
     #   stdError: standard error of the fitted slope
-        require(dplyr)   
+        require(dplyr)
         if(!is.data.frame(valCounts))
             { stop("valCounts not a data.frame in Llin.method.counts")}
         if(anyNA(valCounts))
@@ -220,7 +220,7 @@ Llin.method.counts = function(valCounts, num.bins = NULL, binBreaks = NULL)
         if(!is.null(binBreaks) & !is.null(num.bins))
             { stop("need one of binBreaks OR num.bins in Llin.method.counts") }
         if(!is.null(binBreaks))      # use to get the bin breaks
-           { 
+           {
             if(min(diff(binBreaks)) < 0) stop("binBreaks need to be increasing")
             hLlin.temp = hist(valCounts$bodyMass, breaks = binBreaks, plot=FALSE)
                       # will give error if binBreaks don't span bodyMass values
@@ -229,7 +229,7 @@ Llin.method.counts = function(valCounts, num.bins = NULL, binBreaks = NULL)
             hLlin.temp = hist(valCounts$bodyMass, breaks = num.bins, plot=FALSE)
            }          # Still lets hist select the breaks; num.bins is a guide
         breaks = hLlin.temp$breaks
-        hLlin.mids = hLlin.temp$mids               
+        hLlin.mids = hLlin.temp$mids
 
         valCounts2 = mutate(valCounts,
             binMid = hLlin.mids[findInterval(bodyMass, breaks,
@@ -267,7 +267,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
   {
   # Computes exponents for a dataset using all eight methods, explicitly
   #  using the counts (number of each bodyMass), which can be non-integer.
-  # Args: 
+  # Args:
   #  oneYear: the year of data to use, from that in the multiple years contained
   #   in data.
   #  data: local data frame that has a unique row for every combination
@@ -282,15 +282,15 @@ eightMethods.count = function(data = data, oneYear = 1980,
   #    b (estimate of b from that method), confMin (lower end of 95% confidence
   #    interval of b for that method), and confMax (upper end of 95% confidence
   #    interval of b for that method).
-  #   plots a .png figure paste(figName, "-", oneYear, ".png") of the 
+  #   plots a .png figure paste(figName, "-", oneYear, ".png") of the
   #    fits for each of the eight methods. Does .png instead of .eps since
   #    .eps was >150Mb for 1980 data, .png is 66Kb.
   #
-  # 
+  #
   # In eightMethods(), had to expand data to get a vector, x, of individual
   #  fish sizes (lengths or weights), which is how the original methods
   #  functions are written.
-  # Now adding explicit methods in eightMethods.counts, such as
+  # Now adding explicit methods in eightMethods.count, such as
   #  Llin.method.counts, to deal explicitly with counts, and that
   #  should also work for non-integer counts. For integer
   #  counts, the expansion to give x should give the same results.
@@ -305,8 +305,8 @@ eightMethods.count = function(data = data, oneYear = 1980,
               # 3.3 million for 1980 for old nSea15, but it was quick
 
   # May want some of these:
-  # log.x = log(x)                     
-  # sum.log.x = sum( log.x ) 
+  # log.x = log(x)
+  # sum.log.x = sum( log.x )
   xmin = min(valCounts$bodyMass)
   xmax = max(valCounts$bodyMass)
 
@@ -322,17 +322,17 @@ eightMethods.count = function(data = data, oneYear = 1980,
   # Postscript plots all 3million points, ends up >150Mb file. So try .png:
   png(paste(figName, "Cnt-", oneYear, ".png", sep=""), height = figheight,
              width = figwidth, res=300,, units="in")
-  
+
   par(mfrow=c(4,2))
   oldmai = par("mai")    #  0.95625 0.76875 0.76875 0.39375  inches I think,
                          #   think may be indpt of fig size
   par(mai=c(0.4, 0.5, 0.16, 0.3))  # Affects all figures if don't change again
                                   #  Changed 3rd from 0.05 to 0.13
   mgpVals = c(1.6,0.5,0)            # mgp values   2.0, 0.5, 0
-  
+
   # Notation:
   # hAAA - h(istrogram) for method AAA.
-  
+
   # Llin method - plotting binned data on log-linear axes then fitting regression
   #  as done by Daan et al. 2005.
   # hLlin.list = Llin.method(x, num.bins = num.bins)
@@ -340,7 +340,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
 
   #eightMethodsRes = data.frame("Year"=oneYear, "Method"="Llin",
   #    "b" = hLlin.list$slope,
-  #    "confMin"= hLlin.list$confVals[1], "confMax"= hLlin.list$confVals[2]) 
+  #    "confMin"= hLlin.list$confVals[1], "confMax"= hLlin.list$confVals[2])
   # That gives hLlin.mids as the name of the row, so does this though
   hLlin.b = hLlin.list$slope
   hLlin.confMin = hLlin.list$confVals[1]
@@ -351,7 +351,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
       "stdErr" = hLlin.stdErr,
       row.names=NULL)
 
-  plot( hLlin.list$mids, hLlin.list$log.counts, 
+  plot( hLlin.list$mids, hLlin.list$log.counts,
      xlab=expression(paste("Bin midpoints for data ", italic(x))),
      ylab = "Log (count)", mgp=mgpVals)   # xlim=c(0, 400),
 
@@ -370,21 +370,21 @@ eightMethods.count = function(data = data, oneYear = 1980,
   # Use Llin method's binning.
   hLT.log.mids = log(hLlin.list$mids)
   hLT.log.counts = log(hLlin.list$counts)
-  hLT.log.counts[ is.infinite(hLT.log.counts) ] = NA  
+  hLT.log.counts[ is.infinite(hLT.log.counts) ] = NA
                     # lm can't cope with -Inf, which appear if 0 counts in a bin
-  
+
   hLT.lm = lm( hLT.log.counts ~ hLT.log.mids, na.action=na.omit)
   hLT.slope = hLT.lm$coeff[2]
   hLT.conf = confint(hLT.lm, "hLT.log.mids", 0.95)
   hLT.stdErr = coef(summary(hLT.lm))["hLT.log.mids", "Std. Error"]
-  
-  eightMethodsRes = rbind(eightMethodsRes, 
+
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LT"),
-      "b" = hLT.slope, "confMin"= hLT.conf[1], "confMax"= hLT.conf[2], 
+      "b" = hLT.slope, "confMin"= hLT.conf[1], "confMax"= hLT.conf[2],
       "stdErr" = hLT.stdErr, row.names=NULL))
-   
-  plot( hLT.log.mids, hLT.log.counts, 
-       xlab=expression(paste("Log (bin midpoints for data ", italic(x), ")")), 
+
+  plot( hLT.log.mids, hLT.log.counts,
+       xlab=expression(paste("Log (bin midpoints for data ", italic(x), ")")),
        ylab = "Log (count)", mgp=mgpVals)
 
   lm.line(hLT.log.mids, hLT.lm)
@@ -398,25 +398,25 @@ eightMethods.count = function(data = data, oneYear = 1980,
   # Use Llin method's binning.
   hLTplus1.log10.mids = log10(hLlin.list$mids)
   hLTplus1.log10.counts = log10(hLlin.list$counts + 1)
-  hLTplus1.log10.counts[ is.infinite(hLTplus1.log10.counts) ] = NA  
+  hLTplus1.log10.counts[ is.infinite(hLTplus1.log10.counts) ] = NA
                   # lm can't cope with -Inf, which appear if 0 counts in a bin
                   #  but the + 1 avoids this issue here
-  hLTplus1.lm = lm( hLTplus1.log10.counts ~ hLTplus1.log10.mids, 
+  hLTplus1.lm = lm( hLTplus1.log10.counts ~ hLTplus1.log10.mids,
       na.action=na.omit)
   hLTplus1.slope = hLTplus1.lm$coeff[2]
   hLTplus1.stdErr = coef(summary(hLTplus1.lm))[
-      "hLTplus1.log10.mids", "Std. Error"]  
+      "hLTplus1.log10.mids", "Std. Error"]
 
   hLTplus1.conf = confint(hLTplus1.lm, "hLTplus1.log10.mids", 0.95)
-  eightMethodsRes = rbind(eightMethodsRes, 
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LTplus1"),
-      "b" = hLTplus1.slope, "confMin"= hLTplus1.conf[1], 
+      "b" = hLTplus1.slope, "confMin"= hLTplus1.conf[1],
       "confMax"= hLTplus1.conf[2], "stdErr" = hLTplus1.stdErr, row.names=NULL))
-  
-  plot( hLTplus1.log10.mids, hLTplus1.log10.counts, 
-       xlab=expression(paste("Log10 (bin midpoints for data ", italic(x), ")")), 
+
+  plot( hLTplus1.log10.mids, hLTplus1.log10.counts,
+       xlab=expression(paste("Log10 (bin midpoints for data ", italic(x), ")")),
        ylab = "Log10 (count+1)", mgp=mgpVals)
- 
+
   lm.line(hLTplus1.log10.mids, hLTplus1.lm)
   legend("topright", paste("(c) LTplus1 b=", signif(hLTplus1.slope, 3)),
        bty="n", inset=inset)
@@ -441,15 +441,15 @@ eightMethods.count = function(data = data, oneYear = 1980,
   # From mizer's getCommunitySlopeCode.r:
   #  "Calculates the slope of the community abundance through time by
   #  performing a linear regression on the logged total numerical abundance
-  #  at weight and logged weights (natural logs, not log to base 10, 
+  #  at weight and logged weights (natural logs, not log to base 10,
   #  are used)."  So regress log(total counts) against log(weights)
   #  (not log10 and not normalised). And it's actually
   #   on the minima of the bins (their w).
- 
+
   hLBmiz.num.bins = num.bins
-  
+
   beta = nlm(LBmizbinsFun, 2, xmin=xmin, xmax=xmax, k=hLBmiz.num.bins)$est
-  
+
   # hLBmiz.bins = c(beta^(0:(k-1)) * xmin, xmax)
   hLBmiz.bins = c(beta^(0:(hLBmiz.num.bins-1)) * xmin, xmax)
   hLBmiz.mins = hLBmiz.bins[-length(hLBmiz.bins)]    # min of each bin
@@ -473,7 +473,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
   LBmiz.binVals = tbl_df(LBmiz.binVals)
   LBmiz.binVals = arrange(LBmiz.binVals, binMin)
   if( max( abs( hLBmiz.mins - LBmiz.binVals$binMin) ) > 0)
-            { stop("check LBmiz.binVals$binMin in eightMethods.counts") }
+            { stop("check LBmiz.binVals$binMin in eightMethods.count") }
 
 
 #  hLlin.log.counts = log(binVals$binCount)
@@ -483,7 +483,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
 
   hLBmiz.log.min.of.bins = log(LBmiz.binVals$binMin)    # min of bins
   hLBmiz.log.counts = log(LBmiz.binVals$binCount)
-  hLBmiz.log.counts[ is.infinite(hLBmiz.log.counts) ] = NA  
+  hLBmiz.log.counts[ is.infinite(hLBmiz.log.counts) ] = NA
                   # lm can't cope with -Inf, which appear if 0 counts in a bin
 
   hLBmiz.lm = lm( hLBmiz.log.counts ~ hLBmiz.log.min.of.bins, na.action=na.omit)
@@ -495,20 +495,20 @@ eightMethods.count = function(data = data, oneYear = 1980,
   hLBmiz.conf = confint(hLBmiz.lm, "hLBmiz.log.min.of.bins", 0.95) - 1
   hLBmiz.stdErr = coef(summary(hLBmiz.lm))[
       "hLBmiz.log.min.of.bins", "Std. Error"]
-  
-  eightMethodsRes = rbind(eightMethodsRes, 
+
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LBmiz"),
-      "b" = hLBmiz.b, "confMin"= hLBmiz.conf[1], 
+      "b" = hLBmiz.b, "confMin"= hLBmiz.conf[1],
       "confMax"= hLBmiz.conf[2], "stdErr" = hLBmiz.stdErr, row.names=NULL))
 
   plot( hLBmiz.log.min.of.bins, hLBmiz.log.counts,
      xlab=expression(paste("Log (minima of bins for data ", italic(x), ")")),
      ylab = "Log (count)", mgp=mgpVals)
-     # axes=FALSE, xaxs="i", yaxs="i", , xlim=c(log10(1), log10(650)), 
+     # axes=FALSE, xaxs="i", yaxs="i", , xlim=c(log10(1), log10(650)),
      #  ylim=c(log10(0.7), log10(1100)))  # So axes are logged
 
   lm.line(hLBmiz.log.min.of.bins, hLBmiz.lm)
-  legend("bottomleft", paste("(d) LBmiz b=", signif(hLBmiz.b, 3)), 
+  legend("bottomleft", paste("(d) LBmiz b=", signif(hLBmiz.b, 3)),
          bty="n", inset=inset)
 
   # LBbiom method - binning data using log2 bins, calculating biomass not counts
@@ -521,12 +521,12 @@ eightMethods.count = function(data = data, oneYear = 1980,
   hLBbiom.conf = hLBNbiom.list[["unNorm.conf"]] - 2
   hLBbiom.stdErr = coef(summary(hLBNbiom.list$unNorm.lm))[
       "log10binMid", "Std. Error"]
-  
-  eightMethodsRes = rbind(eightMethodsRes, 
+
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LBbiom"),
-      "b" = hLBbiom.b, "confMin"= hLBbiom.conf[1], 
+      "b" = hLBbiom.b, "confMin"= hLBbiom.conf[1],
       "confMax"= hLBbiom.conf[2], "stdErr" = hLBbiom.stdErr, row.names=NULL))
-  
+
   plot(hLBNbiom.list[["binVals"]]$log10binMid,
      hLBNbiom.list[["binVals"]]$log10totalBiom,
      xlab=expression(paste("Log10 (bin midpoints for data ", italic(x), ")")),
@@ -540,19 +540,19 @@ eightMethods.count = function(data = data, oneYear = 1980,
   #  log2 bins of bodymass, sum the total biomass in each bin, normalise
   #  biomasses by binwidths, fit regression to log10(normalised biomass) v
   #  log10(midpoint of bin).
-  
+
   # hLBNbiom.list = LBNbiom.method(x) - already done above
 
   hLBNbiom.b = hLBNbiom.list[["norm.slope"]] - 1
   hLBNbiom.conf = hLBNbiom.list[["norm.conf"]] - 1
   hLBNbiom.stdErr = coef(summary(hLBNbiom.list$norm.lm))[
       "log10binMid", "Std. Error"]
-  
-  eightMethodsRes = rbind(eightMethodsRes, 
+
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LBNbiom"),
-      "b" = hLBNbiom.b, "confMin"= hLBNbiom.conf[1], 
+      "b" = hLBNbiom.b, "confMin"= hLBNbiom.conf[1],
       "confMax"= hLBNbiom.conf[2], "stdErr" = hLBNbiom.stdErr, row.names=NULL))
-  
+
   plot(hLBNbiom.list[["binVals"]]$log10binMid,
      hLBNbiom.list[["binVals"]]$log10totalBiomNorm,
      xlab=expression(paste("Log10 (bin midpoints for data ", italic(x), ")")),
@@ -588,10 +588,10 @@ eightMethods.count = function(data = data, oneYear = 1980,
   hLCD.conf = confint(hLCD.lm, "logBodyMass", 0.95) - 1
   hLCD.stdErr = coef(summary(hLCD.lm))[
       "logBodyMass", "Std. Error"]
- 
-  eightMethodsRes = rbind(eightMethodsRes, 
+
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("LCD"),
-      "b" = hLCD.b, "confMin"= hLCD.conf[1], 
+      "b" = hLCD.b, "confMin"= hLCD.conf[1],
       "confMax"= hLCD.conf[2], "stdErr" = hLCD.stdErr, row.names=NULL))
 
    plot(LCD.valCounts$logBodyMass, LCD.valCounts$logCumProp, main="",
@@ -605,15 +605,15 @@ eightMethods.count = function(data = data, oneYear = 1980,
   legend("bottomleft", paste("(g) LCD b=", signif(hLCD.b, 3)), bty="n",
        inset=inset)
 
-  
+
   # MLE (maximum likelihood method) calculations.
   MLE.valCounts = select(valCounts, bodyMass, Number)
-  # Should be faster to group repeated values, just in case that's not done:  
+  # Should be faster to group repeated values, just in case that's not done:
   MLE.valCounts = summarise(group_by(valCounts, bodyMass), Count = sum(Number))
   MLE.valCounts = arrange(MLE.valCounts, desc(bodyMass))
                                         # x.sorted = sort(x, decreasing=TRUE)
   sumCounts = sum(MLE.valCounts$Count)
-  if(abs( sumCounts - sumNumber) > 0.001) 
+  if(abs( sumCounts - sumNumber) > 0.001)
       { stop("Check sumCounts in eightMethods.count()") }
   MLE.K = dim(MLE.valCounts)[1]         # Number of bodyMass values
   if(MLE.valCounts[1, "Count"] == 0 |
@@ -626,27 +626,27 @@ eightMethods.count = function(data = data, oneYear = 1980,
   #  as a starting point for nlm for MLE of b for PLB model.
   MLE.xmin = min(MLE.valCounts$bodyMass)
   MLE.xmax = max(MLE.valCounts$bodyMass)
-  MLE.sumCntLogMass = sum(MLE.valCounts$Count * log(MLE.valCounts$bodyMass)) 
+  MLE.sumCntLogMass = sum(MLE.valCounts$Count * log(MLE.valCounts$bodyMass))
   PL.bMLE.counts = 1/( log(MLE.xmin) - MLE.sumCntLogMass/sumCounts) - 1
-      
+
   PLB.minLL =  nlm(negLL.PLB.counts, p=PL.bMLE.counts,
       x=MLE.valCounts$bodyMass, c=MLE.valCounts$Count, K=MLE.K,
       xmin=MLE.xmin, xmax=MLE.xmax, sumclogx=MLE.sumCntLogMass)
                                         #, print.level=2 )
-  
+
   PLB.bMLE = PLB.minLL$estimate
-  
+
   # 95% confidence intervals for MLE method.
-  
+
   PLB.minNegLL = PLB.minLL$minimum
-  
+
   # Values of b to test to obtain confidence interval. For the real movement data
   #  sets in Table 2 of Edwards (2011) the intervals were symmetric, so make a
   #  symmetric interval here.
-  
-  bvec = seq(PLB.bMLE - 0.5, PLB.bMLE + 0.5, 0.00001) 
 
-      
+  bvec = seq(PLB.bMLE - 0.5, PLB.bMLE + 0.5, 0.00001)
+
+
   PLB.LLvals = vector(length=length(bvec))  # negative log-likelihood for bvec
   for(i in 1:length(bvec))
       {
@@ -672,13 +672,13 @@ eightMethods.count = function(data = data, oneYear = 1980,
   #      likelihood profile, implying normal approximation is okay. So use
   #      it now to go backwards, to properly calculate should do the
   #      Fisher information. stdErr = 1 / (sqrt( d^2 logLik /db^2 at MLE))
-  #      though that is fiddly to derive.   
+  #      though that is fiddly to derive.
   PLB.MLE.stdErr = mean(abs((PLB.MLE.bConf - PLB.bMLE)/1.96))
-  
+
   # MLE.rep.xmax[iii] = xmax   - not storing xmax for now
-  eightMethodsRes = rbind(eightMethodsRes, 
+  eightMethodsRes = rbind(eightMethodsRes,
       data.frame("Year"=oneYear, "Method"=as.factor("MLE"),
-      "b" = PLB.bMLE, "confMin"= PLB.MLE.bConf[1], 
+      "b" = PLB.bMLE, "confMin"= PLB.MLE.bConf[1],
       "confMax"= PLB.MLE.bConf[2], "stdErr" = PLB.MLE.stdErr, row.names=NULL))
   # Can delete: TO HERE  ***INteresting - how to plot with the repeated values. If integers, then plot will look different depending if use counts or not. For integers should expand out. Maybe the way to go, and for LCD also, is for non-integer counts to create 1,000 individual body masses values that 'represent' the observed distribution. Fiddly but doable, but will be the best representation, and will show up repeated values......HERE***
   # To plot rank/frequency style plot, because of non-integer counts want to
@@ -694,7 +694,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
   if(MLE.valCounts[dim(MLE.valCounts)[1],"cumProp"] != 1)
       { stop("Check MLE.valcounts in eightMethods.counts()")  }
   MLE.sim = tbl_df(data.frame(cumPropSim =
-      seq(MLE.valCounts[1,"cumProp"], 1, length=ceiling(sumCounts))))  
+      seq(as.numeric(MLE.valCounts[1,"cumProp"]), 1, length=ceiling(sumCounts))))
                                         # simulated cumulative proportions
                                         # or maybe do on sumSum, though props
                                         #  better capture endpoints I think?
@@ -712,7 +712,7 @@ eightMethods.count = function(data = data, oneYear = 1980,
       #  vec = MLE.valCounts$cumProp     # breakpoints
       # Find interval containing each of the  elements of
       #  x = MLE.sim$cumPropSim  (x in findInterval() terminology)
-      
+
 #        LCD.valCounts = mutate(LCD.valCounts, logBodyMass = log(bodyMass),
       #                      logCumProp = log(cumProp))
                                        # logSorted = log(x.sorted)
@@ -724,17 +724,17 @@ eightMethods.count = function(data = data, oneYear = 1980,
   y.PLB = (1 - pPLB(x = x.PLB, b = PLB.bMLE, xmin = min(x.PLB),
                     xmax = max(x.PLB))) # * sumCounts
   lines(x.PLB, y.PLB, col="red") #, lty=5)
-  
+
   legend("bottomleft", paste("(h) MLE b=", signif(PLB.bMLE, 3)), bty="n",
          inset=inset)
-  
+
   # To add the curves at the limits of the 95% confidence interval:
   #for(i in c(1, length(bIn95)))   # for(i in 1:length(bIn95))  to see all vals
   #    {
   #      lines(x.PLB, (1 - pPLB(x = x.PLB, b = bIn95[i], xmin = min(x.PLB),
   #                  xmax = max(x.PLB))) * length(x), col="red", lty=3)
-  #    }  
-  
+  #    }
+
   dev.off()
   return(eightMethodsRes)
 }
@@ -752,14 +752,14 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     regPlot = TRUE,
     regColNotSig = "darkgrey", regColSig = "red",
     legExtra = NULL, legExtraPos = "topleft", legExtraCol = "",
-    insetVal = c(-0.08, -0.06))         # insetVal2 = c(-0.08, 0.07)) 
-                                        # yTicks = seq(0, 300, 50), 
+    insetVal = c(-0.08, -0.06))         # insetVal2 = c(-0.08, 0.07))
+                                        # yTicks = seq(0, 300, 50),
     {
     # Plotting time series of estimated b with confidence intervals, for
     #  data that are analysed year-by-year by a single method. And then
     #  fit a linear regression with ** intervals.
     #  This will get called eight times to produce a comparison figure of
-    #  the methods. 
+    #  the methods.
     # Args:
     #  bForYears: data-frame with columns Year, Method (optional), b
     #   (the estimate of b), confMin and confMax (the 95% lower and upper
@@ -785,7 +785,7 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     #  yLabels: whether or not to label main tickmarks on y-axis
     #  legPos: legend position
     #  newPlot: TRUE to create a new plot, FALSE to add to existing
-    #  regPlot: TRUE to plot the regression line and conf intervals    
+    #  regPlot: TRUE to plot the regression line and conf intervals
     #  regColNotSig: colour for regression line (and its confidence intervals)
     #   if the trend is not significant
     #  regColSig: colour for regression line (and its confidence intervals)
@@ -793,7 +793,7 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
     #  legExtra: extra manually-specified legend (e.g. to distinguish two
     #   sets of results)
     #  legExtraPos: position for extra manually-specified legend
-    #  legExtraCol: colours (vector) for extra manually-specified legend        
+    #  legExtraCol: colours (vector) for extra manually-specified legend
     #  insetVal: inset shift for naming the panel
     #  # insetVal2: inset shift for printing observed coverage percentage
     if(is.null(xLim))
@@ -805,7 +805,7 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
         }
     if(is.null(yLim))        # just do the yLim for this set of results
         {
-        #yLim = c(floor(min(bForYears$confMin, na.rm=TRUE)), 
+        #yLim = c(floor(min(bForYears$confMin, na.rm=TRUE)),
         #  ceiling(max(bForYears$confMax, na.rm=TRUE)))
             # **Need pretty here?:
         yLim = range(c(bForYears$confMin, bForYears$confMax), na.rm=TRUE)
@@ -815,18 +815,18 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
        {
        plot(bForYears$Year, bForYears$b, xlim=xLim, ylim=yLim, col=bCol,
          pch=pchVal, cex=cexVal, xlab=xLab, ylab=yLab)    # yaxt="n")
-    
+
        legend(legPos, legName, bty="n", inset=insetVal)
        if(!is.null(yTicksSmallInc))
            { yTicksSmall = seq(yLim[1], yLim[-1], by=yTicksSmallInc)
              axis(2, at = yTicksSmall, labels = rep("", length(yTicksSmall)),
                 tck=-yTicksSmallTck)
-           }  
+           }
        if(!is.null(xTicksSmallInc))
            { xTicksSmall = seq(xLim[1], xLim[-1], by=xTicksSmallInc)
              axis(1, at = xTicksSmall, labels = rep("", length(xTicksSmall)),
                 tck=-xTicksSmallTck)
-           }  
+           }
        # Confidence intervals (instead of plotCI from regress2.Snw):
        segments(x0=bForYears$Year, y0=bForYears$confMin, x1=bForYears$Year,
              y1=bForYears$confMax)
@@ -839,15 +839,15 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
        segments(x0=bForYears$Year, y0=bForYears$confMin, x1=bForYears$Year,
              y1=bForYears$confMax)
        }
- 
-           
+
+
     # Now just fit a linear regression through the points,
     #  and colour code it red if significant trend and grey if not. This
     #  is taken and adapted from regress2.Snw from RBR14 assessment.
     if(weightReg == TRUE)
         { lm = lm(b ~ Year, data = bForYears, weights = 1/(stdErr^2))   } else
         { lm = lm(b ~ Year, data = bForYears) }
-          
+
     yearInc = seq(xLim[1], xLim[2], 0.1)
     p.conf = predict(lm, newdata=data.frame(Year=yearInc), interval="confidence")
     pVal = summary(lm)$coeff["Year",4]
@@ -855,15 +855,15 @@ timeSerPlot = function(bForYears, legName, method, weightReg = FALSE,
       {
         if (pVal > 0.05) regCol = regColNotSig else regCol= regColSig
         lm.line(xLim, lm, col=regCol)
-        matlines(yearInc, p.conf[ ,c("lwr", "upr")], col=regCol, 
+        matlines(yearInc, p.conf[ ,c("lwr", "upr")], col=regCol,
                    lty=2)
       }
-    confVals = confint(lm, "Year", level=0.95)   
+    confVals = confint(lm, "Year", level=0.95)
 
     res = data.frame(Method = method,
-       Low = confVals[1], Trend = lm$coeff[2], 
+       Low = confVals[1], Trend = lm$coeff[2],
        High = confVals[2], p = pVal, Rsquared = summary(lm)$r.squared,
-       adjRsquared = summary(lm)$adj.r.squared, row.names=NULL) 
+       adjRsquared = summary(lm)$adj.r.squared, row.names=NULL)
     return(res)
 }
 
@@ -875,7 +875,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
     {
     #  Construct bins that start from floor(min(x)) or min(x) and either double
     #  in size or are of equal width, and encompass the data.
-    # 
+    #
     # Args:
     #  x: vector of individual values (e.g. body masses).
     #   OR
@@ -886,17 +886,17 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
     # binWidth: type of bins to use:
     #      "2k" will result in binBreaks that with:
     #         - startInteger=TRUE are powers of 2, i.e.
-    #            ..., 0.25, 0.5, 1, 2, 4, 8, 16,.... 
+    #            ..., 0.25, 0.5, 1, 2, 4, 8, 16,....
     #         - with startInteger=FALSE are bins that double in size and
     #            start with min(x); not yet implemented, since have to
-    #            think about what the width of the first bin should be.    
+    #            think about what the width of the first bin should be.
     #      value 'a' will result in binBreaks are separated by a and span the
     #       data, that with:
     #         - startInteger=TRUE start from z = floor(min(x)) and are then
     #             z, z+a, z+2a, z+3a, ....   (if z = 0 then power-law cannot
     #             be so need to use startInteger=FALSE)
     #         - startInteger=FALSE start from z = min(x) and are then
-    #             z, z+a, z+2a, z+3a, ....   
+    #             z, z+a, z+2a, z+3a, ....
     # binBreaks: pre-defined bin breaks as a vector. Only binWidth
     #   or binBreaks can be specified.
     # startInteger: TRUE or FALSE, whether to start the binBreaks at an integer
@@ -904,7 +904,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
     #   startInteger is ignored if binBreaks is specified.
     # Returns:
     #  list containing:
-    #   
+    #
     #   indiv: dataframe with a row for each x value, where the
     #    columns are: x - original x values.
     #                 binMid, binMin, binMax, binWidth - midpoint, minimum,
@@ -924,7 +924,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
     #      binCountNorm - binCount / binWidth
     #      binSum - sum of individual values in that bin
     #           (appropriate if x represents biomass, but not length)
-    #      binSumNorm - binSum / binWidth    
+    #      binSumNorm - binSum / binWidth
     #      log10.... - log10 of some of the above quantities
         require(dplyr)
         if(!is.null(x) & !is.null(counts)) {
@@ -947,7 +947,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
                       for non-integer count see a new function. Currently,
                       a new function has no name. Or it may be easier to
                       adapt binData.") }
-          } 
+          }
         if(is.null(binWidth) & is.null(binBreaks)) {
             stop("need one of binWidth or binBreaks in binData") }
         if(!is.null(binWidth) & !is.null(binBreaks)) {
@@ -959,20 +959,20 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
         #  to just create the longer vector x (though may be slightly slower
         #  computationally), to save writing extensive new code. But do this
         #  at some point for noninteger counts.
-        if(is.null(x))  
+        if(is.null(x))
            { x = rep(counts[,1], counts[,2])
              minx = min(counts[,1])
              maxx = max(counts[,1])
            } else
            { minx = min(x)
              maxx = max(x)
-           }  
+           }
         #
         if(!is.null(binBreaks))
            {
            if(minx < min(binBreaks) | maxx > max(binBreaks) )
              { stop("binBreaks do not span data in binData")
-             }           
+             }
            } else           # create binBreaks based on binWidth
            {
            if(binWidth == "2k")
@@ -982,7 +982,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
                } else
                { stop("startInteger currently needs to be TRUE when
                    binWidth = 2k")
-               }  
+               }
              } else     # If not "2k"
              {
              if(!is.numeric(binWidth))
@@ -999,7 +999,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
 
         indiv = data.frame(x)       # dataframe with one row for each individual
         indiv$binMid =cut(x, breaks=binBreaks, right=FALSE, include.lowest=TRUE,
-            labels = binBreaks[-length(binBreaks)] + 0.5*diff(binBreaks))        
+            labels = binBreaks[-length(binBreaks)] + 0.5*diff(binBreaks))
         indiv$binMin =cut(x, breaks=binBreaks, right=FALSE, include.lowest=TRUE,
             labels = binBreaks[-length(binBreaks)])
         indiv$binMax =cut(x, breaks=binBreaks, right=FALSE, include.lowest=TRUE,
@@ -1031,7 +1031,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
             emptyBinMax, emptyBinWidth, matrix(0, nrow=empties, ncol=4)))
         names(emptyVals) = names(binVals)
         binVals = rbind(binVals, emptyVals)         # still a local df
-        
+
         binVals = binVals[order(binVals$binMid),]   # order by binMid
 
         binVals = mutate(binVals, log10binMid = log10(binMid),
@@ -1050,7 +1050,7 @@ binData = function(x = NULL, counts = NULL, binWidth = NULL, binBreaks = NULL,
         if(dim(indiv)[1] < 10^6) {       # only save indiv if not too big
           y = list(indiv = indiv, binVals = binVals)
           } else
-          {    
+          {
           y = list(binVals = binVals)
           }
         return(y)
@@ -1077,7 +1077,7 @@ profLike = function(negLL.fn, MLE, minNegLL, vecDiff=0.5, vecInc=0.001, ...)
     #    will depend on this. Note that a resulting interval of, say,
     #    (-2.123, -1.987) means that that interval is contained within the
     #    'true' 95% interval, which is itself contained within (-2.124, -1.986).
-    #    The 'true' bounds lie between the stated lower bounds and between 
+    #    The 'true' bounds lie between the stated lower bounds and between
     #    the stated upper bounds. So reduce vecInc if further accuracy is needed.
     # Returns:
     #  two-component vector of the 95% confidence interval.
@@ -1121,14 +1121,14 @@ calcLike = function(negLL.fn, p, vecDiff=0.5, vecInc=0.001, ...)
     #    will depend on this. Note that a resulting interval of, say,
     #    (-2.123, -1.987) means that that interval is contained within the
     #    'true' 95% interval, which is itself contained within (-2.124, -1.986).
-    #    The 'true' bounds lie between the stated lower bounds and between 
+    #    The 'true' bounds lie between the stated lower bounds and between
     #    the stated upper bounds. So reduce vecInc if further accuracy is needed.
     # Returns:
     #  list containing:
     #    MLE: the maximum likelihood estimate
     #    conf: the 95% confidence interval of the MLE.
     minLL = nlm(f=negLL.fn, p=p, ...)
-   
+
     MLE = minLL$estimate
     conf = profLike(negLL.fn=negLL.fn, MLE=MLE, minNegLL=minLL$minimum, ...)
     res = list(MLE = MLE, conf = conf)
@@ -1141,20 +1141,20 @@ totalBiomass = function(bvec, r = NULL, xmin=NULL, xmax=NULL, n=1000)
     # Calculate the totalBiomass (in same units as xmin or nondimensionalised
     #  scaled to xmin) for given values of b (in the vector bvec), n and
     #  either both xmin and xmax or just r.
-    # 
+    #
     # Args:
     #  bvec: vector of size-spectrum exponents.
-    #  r: ratio of xmax/xmin. Need to specificy r or xmin and xmax, all scalars. 
+    #  r: ratio of xmax/xmin. Need to specificy r or xmin and xmax, all scalars.
     #  xmin: minimum allowable body size.
     #  xmax: maximum allowable body size.
     #  n: number of individuals.
-      
+
     #
     # Returns:
     #  vector of total biomass values corresponding to the values of b in
     #   bvec; total biomass has same units as xmin (if xmin and xmax specified),
     #   or is nondimensional if r is specified.
-    #  
+    #
     if( !( !is.null(xmin) & !is.null(xmax) & is.null(r) |
            is.null(xmin) & is.null(xmax) & !is.null(r) )) {
             stop("need either r or xmin and xmax in totalBiomass") }
@@ -1179,7 +1179,7 @@ totalBiomass = function(bvec, r = NULL, xmin=NULL, xmax=NULL, n=1000)
         output = Tvec
       }
     return(output)
-  }  
+  }
 
 negLL.PLB.binned.species = function(b, dataBinForLike, dataBinForLikeSummary)
   {
@@ -1192,7 +1192,7 @@ negLL.PLB.binned.species = function(b, dataBinForLike, dataBinForLikeSummary)
   #  no need to do numerically. See Appendix of second manuscript for derivation.
   #
   # ***COPIED FROM negLL.PLB.binned for now, for which b=-1 needs correcting
-  #    
+  #
   # Args:
   #   b: value of b for which to calculate the negative log-likelihood
   #   dataBinForLike: table data frame where each row is the count in a bin
@@ -1215,7 +1215,7 @@ negLL.PLB.binned.species = function(b, dataBinForLike, dataBinForLikeSummary)
   #          waxSpecies: maximum upper bound [w_{s,J_s +1}]
   #          n_s: total number of counts for species s [n_s]
   #
-  #    
+  #
   #   negLL.PLB.binned:
   #   w: vector of length J+1 giving the bin breaks w_1, w_2, ..., w_{J+1}
   #   d: vector of length J giving the count in each bin. Must have d_1, d_J >0
@@ -1234,7 +1234,7 @@ negLL.PLB.binned.species = function(b, dataBinForLike, dataBinForLikeSummary)
       {  # First component of (A.55) and then sum:
          temp1 = mutate(dataBinForLikeSummary, comp1 = - n_s *
              log( abs( wmaxSpecies^(b+1) - wminSpecies^(b+1) ) ) )
-         comp1Sum = sum(temp1$comp1)      
+         comp1Sum = sum(temp1$comp1)
          #
          temp2 = mutate(dataBinForLike, comp2 = Number *
              log( abs( wmax^(b+1) - wmin^(b+1) ) ) )
@@ -1259,7 +1259,7 @@ negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
   #  no need to do numerically. See Appendix of second manuscript for derivation.
   #
   # ***COPIED FROM negLL.PLB.binned.species, for which b=-1 may need correcting
-  #    
+  #
   # Args:
   #   b: value of b for which to calculate the negative log-likelihood
   #   dataBinForLike: table data frame where each row is the count in a bin
@@ -1270,11 +1270,11 @@ negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
   #          wmax: upper bound of the bin [w_{s,j+1}]
   #          Number: count in that bin for that species [d_{sj}].
   #   n: total number of counts [n = \Sum_{sj} d_{sj} over all s and j]
-  #   xmin: maximum likelihood estimate for xmin [xmin = min_{sj} w_{s,1} ]   
+  #   xmin: maximum likelihood estimate for xmin [xmin = min_{sj} w_{s,1} ]
   #   xmax: maximum likelihood estimate for xmax [xmax = max_{sj} w_{s,J_s+1} ]
   #
   #
-  #   
+  #
   #    THINK NOT NEEDED in negLL.PLB.bins.species
   #    #  For each species the first and last bins must be non-empty, i.e.
   #    #  w_{s1}, w_{s,J_s +1} > 0. **Write code to check that before
