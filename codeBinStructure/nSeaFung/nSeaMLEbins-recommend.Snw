@@ -1,0 +1,723 @@
+% nSeaMLEbins-recommend.Snw - recommended Individual Size Distribution plots of
+%  each year of data that takes into account the bin structure. Also plots the
+%  red and pink horizontal schmatic diagram (currently Figure A.5 in
+%  Supplementary Material). Adapted from nSeaFungMLEbinsRecommend-ISD.Snw, with
+%  the math from that already put into the Supplementary Material. 17th May 2018.
+
+% nSeaFungMLEbinsRecommend-ISD.Snw - want an ISD rank/frequency figure for
+%  each year, taking into account the binned nature of the data. So a horizontal
+%  bar for each data points representing the range of that body-mass bin.
+%  27th November 2017.
+
+% nSeaFungMLEbinsRecommend.Snw - want to plot, for each year, a figure
+%  analogous to Fig 6a of 2017 paper for results from using MLEbinsNew
+%  method, and also compare with result for original MLE method.
+%  Had started in nSeaFungMLEbinFigure.Snw, but did some analyses that
+%  weren't correct, and now have updated results with MLEbinsNew, so using
+%  that as template and simplifying down. 10th August 2017.
+
+% nSeaFungMLEbinFigure.Snw - want to plot, for each year, a figure
+%  analogous to Fig 6a of 2017 paper for results from using MLEbins
+%  method. This has some incorrect preliminary calculations, and uses
+%  the original MLEbins likelihood function (not Mike's), so now using
+%  this to start again and simplify in nSeaFungMLEbinsRecommend.Snw. 4/8/17.
+
+% nSeaFungMLEbin.Snw - analysis of the North Sea data using the MLEbin
+%  method. 2/10/16.
+
+\documentclass[11pt]{article}
+
+\textheight 213mm
+\topmargin -10mm
+\addtolength{\textwidth}{1.0in}
+\addtolength{\oddsidemargin}{-0.5in}
+\usepackage{Sweave}
+\usepackage{epsfig}
+% \usepackage{rotating}           % For sideways table
+% \usepackage{lineno}
+\usepackage{amsmath}       % for \text for x_min, for \dfrac
+% \usepackage{cancel}        % for \cancel
+\usepackage{natbib}
+
+% \usepackage{resDocSty}   % Res Doc .sty file
+\usepackage{graphicx}
+\usepackage{forloop}
+
+\bibliographystyle{natbib}
+
+% \linenumbers
+
+\newcommand{\eb}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\xmin}{x_{\mathrm{min}}}
+\newcommand{\xmax}{x_{\mathrm{max}}}
+\newcommand{\logten}{\log_{\mathrm{10}}}
+\newcommand{\logtwo}{\log_{\mathrm{2}}}
+\newcommand{\dx}{\mbox{d}x}
+
+\newcommand\isdfig[2]{    % filename is #1, text is #2
+  \begin{figure}[tp]
+  \begin{center}
+   % \includegraphics[width=6in,height=7in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  % \epsfxsize=6.5in
+  \epsfbox{IBTS-ISDfigs/IBTS-ISD#1.eps}
+  \end{center}
+  \vspace{-5mm}
+  \caption{#2}
+  \label{fig:ISD-#1}
+  \end{figure}
+  \clearpage
+}
+
+
+\newcommand\onefig[2]{    % filename is #1, text is #2
+  \begin{figure}[tp]
+  \begin{center}
+   % \includegraphics[width=6in,height=7in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  \epsfxsize=6.5in
+  \epsfbox{#1.eps}
+  \end{center}
+  \caption{#2 }
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\twofig[3]{   % figure #1 under #2, caption text #3
+  \begin{figure}[tp]     %  label will be #1
+  \centering
+%  \epsfxsize=6in
+%  \epsfysize=3.5in
+  \begin{tabular}{c}
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+  %	\includegraphics[width=6in,height=3.5in,keepaspectratio=TRUE]{#2.eps}
+  \epsfbox{#1.eps} \\
+  \epsfbox{#2.eps}
+  \end{tabular}
+  \caption{#3}
+  \label{fig:#1}
+  \end{figure}
+  \clearpage
+}
+
+\newcommand\threefig[4]{    % figure #1 then #2 then #3,
+  \begin{figure}[htp]       %  caption text #4, label will be #1
+  \centering
+  \begin{tabular}{c}
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#1.eps} \\  % RH much better control
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#2.eps} \\
+%	\includegraphics[width=6in,height=2.5in,keepaspectratio=TRUE]{#3.eps}
+  \vspace{-20mm}
+  \epsfbox{#1.eps} \\
+  \vspace{-20mm}
+  \epsfbox{#2.eps} \\
+   \vspace{-20mm}
+  \epsfbox{#3.eps}
+  \end{tabular}
+  \caption{#4}
+  \label{fig:#1}
+  \end{figure}
+}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\begin{document}
+
+\SweaveOpts{pdf=FALSE, echo=TRUE, results=verbatim}
+% Most useful options (with defaults):
+% echo        = TRUE     - includes R code in output file
+% keep.source = FALSE    - when echoing, if TRUE then original source is copied to the file, otherwise deparsed source is echoed.
+% eval        = TRUE     - if FALSE then chunk is not evaluated
+% results     = VERBATIM - R output included verbatim, if TEX output is already proper latex and included as is,
+%                          if HIDE then all output is completely suppressed (but the code executed - good for admb) results options should all be lower case (else get warnings)
+% pdf         = TRUE     - whether .pdf figures shall be generated
+% eps         = TRUE     - whether .eps figures shall be generated
+% strip.white = FALSE    - if true then blank lines at beginning and end of output are removed. If all, then all blank lines are removed.
+% width       = 6        - width of figures in inches
+% height      = 6        - height of figures in inches
+% fig         = FALSE    - whether the code chunk produces graphical output (only one per chunk)
+
+% \setkeys{Gin}{width=6in}     % from googling sweave figure bigger.
+%  It will set this for the rest of document [doesn't width do that in the above?]
+
+
+\begin{center}
+{\LARGE Recommended way of showing data and fits in a rank/frequency style ISD plot
+
+{\tt nSeaMLEbins-recommend.Snw}}
+
+Andrew M.~Edwards
+
+\today{}
+\end{center}
+
+<<setupR, echo=FALSE, results=hide>>=
+require(dplyr)
+require(xtable)
+require(gplots)                 # for plotCI
+# require(boot)
+# require(PBSmapping)             # for .createIDs
+rm(list=ls())
+
+source("../s_dplyr_funcs.r")     # helper functions that allow string arguments,
+                                #  by Sebastian Kranz.
+figheight = 7 # 6
+figwidth = 5.7
+@
+
+\section{Introduction}
+
+Develop an equivalent figure to our MEE Fig.~6b --
+rank/frequency plot with the MLE fitted distribution and it's confidence
+intervals, while also showing uncertainty due to the bin structure of the data.
+Do logged and unlogged y-axis to show the fit.
+
+\medskip
+
+<<>>=
+load("nSeaMLEbins.RData")
+source("../../code/PLBfunctions.r")
+source("../countsFunctions.r")
+@
+
+Need the constant $C$ for each year, so calculate it here:
+<<>>=
+MLEbins.nSeaFung.new
+MLEbins.res = MLEbins.nSeaFung.new
+MLEbins.res = mutate(MLEbins.res,
+                          C = (b != -1 ) * (b+1) / ( xmax^(b+1) - xmin^(b+1) ) +
+                              (b == -1) * 1 / ( log(xmax) - log(xmin) )
+                        )
+MLEbins.res = select(MLEbins.res, -stdErr)     # Shouldn't need that here
+MLEbins.res
+class(MLEbins.res$Year) = "integer"    # For upcoming xtable
+# Also want to calculate F(100) out of interest, as eyeballing it it looks like
+#  fit is generally good up to there. Know that none have b=-1, or 100 is out
+#  of range.
+x.fix = 100
+MLEbins.res = mutate(MLEbins.res,
+                      F.xfix = ( x.fix^(b+1) - xmin^(b+1) ) /
+                                 (xmax^(b+1) - xmin^(b+1) ) )
+@
+
+Want table in Supp Material, reordering confMin to be constent with other tables,
+and renaming columns when copying into Supp Material.
+<<annual.res, results=tex>>=
+MLEbins.res.tab = xtable(select(MLEbins.res, Year, xmin, xmax, n, confMin, b,
+                                 confMax, C, F.xfix),
+                         caption="Results for each year.",
+                         label = "annual.fit",
+                         table.placement="tp")
+
+print(MLEbins.res.tab, include.rownames = FALSE)
+@
+
+The algebraic calculations were originally done in this code but have been copied
+over to the Supplementary Material, so removing them here and just sticking mainly
+with R code.
+
+\section{Schematic diagram for two species}
+
+% Copied from binCountRangeSchem.Snw
+
+\section{Introduction}
+
+Going to pick two example species (coloured in red in current Figure 6 that
+shows vertical bars for 45 species). Codes are 127205 (Moustache Sculpin)
+and 154675 (Snakeblenny).
+
+<<load>>=
+# load("../nSeaFungMLEbinsNew.RData")
+
+sculpin = 127205
+snakeblenny = 154675
+specForFig = c(snakeblenny, sculpin)
+
+dataTwoSpec = filter(dataBin, SpecCode %in% specForFig)
+@
+
+Combine the data across all years for illustrative purposes (to reduce the number
+of empty bins in the illustration).
+
+<<dataComb>>=
+dataComb = summarise( group_by( dataTwoSpec, SpecCode, wmin),
+                       wmax = unique(wmax),
+                       number = round(sum(Number), dig=2))
+dataComb = mutate(dataComb, j = min_rank(wmin))   # works since they're grouped
+dataComb[nrow(dataComb), "j"] = 25            # manually, because there's a gap
+dataComb = mutate(dataComb, wmid = (wmin + wmax)/2)
+@
+
+<<figure>>=
+target = 7                 # target bin (for species 2)
+target.wmin = filter(dataComb, SpecCode == specForFig[2], j == 7)$wmin
+target.wmax = filter(dataComb, SpecCode == specForFig[2], j == 7)$wmax
+# Smallest and then largest possible inclusions of being > target bin:
+dataComb = mutate(dataComb, wmin.gt.tmax = (wmin >= target.wmax))
+dataComb = mutate(dataComb, wmax.gt.tmin = (wmax > target.wmin))
+
+xLim = c(15, 43)                  # Must be integers, range to show
+dataComb = filter(dataComb, wmin > xLim[1])  # Only show complete bins
+
+numSpec = length(specForFig)
+yLimMax = 1
+yVals = c(0.3, 0.7)
+                                        # yvals for horizontal mass bins
+colSpec = c("red", "pink")
+thick = 30                          # thickness of bins
+cex.sub = 0.7                     # font size for subscripts
+postscript("binCountRangeSchematic.eps",
+           height = 4, width = 6.5,
+           horizontal=FALSE,  paper="special")
+par(mgp=c(2.0, 0.5, 0))    # puts axes labels closer I think
+par(lend="butt")           # To have butted line caps, need for thick lines.
+par(mar = c(4, 2.5, 3, 2)) # outer margins
+
+plot(0, 0, xlab="Body mass, g", ylab="", xlim=xLim,
+     ylim=c(0, yLimMax), yaxt="n", type="n", xaxs="i") # set up axes.
+
+axis(1, at = xLim[1]:xLim[2], labels = rep("", xLim[2]-xLim[1]+1), tck=-0.01)
+
+mtext("Species Code", side=2, line=1.5, cex.lab=1)
+axis(2, at = yVals, labels = c(1,2), las = 2,
+        tck = -0.005, cex.axis=0.8)
+
+abline(v = target.wmin, col = "grey")
+abline(v = target.wmax, col = "grey")
+
+for(ii in 1:length(specForFig))   # loop over species, plot bins for each
+  {
+    yVal = yVals[ii]         # where to have horizontal bars
+    bins.wmin = filter(dataComb, SpecCode == specForFig[ii])$wmin  # for this sp
+    bins.wmax = filter(dataComb, SpecCode == specForFig[ii])$wmax
+    bins.wmid = filter(dataComb, SpecCode == specForFig[ii])$wmid
+    # bins for which wmin >= target.wmax
+    bins.wmin.gt.tmax = filter(dataComb, SpecCode == specForFig[ii])$wmin.gt.tmax
+    bins.wmin.gt.tmax.yn = ifelse(bins.wmin.gt.tmax,"Y", "N")
+    # bins for which wmax > target.wmin
+    bins.wmax.gt.tmin = filter(dataComb, SpecCode == specForFig[ii])$wmax.gt.tmin
+    bins.wmax.gt.tmin.yn = ifelse(bins.wmax.gt.tmin,"Y", "N")
+
+    segments(y0 = yVal,
+             x0 = bins.wmin,
+             x1 = bins.wmax,
+             col=colSpec, lwd=thick)    # recycles col
+    # Bin break labels (cannot do , with vector for labels, it seems):
+    for(iiii in 1:length(bins.wmin))
+      {
+        text(x = bins.wmin[iiii],
+             y = yVal,
+             labels = bquote(paste(w[.(ii)*","*
+                    .(filter(dataComb, SpecCode == specForFig[ii])$j[iiii])])),
+             pos = 1,
+             offset = 0.03*thick,
+             cex = cex.sub)
+      }
+    # Do final wmax manually:
+    text(x = bins.wmax[length(bins.wmax)],
+         y = yVal,
+         labels = bquote(paste(w[.(ii)*","*
+                     .(max(filter(dataComb, SpecCode == specForFig[ii])$j)+1)])),
+         pos = 1,
+         offset = 0.03*thick,
+         cex = cex.sub)
+    # Put counts for each bin
+    text(x = bins.wmid,
+         y = yVal,
+         labels = filter(dataComb, SpecCode == specForFig[ii])$number,
+         pos = NULL,
+         offset = 0.03*thick,
+         cex = cex.sub*1.2)
+    # Whether to include in counts
+    eps = 0.23                  # Offset from wmid for Y's and N's
+    text(x = bins.wmid - eps,
+         y = yVal,
+         labels = bins.wmin.gt.tmax.yn,
+         pos = 3,
+         offset = 0.03*thick,
+         cex = cex.sub*1.2)
+    text(x = bins.wmid + eps,
+         y = yVal,
+         labels = bins.wmax.gt.tmin.yn,
+         pos = 3,
+         offset = 0.03*thick,
+         cex = cex.sub*1.2)
+  }
+
+# Need w_1,24 manually, assumes this is the only one with j=23
+text(x = filter(dataComb, j==23)$wmax,
+     y = yVals[1],
+     labels = bquote(paste(w[.(1)*","*24])),
+     pos = 1,
+     offset = 0.03*thick,
+     cex = cex.sub)
+
+dev.off()
+
+
+lowCount = sum(dataComb$wmin.gt.tmax * dataComb$number)
+highCount = sum(dataComb$wmax.gt.tmin * dataComb$number)
+@
+
+\begin{figure}[tp]
+\begin{center}
+% \epsfxsize=7in
+\epsfbox{binCountRangeSchematic.eps}
+\end{center}
+\caption{Schematic diagram to explain how we calculate
+  the range of counts of individuals that are larger than those in a given bin.
+  Red and pink body-mass bins are those for Snakeblenny and Moustache Sculpin
+  (labelled species 1 and 2, respectively) from Figure~5 (main text of manuscript).
+  Bin breaks are denoted by $w_{s,j}$
+  and the number inside each bin is the number observed per hour of trawling.
+  For illustration data are combined across all years and only bins with
+  minima $>15$~g are shown. The target bin has $s=2$ and $j=7$ and therefore
+  has bin breaks $w_{2,7}$ and $w_{2,8}$ and is indicated by the vertical grey
+  lines.
+  The first letter in each pair (`NN', `NY', or `YY') denotes whether or not
+  each bin is included in the low count $E_{2,7,1}$, i.e. its lower bound is
+  $\geq$ the upper bound of the target bin. Similarly, the second letter denotes
+  whether or not each bin is included in the high count $E_{2,7,2}$, i.e.
+  its upper bound is $>$ the lower bound of the target bin. Summing the
+  respective counts as per (\ref{Esj1}) and (\ref{Esj1}) gives
+  $E_{2,7,1} = \Sexpr{lowCount}$ and $E_{2,7,2} = \Sexpr{highCount}$.
+  }
+  \label{fig:binCountRangeSchematic}
+\end{figure}
+
+Figure~\ref{fig:binCountRangeSchematic} shows these calculations for
+one `target' bin ($s=2, j=7$) and two
+example species namely Moustache Sculpin and Snakeblenny (which are highlighted
+as 127205 and 154675, respectively, in red in Figure~5). Remaining text already
+copied into Supp Material.
+
+<<plotCalcs>>=
+# Just what's needed for the calculations for the recommended plot:
+dataRecommend.isd = select(dataBin, Year, wmin, wmax, Number)
+
+xRange.global = c(min(dataRecommend.isd$wmin),
+                  max(dataRecommend.isd$wmax))
+data.year.list = list()                # to save results for each year
+diff.ivec = vector()                   # to save i that have any cumSum != verify
+dirToSaveFigs = "IBTS-ISDfigs"
+if(!dir.exists(dirToSaveFigs)) dir.create(dirToSaveFigs)
+
+for(i in 1:length(fullYears))
+{ # scan()
+  data.year = filter(dataRecommend.isd, Year == fullYears[i])
+
+  data.year = arrange(data.year, desc(wmin))
+  sumNumber = sum(data.year$Number)
+  data.year = mutate(data.year, cumSum = cumsum(Number))
+  # Have to do not with dplyr
+  wmin.vec = data.year$wmin
+  wmax.vec = data.year$wmax
+  num.vec = data.year$Number
+
+  verify = rep(NA, length(num.vec))   # manual count that should equal cumSum
+  lowCount = verify
+  highCount = verify
+  for(iii in 1:length(verify))
+  {
+    verify[iii] = sum( (wmin.vec >= wmin.vec[iii]) * num.vec)
+    lowCount[iii] = sum( (wmin.vec >= wmax.vec[iii]) * num.vec)
+    highCount[iii] = sum( (wmax.vec > wmin.vec[iii]) * num.vec)
+  }
+  data.year = cbind(data.year, "verify" = verify,
+                               "lowCount" = lowCount, "highCount" = highCount)
+  data.year = tbl_df(data.year)
+  # See subsection below for manual look into these.
+  if(sum(abs(data.year$cumSum - data.year$verify)) > 0)
+     diff.ivec = c(diff.ivec, i)
+     #{stop(paste0("need to manually check for i=", i, ", year ", fullYears[i]))}
+     # put that value of i into here (like i!=6), add a subsection, re-run
+     #  to get this year's value into data.year.list and make conclusions in
+     #  the subsection.
+  figheight = 8 # 7 for 4x2 figure
+  figwidth = 0.67*figheight
+  inset = c(0, 0)#-0.04)      # inset for (a) and (b)
+  inset2 = c(0, 0.04)         # inset for year
+
+  postscript(paste0(dirToSaveFigs, "/IBTS-ISD", fullYears[i], ".eps"),
+             height = figheight, width = figwidth,
+             horizontal=FALSE, paper="special")
+  par(mfrow=c(2,1))
+  par(mai=c(0.4, 0.5, 0.05, 0.3), cex=0.7)  # Affects all figures
+  mgpVals = c(1.6,0.5,0)
+  seg.col = "green"        # colour for horizontal segments
+
+  xRange = c(min(data.year$wmin), max(data.year$wmax))  # For PLB line, need
+                                                       #  higher res for log axis
+  x.PLB = seq(xRange[1], xRange[2], length=10000)
+          # x values to plot PLB, need high resolution for both plots, but
+          #  insert value close to xmax to make log-log curve go down further
+  x.PLB.length = length(x.PLB)
+  x.PLB = c(x.PLB[-x.PLB.length],
+            0.99999 * x.PLB[x.PLB.length],
+            x.PLB[x.PLB.length])
+  y.PLB = (1 - pPLB(x = x.PLB,
+                    b = filter(MLEbins.res, Year == fullYears[i])$b,
+                    xmin = min(x.PLB), xmax = max(x.PLB))) * sumNumber
+  # To add curves for the limits of the 95% confidence interval of b:
+  y.PLB.confMin = (1 - pPLB(x = x.PLB,
+                    b = filter(MLEbins.res, Year == fullYears[i])$confMin,
+                    xmin = min(x.PLB), xmax = max(x.PLB))) * sumNumber
+  y.PLB.confMax = (1 - pPLB(x = x.PLB,
+                    b = filter(MLEbins.res, Year == fullYears[i])$confMax,
+                    xmin = min(x.PLB), xmax = max(x.PLB))) * sumNumber
+
+  # yRange = c(min(data.year$lowCount), max(data.year$highCount))
+  # The above does not work because first val is 0 which is not permissable on
+  #  log axis. Which also means that the rectangle that goes to 0 has to be
+  #  added manually (below). Picking the y-axis to go down to 0.75 the verify
+  #  value of the lowest bin (0.5 was a bit big).
+  yRange = c(0.75*min(data.year$verify), max(data.year$highCount))
+
+  # y-axis not logged
+  plot(data.year$wmin, data.year$verify, log="x",
+     xlab=expression(paste("Body mass (", italic(x), "), g")),
+    ylab=expression(paste("Number of ", values >= italic(x))),
+    xlim = xRange.global,
+    ylim = yRange,
+    type = "n",
+    axes = FALSE,
+    mgp = mgpVals)
+
+  xLim = 10^par("usr")[1:2]
+  yLim = 10^par("usr")[3:4]
+
+  logTicks(xLim, yLim=NULL, xLabelSmall = c(5, 50, 500, 5000))
+  yBig = seq(0, yRange[2], 20000)  # May have to tweak for some years
+  # Big labelled:
+  axis(2, at= yBig, labels = yBig, mgp=mgpVals)
+  # Small unlabelled:
+  axis(2, seq(yBig[1], yRange[2], by=5000),
+       labels=rep("", length(seq(yBig[1], yRange[2], by=5000))), tcl=-0.2,
+       mgp=mgpVals)
+
+  rect(xleft = data.year$wmin,
+     ybottom = data.year$lowCount,
+     xright = data.year$wmax,
+     ytop = data.year$highCount,
+     col = "grey")
+  segments(x0=data.year$wmin,
+           y0=data.year$verify,
+           x1=data.year$wmax,
+           y1=data.year$verify, col=seg.col)
+  lines(x.PLB, y.PLB, col="red", lwd=2)  # Plot line last so can see it
+  lines(x.PLB, y.PLB.confMin, col="red", lty=2)
+  lines(x.PLB, y.PLB.confMax, col="red", lty=2)
+
+  legend("topright", "(a)", bty="n", inset=inset)
+  legend("topright", legend=fullYears[i], bty="n", inset=inset2)
+  legend("topright",
+      legend=paste0("b=", round(filter(MLEbins.res, Year == fullYears[i])$b, 2)),
+      bty="n", inset=2*inset2)
+  # if(max(abs(sum(data.year$Number) - yRange[2])) > 0.001)
+  #    stop("Check here that n=yRange[2]; comment out once done once.")
+  legend("topright",
+      legend=paste0("n=", round(yRange[2], 2)),
+      bty="n", inset=3*inset2)
+
+  # y-axis logged
+  # empty plot:
+  plot(data.year$wmin, data.year$verify, log="xy",
+     xlab=expression(paste("Body mass (", italic(x), "), g")),
+     ylab=expression(paste("Number of ", values >= italic(x))),
+     xlim = xRange.global,
+     ylim = yRange,
+     type = "n",
+     axes = FALSE,
+     mgp = mgpVals)
+
+  xLim = 10^par("usr")[1:2]
+  yLim = 10^par("usr")[3:4]
+
+  logTicks(xLim, yLim, xLabelSmall = c(5, 50, 500))
+
+  rect(xleft = data.year$wmin,
+       ybottom = data.year$lowCount,
+       xright = data.year$wmax,
+       ytop = data.year$highCount,
+       col = "grey")
+
+  # Need to manually draw the rectangle with lowCount = 0 since it doesn't
+  #  get plotted on log-log plot
+  extra.rect = filter(data.year, lowCount == 0)
+  # if(nrow(extra.rect) > 1) stop("Check rows of extra rect.")
+  rect(xleft = extra.rect$wmin,
+       ybottom = rep(0.01 * yRange[1], nrow(extra.rect)),
+       xright = extra.rect$wmax,
+       ytop = extra.rect$highCount,
+       col = "grey")
+
+  segments(x0=data.year$wmin,
+           y0=data.year$verify,
+           x1=data.year$wmax,
+           y1=data.year$verify,
+           col=seg.col)
+
+  lines(x.PLB, y.PLB, col="red", lwd=2) #, lty=5)
+  lines(x.PLB, y.PLB.confMin, col="red", lty=2)
+  lines(x.PLB, y.PLB.confMax, col="red", lty=2)
+  legend("topright", "(b)", bty="n", inset=inset)
+
+  dev.off()
+
+  data.year.list[[i]] = data.year
+}
+@
+
+\end{document}
+<<>>=
+stop()
+@
+
+\subsection{Check cumSum - 1991 ($i=6$) didn't agree with verify calculation;
+  see later for automated calculations for each year this occurs}
+
+For $i=6$, year 1991, we get {\tt cumSum} and {\tt verify} differing by
+-0.02941, because there are repeated {\tt wmin}$=31.84771$ values:
+<<year1991>>=
+data.1991 = filter(dataBin, Year == 1991)
+data.1991 = arrange(data.1991, desc(wmin))
+data.1991 = mutate(data.1991, cumSum = cumsum(Number))
+
+filter(data.1991, abs(wmin - 31.84771) < 0.00001)
+@
+Aha, so it's two different species with the same length-weight coefficients
+and same length bins. This is allowed (we have already ensured that we don't
+have multiple counts of the same species in the same length bin). So we should
+use {\tt verify} to plot the horizontal values, not {\tt cumSum}. Not that you'd
+see the (very occasional and very small) difference, and for such cases you'll
+always get the segments (and the grey rectangles) on top of each other (can't
+distinguish two separate species). For unbinned data the {\tt cumSum} may be best
+as it shows up each data point.
+
+\subsection{Check cumSum - 1992 ($i=7$) didn't agree with verify calculation}
+
+For $i=7$, year 1992, we get {\tt cumSum} and {\tt verify} differing in
+a few places (was only in one for 1991). So do more automated code here
+than that above, in case need to check other years also.
+<<year1992>>=
+diff.i = 7
+diff.year = fullYears[diff.i]
+data.one.year = data.year.list[[diff.i]]
+data.diff = filter(data.one.year, abs(cumSum - verify) > 0)
+dataBin.diff = filter(dataBin, Year == diff.year, wmin %in% data.diff$wmin)
+# If it's again because two species have same length-weight coefficients then
+#  should be able to manually spot that by arranging the rows:
+arrange(dataBin.diff, LWa, LngtMin)
+# The quick check is that the following is all TRUE (since species are different)
+abs(diff(arrange(dataBin.diff, LWa, LngtMin)$SpecCode)) > 0.1
+@
+
+So, same issue as for 1991 -- species have the same length-weight coefficients.
+
+\subsection{Check remaining years as they come up, but automate as looks
+  like it may keep occuring}
+
+This will print the year then the differences between {\tt cumSum} and
+{\tt verify}, and give the maximum difference at the end. Take a look here
+if necessary if the maximum difference ends up being big (much bigger than 10 say
+given the large sample sizes). In practice it likely won't matter anyway
+which way the figure will be plotted; just helpful to go into here for
+understanding).
+<<year.others>>=
+max.abs.diff = numeric()        # maximum overall abs diff betw cumSum and verify
+for(diff.i in diff.ivec)
+  {
+    diff.year = fullYears[diff.i]
+    print(diff.year)
+    data.one.year = data.year.list[[diff.i]]
+    data.diff = filter(data.one.year, abs(cumSum - verify) > 0)
+    print(data.diff$cumSum - data.diff$verify)
+    max.abs.diff = max(max.abs.diff,
+                       max(abs(data.diff$cumSum - data.diff$verify)))
+    dataBin.diff = filter(dataBin, Year == diff.year, wmin %in% data.diff$wmin)
+    # If it's again because two species have same length-weight coefficients then
+    #  should be able to manually spot that by arranging the rows:
+    # print(arrange(dataBin.diff, LWa, LngtMin))
+    # The quick check is that the following is all FALSE and so sum = 0
+    #  (since spp are different)
+    if(sum(abs(diff(arrange(dataBin.diff, LWa, LngtMin)$SpecCode)) < 0.1) > 0)
+      { stop(paste0("Not the same repeated species issue for ", diff.year,
+                   " as for 1991."))
+      }
+  }
+@
+
+If no error messages and this sentence gets printed, then any differences between
+{\tt cumSum} and {\tt verify} are due to multiple species having the same
+length-weight coefficients. For reference, the maximum difference is
+\Sexpr{round(max.abs.diff, 6)} -- see above for which year.
+
+Biggest difference is in 1995, so just take a quick look at the details:
+
+<<year.1995>>=
+diff.i = 10
+diff.year = fullYears[diff.i]
+print(diff.year)
+data.one.year = data.year.list[[diff.i]]
+data.diff = filter(data.one.year, abs(cumSum - verify) > 0)
+# print(data.diff$cumSum - data.diff$verify)
+#max.abs.diff = max(max.abs.diff,
+#                       max(abs(data.diff$cumSum - data.diff$verify)))
+dataBin.diff = filter(dataBin, Year == diff.year, wmin %in% data.diff$wmin)
+# If it's again because two species have same length-weight coefficients then
+#  should be able to manually spot that by arranging the rows:
+print(arrange(dataBin.diff, LWa, LngtMin))
+@
+
+So that (and 1996) are for species 126425 (Atlantic Herring) that has the
+0.5-cm length bins. Which is actually another reason that {\tt cumSum} is
+not actually the right thing to use. Will check in Issue \#24 that it hasn't
+been used in any calculations (don't think it has). For the above example
+it's actually {\tt verify} that is the lower value. This only affects the
+plotting of the y-values of the segments, not the rectangles at all (and so
+at the end of the day is not that important).
+
+\section{Commentary on the actual results}
+
+The years for which the PLB model seems to visually fit fairly well, at least
+up to 100~g where they all seem to break off, are 1992, 1995, 1997, 1999,
+2000, 2006, 2008, 2009, 2010 and 2014. The 1999 one shows a good resolution
+of the rectangles, including the right-most one, so use that in the main text
+(if we have room).
+
+More commentary will be written straight into the Supp Material, since will
+then get edited and refined for the manuscript.
+
+
+\isdfig{\Sexpr{fullYears[1]}}{Individual size distribution and MLEbins fit
+            (red solid curve)
+            with 95\% confidence intervals (red dashed curves, may be hard to
+            see) for IBTS data in \Sexpr{fullYears[1]}.
+            For each bin, the horizontal green line shows
+            the range of body sizes,
+            with value on the y-axis corresponding to the
+            total number of individuals in bins whose minima are $\geq$ the
+            bin's minimum.
+            For each bin, the vertical span of the grey rectangle shows the
+            possible range of the number of individuals with body mass
+            $\geq$ the body mass of individuals in that bin (horizontal span
+            is the same as for the green lines).
+        }
+
+\newcounter{loop}
+% \forloop{loop}{\Sexpr{min(fullYears)}{\value{loop}<\Sexpr{max(fullYears)+1}}{\isdfig{\arabic{loop}}}{Caption to do**}       % 6 -> \Sexpr{max(fullYears)+1}}
+\newcommand{\loopMax}{\Sexpr{max(fullYears)+1}}
+\forloop{loop}{\Sexpr{fullYears[2]}}{\value{loop} < \loopMax}
+        {\isdfig{\arabic{loop}}{Individual size distribution and MLEbins fit
+            with 95\% confidence intervals for IBTS data in \arabic{loop}.
+            Details as in Figure~\ref{fig:ISD-1986}.
+        }}
+
+% \isdfig{IBTS-ISDfigs/IBTS-ISD1990}{Caption here}
+
+<<save>>=>>=
+save.image(file="nSeaFungMLEbinsRecommend-ISD.RData")
+@
+
+\end{document}
+
