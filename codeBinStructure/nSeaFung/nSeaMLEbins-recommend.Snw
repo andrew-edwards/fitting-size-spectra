@@ -242,7 +242,7 @@ of empty bins in the illustration).
 <<dataComb>>=
 dataComb = summarise( group_by( dataTwoSpec, SpecCode, wmin),
                        wmax = unique(wmax),
-                       number = round(sum(Number), dig=2))
+                       number = round(sum(Number), dig=4))
 dataComb = mutate(dataComb, j = min_rank(wmin))   # works since they're grouped
 dataComb[nrow(dataComb), "j"] = 25            # manually, because there's a gap
 dataComb = mutate(dataComb, wmid = (wmin + wmax)/2)
@@ -324,7 +324,9 @@ for(ii in 1:length(specForFig))   # loop over species, plot bins for each
     # Put counts for each bin
     text(x = bins.wmid,
          y = yVal,
-         labels = filter(dataComb, SpecCode == specForFig[ii])$number,
+         labels = f(filter(dataComb, SpecCode == specForFig[ii])$number, ii+1),
+                  # ii+1 happens to give 3 d.p.s for species 2 and 2 for species 1,
+                  #  as needed on figure
          pos = NULL,
          offset = 0.03*thick,
          cex = cex.sub*1.2)
@@ -380,7 +382,7 @@ highCount = sum(dataComb$wmax.gt.tmin * dataComb$number)
   whether or not each bin is included in the high count $E_{2,7,2}$, i.e.
   its upper bound is $>$ the lower bound of the target bin. Summing the
   respective counts as per (\ref{Esj1}) and (\ref{Esj1}) gives
-  $E_{2,7,1} = \Sexpr{lowCount}$ and $E_{2,7,2} = \Sexpr{highCount}$.
+  $E_{2,7,1} = \Sexpr{f(lowCount,2)}$ and $E_{2,7,2} = \Sexpr{f(highCount,2)}$.
   }
   \label{fig:binCountRangeSchematic}
 \end{figure}

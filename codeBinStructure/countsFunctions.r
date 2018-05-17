@@ -1322,5 +1322,12 @@ negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
     return(neglogLL)
   }
 
-
+# From our hake assessment (function written by Chris Grandin):
+#  https://github.com/cgrandin/hake-assessment/blob/master/doc/r/r-functions/utilities.r
+f <- function(x, dec.points = 0){
+  ## Format x to have supplied number of decimal points
+  ## Make thousands seperated by commas and the number of decimal points given by
+  ##  dec.points
+  return(format(round(x,dec.points), big.mark = ",", nsmall = dec.points))
+}
 
