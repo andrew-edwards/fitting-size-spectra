@@ -4,7 +4,7 @@ manusript (on analysing binned data) and for analysing new such data.
 Figure numbers are those from version ssmPart2-2018-04-13.pdf, which hopefully
 shouldn't change before submission. So numbers may need changing here at some
 point. I'm taking my original Sweave files and just extracting the necessary
-R code to reproduce each figure (let me know if you would like the original
+code to reproduce each figure (let me know if you would like the original
 Sweave files, which automates some text also).
 
 
@@ -45,11 +45,12 @@ nSeaFung/nSeaFungAnalysis.Snw - Sweave file to show example data, fit all eight
 
 nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
  MLEbins method. Also creates figures...   .
- [Needs some of nSeaFungMLEbin.Snw (because that
- does some pre-analysis),
- nSeaFungMLEbinsNew.Snw, and nSeaFungCompareNew.Snw]
+ [Needs some of nSeaFungMLEbin.Snw (because that does some pre-analysis),
+ nSeaFungMLEbinsNew.Snw, and nSeaFungCompareNew.Snw].
 
-Then need nSeaFungMLEbinsRecommend-ISD.Snw
+nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots (plus the schematic
+ diagram (two horizontal red and pink bars) to show how we obtain the ranges of
+  counts. Adapting from original nSeaFungMLEbinsRecommend-ISD.Snw.
 
 Figure 5 - species-specific body mass bins resulting from the length bins
 
