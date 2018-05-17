@@ -220,8 +220,6 @@ with R code.
 
 % Copied from binCountRangeSchem.Snw
 
-\section{Introduction}
-
 Going to pick two example species (coloured in red in current Figure 6 that
 shows vertical bars for 45 species). Codes are 127205 (Moustache Sculpin)
 and 154675 (Snakeblenny).
@@ -392,6 +390,8 @@ one `target' bin ($s=2, j=7$) and two
 example species namely Moustache Sculpin and Snakeblenny (which are highlighted
 as 127205 and 154675, respectively, in red in Figure~5). Remaining text already
 copied into Supp Material.
+
+\section{Results for each year}
 
 <<plotCalcs>>=
 # Just what's needed for the calculations for the recommended plot:
@@ -570,12 +570,7 @@ for(i in 1:length(fullYears))
 }
 @
 
-\end{document}
-<<>>=
-stop()
-@
-
-\subsection{Check cumSum - 1991 ($i=6$) didn't agree with verify calculation;
+\subsection{**[hopefully can delete these as I think I figured it out] Check cumSum - 1991 ($i=6$) didn't agree with verify calculation;
   see later for automated calculations for each year this occurs}
 
 For $i=6$, year 1991, we get {\tt cumSum} and {\tt verify} differing by
@@ -718,7 +713,7 @@ then get edited and refined for the manuscript.
 % \isdfig{IBTS-ISDfigs/IBTS-ISD1990}{Caption here}
 
 <<save>>=>>=
-save.image(file="nSeaFungMLEbinsRecommend-ISD.RData")
+save.image(file="nSeaMLEbins-recommend.RData")
 @
 
 \end{document}
