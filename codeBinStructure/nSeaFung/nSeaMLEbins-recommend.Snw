@@ -216,6 +216,8 @@ The algebraic calculations were originally done in this code but have been copie
 over to the Supplementary Material, so removing them here and just sticking mainly
 with R code.
 
+\clearpage
+
 \section{Schematic diagram for two species}
 
 % Copied from binCountRangeSchem.Snw
@@ -489,12 +491,12 @@ for(i in 1:length(fullYears))
   yLim = 10^par("usr")[3:4]
 
   logTicks(xLim, yLim=NULL, xLabelSmall = c(5, 50, 500, 5000))
-  yBig = seq(0, yRange[2], 20000)  # May have to tweak for some years
+  yBig = seq(0, yRange[2], 1000)  # May have to tweak for some years
   # Big labelled:
   axis(2, at= yBig, labels = yBig, mgp=mgpVals)
   # Small unlabelled:
-  axis(2, seq(yBig[1], yRange[2], by=5000),
-       labels=rep("", length(seq(yBig[1], yRange[2], by=5000))), tcl=-0.2,
+  axis(2, seq(yBig[1], yRange[2]*1.1, by=250),
+       labels=rep("", length(seq(yBig[1], yRange[2]*1.1, by=250))), tcl=-0.2,
        mgp=mgpVals)
 
   rect(xleft = data.year$wmin,
@@ -684,7 +686,6 @@ of the rectangles, including the right-most one, so use that in the main text
 
 More commentary will be written straight into the Supp Material, since will
 then get edited and refined for the manuscript.
-
 
 \isdfig{\Sexpr{fullYears[1]}}{Individual size distribution and MLEbins fit
             (red solid curve)
