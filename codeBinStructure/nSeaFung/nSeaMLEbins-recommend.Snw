@@ -418,7 +418,9 @@ for(i in 1:length(fullYears))
   wmax.vec = data.year$wmax
   num.vec = data.year$Number
 
-  verify = rep(NA, length(num.vec))   # manual count that should equal cumSum
+  verify = rep(NA, length(num.vec)) # manual count originally to check that
+                                    #  it equals cumSum - turns out not to as
+                                    #  investigated below
   lowCount = verify
   highCount = verify
   for(iii in 1:length(verify))
@@ -572,7 +574,7 @@ for(i in 1:length(fullYears))
 }
 @
 
-\subsection{**[hopefully can delete these as I think I figured it out] Check cumSum - 1991 ($i=6$) didn't agree with verify calculation;
+\subsection{Checking cumSum -- 1991 ($i=6$) didn't agree with verify calculation;
   see later for automated calculations for each year this occurs}
 
 For $i=6$, year 1991, we get {\tt cumSum} and {\tt verify} differing by
@@ -593,7 +595,7 @@ always get the segments (and the grey rectangles) on top of each other (can't
 distinguish two separate species). For unbinned data the {\tt cumSum} may be best
 as it shows up each data point.
 
-\subsection{Check cumSum - 1992 ($i=7$) didn't agree with verify calculation}
+\subsection{Check cumSum -- 1992 ($i=7$) didn't agree with verify calculation}
 
 For $i=7$, year 1992, we get {\tt cumSum} and {\tt verify} differing in
 a few places (was only in one for 1991). So do more automated code here
@@ -674,16 +676,15 @@ not actually the right thing to use. Will check in Issue \#24 that it hasn't
 been used in any calculations (don't think it has). For the above example
 it's actually {\tt verify} that is the lower value. This only affects the
 plotting of the y-values of the segments, not the rectangles at all (and so
-at the end of the day is not that important).
+at the end of the day is not that important), but we use {\tt verify} in the 
+plots anyway.
 
 \section{Commentary on the actual results}
 
 The years for which the PLB model seems to visually fit fairly well, at least
 up to 100~g where they all seem to break off, are 1992, 1995, 1997, 1999,
 2000, 2006, 2008, 2009, 2010 and 2014. The 1999 one shows a good resolution
-of the rectangles, including the right-most one, so use that in the main text
-(if we have room).
-
+of the rectangles, including the right-most one.
 More commentary will be written straight into the Supp Material, since will
 then get edited and refined for the manuscript.
 
