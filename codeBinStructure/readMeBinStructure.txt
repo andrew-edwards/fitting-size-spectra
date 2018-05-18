@@ -23,6 +23,7 @@ binFitting/fitMLEmidMLEbin.r - create the simulated data
 binFitting/fitMLEbinConf.r - does Figures 3, 4, Table A.3 and extra figures
  for each method.
 
+binFitting/xmin16/ - repeating simulations but for xmin=16
 
 North Sea IBTS data:
 
@@ -48,7 +49,7 @@ nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
  [Needs some of nSeaFungMLEbin.Snw (because that does some pre-analysis),
  nSeaFungMLEbinsNew.Snw, and nSeaFungCompareNew.Snw].
 
-nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots (plus the schematic
+nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots plus the schematic
  diagram (two horizontal red and pink bars) to show how we obtain the ranges of
   counts. Adapting from original nSeaFungMLEbinsRecommend-ISD.Snw.
 

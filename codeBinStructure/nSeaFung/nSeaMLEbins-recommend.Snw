@@ -204,7 +204,7 @@ Want table in Supp Material, reordering confMin to be constent with other tables
 and renaming columns when copying into Supp Material.
 <<annual.res, results=tex>>=
 MLEbins.res.tab = xtable(select(MLEbins.res, Year, xmin, xmax, n, confMin, b,
-                                 confMax, C, F.xfix),
+                                 confMax, C),
                          caption="Results for each year.",
                          label = "annual.fit",
                          table.placement="tp")
@@ -676,7 +676,7 @@ not actually the right thing to use. Will check in Issue \#24 that it hasn't
 been used in any calculations (don't think it has). For the above example
 it's actually {\tt verify} that is the lower value. This only affects the
 plotting of the y-values of the segments, not the rectangles at all (and so
-at the end of the day is not that important), but we use {\tt verify} in the 
+at the end of the day is not that important), but we use {\tt verify} in the
 plots anyway.
 
 \section{Commentary on the actual results}
