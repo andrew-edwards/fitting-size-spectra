@@ -147,9 +147,6 @@ figwidth = 5.7
 
 \section{Introduction}
 
-**USING THIS to get the preprocessing done plus various figures, because binsNew
-calls the output from this. **uses Andy's original likelihood function -- see {\tt nSeaFungMLEbinsNew.Snw} for the likelihood calculations using Mike's simpler function.
-
 In {\tt nSeaFungAnalysis.Snw} we calculated the size-spectrum exponent for each of the eight methods for each year of the the North Sea data set, and analysed for trends over time. That used the MLE method for each body mass, based on converting lengths to body mass using length-weight coefficients. But the lengths are values rounded down to the nearest 1~cm (or 0.5~cm for herring and sprat), and so ignore the effect of binning.
 
 Here we will keep track of the bins and then use the MLEbins method on the resulting binned data set.
