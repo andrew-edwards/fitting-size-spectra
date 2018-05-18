@@ -1262,9 +1262,8 @@ negLL.PLB.binned.species = function(b, dataBinForLike, dataBinForLikeSummary)
 negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
   {
   # Calculates the negative log-likelihood of b for the PLB model,
-  #  given binned data where the bins can be different for each species.
-  #  Returns the negative log-likelihood, calculated using Mike's simpler
-  #  likelihood function.
+  #  given binned data where the bins can be different for each species -- i.e.
+  #  the MLEbins method. Returns the negative log-likelihood.
   #  Will be called by nlm or similar, but xmin and xmax will just be estimated
   #  as the min of lowest bin and max of the largest bin (that is their MLEs),
   #  no need to do numerically. See Appendix of second manuscript for derivation.
@@ -1284,26 +1283,10 @@ negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
   #   xmin: maximum likelihood estimate for xmin [xmin = min_{sj} w_{s,1} ]
   #   xmax: maximum likelihood estimate for xmax [xmax = max_{sj} w_{s,J_s+1} ]
   #
-  #
-  #
-  #    THINK NOT NEEDED in negLL.PLB.bins.species
-  #    #  For each species the first and last bins must be non-empty, i.e.
-  #    #  w_{s1}, w_{s,J_s +1} > 0. **Write code to check that before
-  #    #  calling this function (since this gets repeatedly called).
-  #    #dataBinForLikeSummary: table data frame with one row for each species,
-  #    #  giving
-  #    #  the minimum lower bound [w_{s1}] and maximum upper bound [w_{s,J_s +1}]
-  #    #  and the number of counts for that species, where J_s is the number of
-  #    #  bins for species s (won't need to explicilty specify). Columns are:
-  #    #      SpecCode: code for each species [s]
-  #    #      wminSpecies: minimum lower bound [w_{s1}]
-  #    #      wmaxSpecies: maximum upper bound [w_{s,J_s +1}]
-  #    #      n_s: total number of counts for species s [n_s]
-  #
   # Returns:
   #   negative log-likelihood of the parameters given the data.
   #
-  # **MOVE THESE TO PRE-PROCESS function:
+  # Useful to have in pre-processing function:
   #    if(xmin <= 0 | xmin >= xmax | length(d) != J | length(w) != J+1 |
   #       d[1] == 0 | d[J] == 0 | min(d) < 0)
   #       stop("Parameters out of bounds in negLL.PLB")

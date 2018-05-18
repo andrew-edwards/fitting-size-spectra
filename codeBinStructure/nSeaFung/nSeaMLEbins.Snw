@@ -377,7 +377,8 @@ xLimMax = c(10, 10, 10, specVecEnd/numSpec * 10)
                                    # one species to highlight in each figure,
 specCodeHighlight = c(127205, 154675)
                                    #  now doing two for first figure for
-                                   #  manuscript.
+                                   #  manuscript. Plus 127251 for Figure A.4 done
+                                   #  within loop.
 
 for(fig.num in 1:4)      # doing 3 figures
     {
@@ -427,6 +428,12 @@ for(fig.num in 1:4)      # doing 3 figures
       {
         points( xVals[which(as.numeric(specForFig) %in% specCode05)],
            -rep(0.015, length(specCode05))*yLim, pch=4, cex=0.96)
+      }                                        # indicate two species in first
+                                               #  figure
+    if(fig.num == 4)
+      {
+        points( xVals[which(as.numeric(specForFig) == 127251)],
+           -0.015*yLim, pch=4, cex=0.96)
       }                                        # indicate two species in first
                                                #  figure
     dev.off()
