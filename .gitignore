@@ -17,6 +17,8 @@ code/MLEbin/MLEbinRerun/
 code/MLEbin/MLEbinRerun2/
 
 codeBinStructure/*/*.eps
+codeBinStructure/*/*/*.eps
 codeBinStructure/*/*.tex
 codeBinStructure/*/*.csv
+codeBinStructure/*/*/*.csv
 codeBinStructure/nSeaFung/IBTS-ISDfigs/
