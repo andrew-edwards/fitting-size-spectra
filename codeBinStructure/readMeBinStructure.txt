@@ -24,6 +24,8 @@ binFitting/fitMLEbinConf.r - does Figures 3, 4, Table A.3 and extra figures
  for each method.
 
 binFitting/xmin16/ - repeating simulations but for xmin=16
+binFitting/xCutOff16/ - repeating simulations but for a cut-off of 16
+
 
 North Sea IBTS data:
 
