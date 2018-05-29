@@ -1,6 +1,11 @@
 # fitting-size-spectra
 
-This **branch** contains the code for our second manuscript (concerning dealing with data that are only available in binned form). It will be merged into **master** at some point, I just wanted to keep it separate while I'm creating it all (and not confuse people just looking for the MEE paper code). Putting this code in the directory **codeBinStructure /**
+This is a **branch** of the **fitting-size-spectra** repository that contains the code for our second manuscript (concerning dealing with data that are only available in binned form). It will be merged into **master** at some point, I just wanted to keep it separate while I'm creating it all (and not confuse people just looking for the code from our ***Methods in Ecology and Evolution*** paper). Putting this code in the directory **codeBinStructure/**. See
+**codeBinStructure/readMeBinStructure.txt** to get started. 
+
+Below is the original code repository for the ***Methods in Ecology and Evolution*** paper. The new code relies on some of the functions from that code, which is why I have put the new code into the same repository.
+
+---
 
 This repository contains R code for the paper 
 
