@@ -1,9 +1,11 @@
 # fitting-size-spectra
 
-This is a **branch** of the **fitting-size-spectra** repository that contains the code for our second manuscript (concerning dealing with data that are only available in binned form). It will be merged into **master** at some point, I just wanted to keep it separate while I'm creating it all (and not confuse people just looking for the code from our ***Methods in Ecology and Evolution*** paper). Putting this code in the directory **codeBinStructure/**. See
+This is a **branch** of the **fitting-size-spectra** repository that contains the code for our second manuscript (concerning dealing with data that are only available in binned form). It will be merged into **master** at some point, I just wanted to keep it separate for now. If you don't understand that GitHub terminology do not worry, just see the file 
 **codeBinStructure/readMeBinStructure.txt** to get started. 
 
-Below is the original code repository for the ***Methods in Ecology and Evolution*** paper. The new code relies on some of the functions from that code, which is why I have put the new code into the same repository.
+Below is the original code repository for the ***Methods in Ecology and Evolution*** paper. The code for the new manuscript is in the directory **codeBinStructure/**, but relies on some of the functions from the first paper, which is why I have put the new code into the same repository.
+
+To download the repository from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP' (which is how I will create the **.zip** file to submit with the manuscript).
 
 ---
 
