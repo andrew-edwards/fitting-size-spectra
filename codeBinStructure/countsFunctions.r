@@ -680,7 +680,6 @@ eightMethods.count = function(data = data, oneYear = 1980,
       data.frame("Year"=oneYear, "Method"=as.factor("MLE"),
       "b" = PLB.bMLE, "confMin"= PLB.MLE.bConf[1],
       "confMax"= PLB.MLE.bConf[2], "stdErr" = PLB.MLE.stdErr, row.names=NULL))
-  # Can delete: TO HERE  ***INteresting - how to plot with the repeated values. If integers, then plot will look different depending if use counts or not. For integers should expand out. Maybe the way to go, and for LCD also, is for non-integer counts to create 1,000 individual body masses values that 'represent' the observed distribution. Fiddly but doable, but will be the best representation, and will show up repeated values......HERE***
   # To plot rank/frequency style plot, because of non-integer counts want to
   #  calculate cumulative proportions (as in LCD), and then generate 1,000
   #  individual body masses values that 'represent' the observed distribution,
@@ -1268,7 +1267,7 @@ negLL.PLB.bins.species = function(b, dataBinForLike, n, xmin, xmax)
   #  as the min of lowest bin and max of the largest bin (that is their MLEs),
   #  no need to do numerically. See Appendix of second manuscript for derivation.
   #
-  # ***COPIED FROM negLL.PLB.binned.species, for which b=-1 may need correcting
+  # COPIED FROM negLL.PLB.binned.species, for which b=-1 may need correcting
   #
   # Args:
   #   b: value of b for which to calculate the negative log-likelihood
