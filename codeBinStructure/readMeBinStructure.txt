@@ -16,24 +16,24 @@ Length-weight relationships and consequences
 --------------------------------------------
 
 binFigs/binLW.r
-Figure 1 - Length-weight relationships for two species.
-Figure 2 - how binned body masses get assigned to logarithmic bins.
+Figure 2 - Length-weight relationships for two species.
+Figure 3 - how binned body masses get assigned to logarithmic bins.
 
 
 Simulated data
 --------------
 
-Figure 3 (histograms of b for simulated data sets) and Figure 4 (confidence
+Figure 4 (histograms of b for simulated data sets) and Figure 5 (confidence
  intervals of b for simulated data sets) and Table A.3 (summary statistics
  related to those results).
 binFitting/fitMLEmidMLEbin.r - create the simulated data
-binFitting/fitMLEbinConf.r - does Figures 3, 4, Table A.3 and extra figures
+binFitting/fitMLEbinConf.r - does Figures 4, 5, Table A.3 and extra figures
  for each method.
 
-binFitting/xmin16/ - repeating simulations but for xmin=16 for Figures A.36 and
- A.37 and Table A.4.
+binFitting/xmin16/ - repeating simulations but for xmin=16 for Figures A.35 and
+ A.36 and Table A.4.
 binFitting/xCutOff16/ - repeating simulations but for a cut-off of 16 for
- Figures A.38 and A.39 and Table A.5.
+ Figures A.37 and A.38 and Table A.5.
 
 
 North Sea IBTS data
@@ -54,17 +54,17 @@ nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
 
 nSeaFung/nSeaFungAnalysis.Snw - Sweave file to show example data (Table 1),
  fit all eight methods (from MEE paper) to each year of the IBTS data and fit
- linear regressions to the estimated size-spectrum exponents (Figure A.1 and Table
+ linear regressions to the estimated size-spectrum exponents (Figure 1 and Table
  A.1 [except MLEbins row - see below]). 
 
 nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
- MLEbins method. Creates Figure 5 (and related Figures A.2, A.3 and A.4) showing
- species-specific body mass bins resulting from the length bins, Figure 7
+ MLEbins method. Creates Figure 6 (and related Figures A.1, A.2 and A.3) showing
+ species-specific body mass bins resulting from the length bins, Figure 8
  (comparison of MLE and MLEbins values of b through time) and MLEbins row of
  Table A.1. 
 
 nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots of data and fits, Figures
- 6 and A.6-A.35, associate Table A.2 of results, plus Figure A.5
+ 7 and A.5-A.34, associate Table A.2 of results, plus Figure A.4
  (two horizontal red and pink bars) to show how we obtain the ranges of
  counts. [Adapting from original nSeaFungMLEbinsRecommend-ISD.Snw.]
 
@@ -73,5 +73,5 @@ Example histograms
 ------------------
 
 exampleHists/histBinTypes.r - creates example histograms to show effects of
- binning, Figures A.40-A.44.
+ binning, Figures A.39-A.43.
 
