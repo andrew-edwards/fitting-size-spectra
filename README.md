@@ -7,6 +7,9 @@ Below is the original code repository for the ***Methods in Ecology and Evolutio
 
 To download the repository from the GitHub site just click the 'Clone or Download' button (near the top on the right) and select 'Download ZIP' (which is how I will create the **.zip** file to submit with the manuscript).
 
+[Note to self: for submitting manuscript, download the zipped version, then delete all the **code/** files except for **code/PLBfunctions.r** that are referred to from the new code. And replace this **readme.md** with a simple **readme.txt** that mentions **code/PLBfunctions.r** and points the user to 
+**codeBinStructure/readMeBinStructure.txt**.
+
 ---
 
 This repository contains R code for the paper 
