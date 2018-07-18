@@ -1,6 +1,6 @@
 readMeBinStructure.txt - description of R code to reproduce results from second
 manuscript (on analysing binned data) and for analysing new such data, for
-submission to ICES Journal of Marine Science.
+submission to Methods in Ecology and Evolution.
 
 Figure numbers are those upon submission. So numbers may need changing here at some
 point. I'm taking my original Sweave files and just extracting the necessary
