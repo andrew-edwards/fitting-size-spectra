@@ -3,11 +3,11 @@ manuscript 'Accounting for the bin structure of data when fitting size spectra'
 being submitted to Marine Ecology Progress Series. Code can also be used for
 applying the methods to further data.
 
-Figure numbers are those upon submission. So numbers may need changing here at some
-point. I'm taking my original Sweave files and just extracting the necessary
-code to reproduce each figure (let me know if you would like the original
-Sweave files, which automates some text also). If accepted for publication I
-will make all this code into an R package to make it more usable by others.
+Figure numbers given below are those upon submission. So numbers may need
+changing here at some point. I'm taking my original Sweave files and just
+extracting the necessary code to reproduce each figure (let me know if you would
+like the original Sweave files, which automates some text also). If accepted for
+publication I will make all this code into an R package to make it more usable by others.
 
 Contents and how to create each figure and results table
 ********************************************************
@@ -26,16 +26,16 @@ Simulated data
 --------------
 
 Figure 4 (histograms of b for simulated data sets) and Figure 5 (confidence
- intervals of b for simulated data sets) and Table A.3 (summary statistics
+ intervals of b for simulated data sets) and Table S.3 (summary statistics
  related to those results).
 binFitting/fitMLEmidMLEbin.r - create the simulated data
-binFitting/fitMLEbinConf.r - does Figures 4, 5, Table A.3 and extra figures
+binFitting/fitMLEbinConf.r - does Figures 4, 5, Table S.3 and extra figures
  for each method.
 
-binFitting/xmin16/ - repeating simulations but for xmin=16 for Figures A.35 and
- A.36 and Table A.4.
+binFitting/xmin16/ - repeating simulations but for xmin=16 for Figures S.35 and
+ S.36 and Table S.4.
 binFitting/xCutOff16/ - repeating simulations but for a cut-off of 16 for
- Figures A.37 and A.38 and Table A.5.
+ Figures S.37 and S.38 and Table S.5.
 
 
 North Sea IBTS data
@@ -57,16 +57,16 @@ nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
 nSeaFung/nSeaFungAnalysis.Snw - Sweave file to show example data (Table 1),
  fit all eight methods (from MEE paper) to each year of the IBTS data and fit
  linear regressions to the estimated size-spectrum exponents (Figure 1 and Table
- A.1 [except MLEbins row - see below]).
+ S.1 [except MLEbins row - see below]).
 
 nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
- MLEbins method. Creates Figure 6 (and related Figures A.1, A.2 and A.3) showing
+ MLEbins method. Creates Figure 6 (and related Figures S.1, S.2 and S.3) showing
  species-specific body mass bins resulting from the length bins, Figure 8
  (comparison of MLE and MLEbins values of b through time) and MLEbins row of
- Table A.1.
+ Table S.1.
 
 nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots of data and fits, Figures
- 7 and A.5-A.34, associate Table A.2 of results, plus Figure A.4
+ 7 and S.5-S.34, associate Table S.2 of results, plus Figure S.4
  (two horizontal red and pink bars) to show how we obtain the ranges of
  counts. [Adapting from original nSeaFungMLEbinsRecommend-ISD.Snw.]
 
@@ -75,4 +75,4 @@ Example histograms
 ------------------
 
 exampleHists/histBinTypes.r - creates example histograms to show effects of
- binning, Figures A.39-A.43.
+ binning, Figures S.39-S.43.
