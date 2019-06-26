@@ -1,11 +1,13 @@
-readMeBinStructure.txt - description of R code to reproduce results from second
-manuscript (on analysing binned data) and for analysing new such data, for
-submission to Marine Ecology Progress Series.
+readMeBinStructure.txt - description of R code to reproduce results from the
+manuscript 'Accounting for the bin structure of data when fitting size spectra'
+being submitted to Marine Ecology Progress Series. Code can also be used for
+applying the methods to further data.
 
 Figure numbers are those upon submission. So numbers may need changing here at some
 point. I'm taking my original Sweave files and just extracting the necessary
 code to reproduce each figure (let me know if you would like the original
-Sweave files, which automates some text also).
+Sweave files, which automates some text also). If accepted for publication I
+will make all this code into an R package to make it more usable by others.
 
 Contents and how to create each figure and results table
 ********************************************************
