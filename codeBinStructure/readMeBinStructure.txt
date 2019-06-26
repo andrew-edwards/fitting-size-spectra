@@ -1,6 +1,6 @@
 readMeBinStructure.txt - description of R code to reproduce results from second
 manuscript (on analysing binned data) and for analysing new such data, for
-submission to Methods in Ecology and Evolution.
+submission to Marine Ecology Progress Series.
 
 Figure numbers are those upon submission. So numbers may need changing here at some
 point. I'm taking my original Sweave files and just extracting the necessary
@@ -55,13 +55,13 @@ nSeaFung/nSeaFungImport.Snw - Sweave file to load data, understand it and tidy
 nSeaFung/nSeaFungAnalysis.Snw - Sweave file to show example data (Table 1),
  fit all eight methods (from MEE paper) to each year of the IBTS data and fit
  linear regressions to the estimated size-spectrum exponents (Figure 1 and Table
- A.1 [except MLEbins row - see below]). 
+ A.1 [except MLEbins row - see below]).
 
 nSeaFung/nSeaMLEbins.Snw - Sweave file to analyse the IBTS data using the
  MLEbins method. Creates Figure 6 (and related Figures A.1, A.2 and A.3) showing
  species-specific body mass bins resulting from the length bins, Figure 8
  (comparison of MLE and MLEbins values of b through time) and MLEbins row of
- Table A.1. 
+ Table A.1.
 
 nSeaFung/nSeaMLEbins-recommend.Snw - recommended plots of data and fits, Figures
  7 and A.5-A.34, associate Table A.2 of results, plus Figure A.4
@@ -74,4 +74,3 @@ Example histograms
 
 exampleHists/histBinTypes.r - creates example histograms to show effects of
  binning, Figures A.39-A.43.
-
