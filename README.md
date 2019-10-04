@@ -1,5 +1,9 @@
 # fitting-size-spectra
 
+**NEWS** I am currently (October 2019) converting this code into an R package, including the code for our second manuscript for fitting data that are only available in binned form (accepted subject to minor revisions). The code is at <https://github.com/andrew-edwards/sizeSpectra>. It should be easier to use than the original code, now that I know how to properly build R packages. I will update this page when the package is ready for use.
+
+---
+
 This repository contains R code for the paper 
 
 **Testing and recommending methods for fitting size spectra to data** 
