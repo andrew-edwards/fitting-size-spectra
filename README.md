@@ -1,5 +1,9 @@
 # fitting-size-spectra
 
+**NEWS** I am currently (October 2019) converting this code into an R package, including the code for our second manuscript for fitting data that are only available in binned form (accepted subject to minor revisions). The code is at <https://github.com/andrew-edwards/sizeSpectra>. It should be easier to use than the original code, now that I know how to properly build R packages. I will update this page when the package is ready for use.
+
+---
+
 This is a **branch** of the **fitting-size-spectra** repository that contains the new code for our second manuscript (concerning dealing with data that are only available in binned form) in the directory **codeBinStructure/**. The branch will be merged into **master** at some point, I just wanted to keep it separate for now. If you don't understand that GitHub terminology do not worry, just see the file 
 **codeBinStructure/readMeBinStructure.txt** to get started. 
 
